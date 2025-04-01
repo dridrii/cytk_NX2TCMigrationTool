@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Settings>
+	<Database>
+		<Path>Data/PLMIntegration.db</Path>
+	</Database>
+	<NX>
+		<InstallPath></InstallPath>
+		<Version></Version>
+	</NX>
+	<Teamcenter>
+		<Server></Server>
+		<Port>7001</Port>
+		<User></User>
+		<EncryptedPassword></EncryptedPassword>
+	</Teamcenter>
+</Settings>

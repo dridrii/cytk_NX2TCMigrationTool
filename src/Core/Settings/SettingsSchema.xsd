@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Settings">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Database">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Path" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NX">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="InstallPath" type="xs:string"/>
+							<xs:element name="Version" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Teamcenter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Server" type="xs:string"/>
+							<xs:element name="Port" type="xs:integer"/>
+							<xs:element name="User" type="xs:string"/>
+							<xs:element name="EncryptedPassword" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
