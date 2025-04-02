@@ -57,5 +57,6 @@ namespace cytk_NX2TCMigrationTool.src.Core.Settings
                 _settings.Save(_settingsFilePath);
             }
         }
+
     }
 }

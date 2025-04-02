@@ -34,14 +34,20 @@
             tabPage3 = new TabPage();
             tabPage4 = new TabPage();
             tabPage5 = new TabPage();
+            tabPage6 = new TabPage();
+            tabPage7 = new TabPage();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
+            connectToNXToolStripMenuItem = new ToolStripMenuItem();
+            connectToTeamcenterToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            browsePartsToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator2 = new ToolStripSeparator();
+            exitToolStripMenuItem = new ToolStripMenuItem();
             configToolStripMenuItem = new ToolStripMenuItem();
             sessionSettingsToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             progressBar1 = new ProgressBar();
-            tabPage6 = new TabPage();
-            tabPage7 = new TabPage();
             tabControl1.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -111,49 +117,6 @@
             tabPage5.Text = "VERIFICATION";
             tabPage5.UseVisualStyleBackColor = true;
             // 
-            // menuStrip1
-            // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, configToolStripMenuItem, helpToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1064, 24);
-            menuStrip1.TabIndex = 1;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 20);
-            fileToolStripMenuItem.Text = "File";
-            // 
-            // configToolStripMenuItem
-            // 
-            configToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sessionSettingsToolStripMenuItem });
-            configToolStripMenuItem.Name = "configToolStripMenuItem";
-            configToolStripMenuItem.Size = new Size(55, 20);
-            configToolStripMenuItem.Text = "Config";
-            // 
-            // sessionSettingsToolStripMenuItem
-            // 
-            sessionSettingsToolStripMenuItem.Name = "sessionSettingsToolStripMenuItem";
-            sessionSettingsToolStripMenuItem.Size = new Size(158, 22);
-            sessionSettingsToolStripMenuItem.Text = "Session Settings";
-            // 
-            // helpToolStripMenuItem
-            // 
-            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(44, 20);
-            helpToolStripMenuItem.Text = "Help";
-            // 
-            // progressBar1
-            // 
-            progressBar1.Location = new Point(12, 27);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(1040, 23);
-            progressBar1.Step = 100;
-            progressBar1.TabIndex = 2;
-            progressBar1.UseWaitCursor = true;
-            // 
             // tabPage6
             // 
             tabPage6.Location = new Point(4, 24);
@@ -173,6 +136,86 @@
             tabPage7.TabIndex = 6;
             tabPage7.Text = "TERMINAL";
             tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, configToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1064, 24);
+            menuStrip1.TabIndex = 1;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { connectToNXToolStripMenuItem, connectToTeamcenterToolStripMenuItem, toolStripSeparator1, browsePartsToolStripMenuItem, toolStripSeparator2, exitToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
+            // 
+            // connectToNXToolStripMenuItem
+            // 
+            connectToNXToolStripMenuItem.Name = "connectToNXToolStripMenuItem";
+            connectToNXToolStripMenuItem.Size = new Size(197, 22);
+            connectToNXToolStripMenuItem.Text = "Connect to NX";
+            // 
+            // connectToTeamcenterToolStripMenuItem
+            // 
+            connectToTeamcenterToolStripMenuItem.Name = "connectToTeamcenterToolStripMenuItem";
+            connectToTeamcenterToolStripMenuItem.Size = new Size(197, 22);
+            connectToTeamcenterToolStripMenuItem.Text = "Connect to Teamcenter";
+            connectToTeamcenterToolStripMenuItem.Click += OnConnectTCClick;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(194, 6);
+            // 
+            // browsePartsToolStripMenuItem
+            // 
+            browsePartsToolStripMenuItem.Name = "browsePartsToolStripMenuItem";
+            browsePartsToolStripMenuItem.Size = new Size(197, 22);
+            browsePartsToolStripMenuItem.Text = "Browse Parts";
+            browsePartsToolStripMenuItem.Click += OnBrowsePartsClick;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(194, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(197, 22);
+            exitToolStripMenuItem.Text = "Exit";
+            // 
+            // configToolStripMenuItem
+            // 
+            configToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sessionSettingsToolStripMenuItem });
+            configToolStripMenuItem.Name = "configToolStripMenuItem";
+            configToolStripMenuItem.Size = new Size(55, 20);
+            configToolStripMenuItem.Text = "Config";
+            // 
+            // sessionSettingsToolStripMenuItem
+            // 
+            sessionSettingsToolStripMenuItem.Name = "sessionSettingsToolStripMenuItem";
+            sessionSettingsToolStripMenuItem.Size = new Size(180, 22);
+            sessionSettingsToolStripMenuItem.Text = "Session Settings";
+            // 
+            // helpToolStripMenuItem
+            // 
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new Size(44, 20);
+            helpToolStripMenuItem.Text = "Help";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(12, 27);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(1040, 23);
+            progressBar1.Step = 100;
+            progressBar1.TabIndex = 2;
+            progressBar1.UseWaitCursor = true;
             // 
             // cytk_nx2tcmigtool_form1
             // 
@@ -208,5 +251,11 @@
         private ProgressBar progressBar1;
         private TabPage tabPage6;
         private TabPage tabPage7;
+        private ToolStripMenuItem connectToNXToolStripMenuItem;
+        private ToolStripMenuItem connectToTeamcenterToolStripMenuItem;
+        private ToolStripMenuItem browsePartsToolStripMenuItem;
+        private ToolStripMenuItem exitToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator toolStripSeparator2;
     }
 }
