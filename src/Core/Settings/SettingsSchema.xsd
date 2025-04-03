@@ -15,6 +15,13 @@
 						<xs:sequence>
 							<xs:element name="InstallPath" type="xs:string"/>
 							<xs:element name="Version" type="xs:string"/>
+							<xs:element name="RootDirectories">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Directory" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -25,6 +32,14 @@
 							<xs:element name="Port" type="xs:integer"/>
 							<xs:element name="User" type="xs:string"/>
 							<xs:element name="EncryptedPassword" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Application">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Salt" type="xs:string"/>
+							<xs:element name="Version" type="xs:string"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

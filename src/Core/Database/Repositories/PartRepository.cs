@@ -20,8 +20,9 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             {
                 connection.Open();
 
-                // Fixed: Properly quoted identifiers and parameters
-                string sql = "SELECT \"ID\", \"Name\", \"Type\", \"Source\", \"Metadata\" FROM \"Parts\" WHERE \"ID\" = @Id";
+                string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               FROM ""Parts"" WHERE ""ID"" = @Id";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -37,7 +38,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Name = reader.GetString(1),
                                 Type = reader.GetString(2),
                                 Source = reader.GetString(3),
-                                Metadata = reader.GetString(4)
+                                FilePath = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                FileName = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
+                                DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
                             };
                         }
                     }
@@ -55,8 +61,9 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             {
                 connection.Open();
 
-                // Fixed: Properly quoted identifiers
-                string sql = "SELECT \"ID\", \"Name\", \"Type\", \"Source\", \"Metadata\" FROM \"Parts\"";
+                string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               FROM ""Parts""";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -70,7 +77,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Name = reader.GetString(1),
                                 Type = reader.GetString(2),
                                 Source = reader.GetString(3),
-                                Metadata = reader.GetString(4)
+                                FilePath = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                FileName = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
+                                DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
                             });
                         }
                     }
@@ -86,10 +98,11 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             {
                 connection.Open();
 
-                // Fixed: Properly quoted identifiers and parameters
                 string sql = @"
-                    INSERT INTO ""Parts"" (""ID"", ""Name"", ""Type"", ""Source"", ""Metadata"")
-                    VALUES (@Id, @Name, @Type, @Source, @Metadata)";
+                    INSERT INTO ""Parts"" (""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
+                    ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"")
+                    VALUES (@Id, @Name, @Type, @Source, @FilePath, @FileName, 
+                    @Checksum, @IsDuplicate, @DuplicateOf, @Metadata)";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -97,7 +110,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                     command.Parameters.AddWithValue("@Name", entity.Name);
                     command.Parameters.AddWithValue("@Type", entity.Type);
                     command.Parameters.AddWithValue("@Source", entity.Source);
-                    command.Parameters.AddWithValue("@Metadata", entity.Metadata);
+                    command.Parameters.AddWithValue("@FilePath", entity.FilePath ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@FileName", entity.FileName ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Checksum", entity.Checksum ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@IsDuplicate", entity.IsDuplicate ? 1 : 0);
+                    command.Parameters.AddWithValue("@DuplicateOf", entity.DuplicateOf ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Metadata", entity.Metadata ?? (object)DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }
@@ -110,10 +128,11 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             {
                 connection.Open();
 
-                // Fixed: Properly quoted identifiers and parameters
                 string sql = @"
                     UPDATE ""Parts""
-                    SET ""Name"" = @Name, ""Type"" = @Type, ""Source"" = @Source, ""Metadata"" = @Metadata
+                    SET ""Name"" = @Name, ""Type"" = @Type, ""Source"" = @Source, 
+                    ""FilePath"" = @FilePath, ""FileName"" = @FileName, ""Checksum"" = @Checksum,
+                    ""IsDuplicate"" = @IsDuplicate, ""DuplicateOf"" = @DuplicateOf, ""Metadata"" = @Metadata
                     WHERE ""ID"" = @Id";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -122,7 +141,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                     command.Parameters.AddWithValue("@Name", entity.Name);
                     command.Parameters.AddWithValue("@Type", entity.Type);
                     command.Parameters.AddWithValue("@Source", entity.Source);
-                    command.Parameters.AddWithValue("@Metadata", entity.Metadata);
+                    command.Parameters.AddWithValue("@FilePath", entity.FilePath ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@FileName", entity.FileName ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Checksum", entity.Checksum ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@IsDuplicate", entity.IsDuplicate ? 1 : 0);
+                    command.Parameters.AddWithValue("@DuplicateOf", entity.DuplicateOf ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Metadata", entity.Metadata ?? (object)DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }
@@ -135,7 +159,6 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             {
                 connection.Open();
 
-                // Fixed: Properly quoted identifiers and parameters
                 string sql = "DELETE FROM \"Parts\" WHERE \"ID\" = @Id";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -146,7 +169,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             }
         }
 
-        // Additional helper methods with fixed SQL syntax
+        // Additional query methods
 
         public IEnumerable<Part> GetBySource(string source)
         {
@@ -156,8 +179,9 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             {
                 connection.Open();
 
-                // Fixed: Properly quoted identifiers and parameters
-                string sql = "SELECT \"ID\", \"Name\", \"Type\", \"Source\", \"Metadata\" FROM \"Parts\" WHERE \"Source\" = @Source";
+                string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               FROM ""Parts"" WHERE ""Source"" = @Source";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -173,7 +197,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Name = reader.GetString(1),
                                 Type = reader.GetString(2),
                                 Source = reader.GetString(3),
-                                Metadata = reader.GetString(4)
+                                FilePath = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                FileName = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
+                                DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
                             });
                         }
                     }
@@ -183,7 +212,46 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             return parts;
         }
 
-        public IEnumerable<Part> GetByName(string name)
+        public Part GetByChecksum(string checksum)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               FROM ""Parts"" WHERE ""Checksum"" = @Checksum AND ""IsDuplicate"" = 0 LIMIT 1";
+
+                using (var command = new SQLiteCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Checksum", checksum);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Part
+                            {
+                                Id = reader.GetString(0),
+                                Name = reader.GetString(1),
+                                Type = reader.GetString(2),
+                                Source = reader.GetString(3),
+                                FilePath = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                FileName = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
+                                DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
+                            };
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Part> GetDuplicates()
         {
             List<Part> parts = new List<Part>();
 
@@ -191,13 +259,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             {
                 connection.Open();
 
-                // Fixed: Properly quoted identifiers and parameters, using LIKE for partial matches
-                string sql = "SELECT \"ID\", \"Name\", \"Type\", \"Source\", \"Metadata\" FROM \"Parts\" WHERE \"Name\" LIKE @Name";
+                string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               FROM ""Parts"" WHERE ""IsDuplicate"" = 1";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@Name", "%" + name + "%");
-
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -208,7 +275,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Name = reader.GetString(1),
                                 Type = reader.GetString(2),
                                 Source = reader.GetString(3),
-                                Metadata = reader.GetString(4)
+                                FilePath = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                FileName = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
+                                DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
                             });
                         }
                     }

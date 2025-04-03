@@ -3,6 +3,7 @@ using System.IO;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 
 namespace cytk_NX2TCMigrationTool.src.Core.Database
 {
@@ -10,10 +11,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
     {
         private readonly string _connectionString;
         private readonly string _schemaFilePath;
+        private readonly Logger _logger;
 
         public SQLiteManager(string dbPath, string schemaFilePath = null)
         {
             _connectionString = $"Data Source={dbPath};Version=3;";
+            _logger = Logger.Instance;
 
             // Default to looking in the src/Core/Database folder if no path is provided
             if (schemaFilePath == null)
@@ -31,25 +34,48 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
 
         public void Initialize()
         {
+            _logger.Info("SQLiteManager", "Initializing SQLite database");
+
             // Extract the database file path from the connection string
             string dbFilePath = GetDatabaseFilePath();
             bool dbExists = File.Exists(dbFilePath);
 
+            _logger.Debug("SQLiteManager", $"Database file: {dbFilePath}, exists: {dbExists}");
+
             // Create database file if it doesn't exist
             if (!dbExists)
             {
+                _logger.Info("SQLiteManager", "Creating new database file");
                 SQLiteConnection.CreateFile(dbFilePath);
             }
 
             // Create necessary tables from schema file
             if (File.Exists(_schemaFilePath))
             {
+                _logger.Debug("SQLiteManager", $"Using schema file: {_schemaFilePath}");
                 ExecuteSchemaFile();
             }
             else
             {
+                _logger.Warning("SQLiteManager", $"Schema file not found at {_schemaFilePath}. Using basic schema.");
                 CreateBasicSchema();
-                Console.WriteLine($"Warning: Schema file not found at {_schemaFilePath}. Using basic schema.");
+            }
+
+            // If the database already existed, we need to migrate it to the latest schema
+            if (dbExists)
+            {
+                _logger.Info("SQLiteManager", "Checking if database migration is needed");
+                DatabaseMigrator migrator = new DatabaseMigrator(_connectionString);
+                bool migrationResult = migrator.MigrateDatabase();
+
+                if (migrationResult)
+                {
+                    _logger.Info("SQLiteManager", "Database migration completed successfully");
+                }
+                else
+                {
+                    _logger.Error("SQLiteManager", "Database migration failed");
+                }
             }
         }
 
@@ -70,6 +96,8 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
         {
             try
             {
+                _logger.Debug("SQLiteManager", "Executing schema file");
+
                 // Read schema file content
                 string schemaContent = File.ReadAllText(_schemaFilePath);
 
@@ -93,18 +121,21 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine($"Error executing SQL: {sql}");
-                                Console.WriteLine($"Error: {ex.Message}");
+                                _logger.Error("SQLiteManager", $"Error executing SQL: {sql}");
+                                _logger.Debug("SQLiteManager", $"Error: {ex.Message}");
                                 // Optionally, throw the exception to fail fast
                                 // throw;
                             }
                         }
                     }
                 }
+
+                _logger.Info("SQLiteManager", "Schema execution completed");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in ExecuteSchemaFile: {ex.Message}");
+                _logger.Error("SQLiteManager", $"Error in ExecuteSchemaFile: {ex.Message}");
+                _logger.Debug("SQLiteManager", $"Exception details: {ex}");
                 throw;
             }
         }
@@ -177,22 +208,31 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
 
         private void CreateBasicSchema()
         {
+            _logger.Info("SQLiteManager", "Creating basic schema");
+
             // Fallback to hardcoded basic schema if schema file is not available
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 connection.Open();
 
                 string sql = @"
-                    CREATE TABLE IF NOT EXISTS Parts (
-                        ID TEXT PRIMARY KEY,
-                        Name TEXT NOT NULL,
-                        Type TEXT NOT NULL,
-                        Source TEXT NOT NULL,
-                        Metadata TEXT
+                    CREATE TABLE IF NOT EXISTS ""Parts"" (
+                        ""ID"" TEXT PRIMARY KEY,
+                        ""Name"" TEXT NOT NULL,
+                        ""Type"" TEXT NOT NULL,
+                        ""Source"" TEXT NOT NULL,
+                        ""FilePath"" TEXT,
+                        ""FileName"" TEXT,
+                        ""Checksum"" TEXT,
+                        ""IsDuplicate"" INTEGER DEFAULT 0,
+                        ""DuplicateOf"" TEXT,
+                        ""Metadata"" TEXT
                     );
                     
-                    CREATE INDEX IF NOT EXISTS idx_parts_name ON Parts(Name);
-                    CREATE INDEX IF NOT EXISTS idx_parts_source ON Parts(Source);
+                    CREATE INDEX IF NOT EXISTS ""idx_parts_name"" ON ""Parts""(""Name"");
+                    CREATE INDEX IF NOT EXISTS ""idx_parts_source"" ON ""Parts""(""Source"");
+                    CREATE INDEX IF NOT EXISTS ""idx_parts_checksum"" ON ""Parts""(""Checksum"");
+                    CREATE INDEX IF NOT EXISTS ""idx_parts_duplicate"" ON ""Parts""(""IsDuplicate"");
                 ";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -200,6 +240,8 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
                     command.ExecuteNonQuery();
                 }
             }
+
+            _logger.Info("SQLiteManager", "Basic schema created");
         }
     }
 }
