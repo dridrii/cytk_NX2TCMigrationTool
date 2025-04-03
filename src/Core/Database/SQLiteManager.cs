@@ -30,6 +30,9 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
             {
                 _schemaFilePath = schemaFilePath;
             }
+
+            _logger.Debug("SQLiteManager", $"Database path: {dbPath}");
+            _logger.Debug("SQLiteManager", $"Schema file path: {_schemaFilePath}");
         }
 
         public void Initialize()
@@ -49,6 +52,10 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
                 SQLiteConnection.CreateFile(dbFilePath);
             }
 
+            // Log the schema file path to confirm it's correct
+            _logger.Debug("SQLiteManager", $"Schema file path: {_schemaFilePath}");
+            _logger.Debug("SQLiteManager", $"Schema file exists: {File.Exists(_schemaFilePath)}");
+
             // Create necessary tables from schema file
             if (File.Exists(_schemaFilePath))
             {
@@ -61,21 +68,18 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
                 CreateBasicSchema();
             }
 
-            // If the database already existed, we need to migrate it to the latest schema
-            if (dbExists)
-            {
-                _logger.Info("SQLiteManager", "Checking if database migration is needed");
-                DatabaseMigrator migrator = new DatabaseMigrator(_connectionString);
-                bool migrationResult = migrator.MigrateDatabase();
+            // Always check for needed migrations
+            _logger.Info("SQLiteManager", "Checking if database migration is needed");
+            DatabaseMigrator migrator = new DatabaseMigrator(_connectionString);
+            bool migrationResult = migrator.MigrateDatabase();
 
-                if (migrationResult)
-                {
-                    _logger.Info("SQLiteManager", "Database migration completed successfully");
-                }
-                else
-                {
-                    _logger.Error("SQLiteManager", "Database migration failed");
-                }
+            if (migrationResult)
+            {
+                _logger.Info("SQLiteManager", "Database migration completed successfully");
+            }
+            else
+            {
+                _logger.Error("SQLiteManager", "Database migration failed");
             }
         }
 
@@ -210,30 +214,30 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
         {
             _logger.Info("SQLiteManager", "Creating basic schema");
 
-            // Fallback to hardcoded basic schema if schema file is not available
+            // Replace this with the complete schema including all required columns
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 connection.Open();
 
                 string sql = @"
-                    CREATE TABLE IF NOT EXISTS ""Parts"" (
-                        ""ID"" TEXT PRIMARY KEY,
-                        ""Name"" TEXT NOT NULL,
-                        ""Type"" TEXT NOT NULL,
-                        ""Source"" TEXT NOT NULL,
-                        ""FilePath"" TEXT,
-                        ""FileName"" TEXT,
-                        ""Checksum"" TEXT,
-                        ""IsDuplicate"" INTEGER DEFAULT 0,
-                        ""DuplicateOf"" TEXT,
-                        ""Metadata"" TEXT
-                    );
-                    
-                    CREATE INDEX IF NOT EXISTS ""idx_parts_name"" ON ""Parts""(""Name"");
-                    CREATE INDEX IF NOT EXISTS ""idx_parts_source"" ON ""Parts""(""Source"");
-                    CREATE INDEX IF NOT EXISTS ""idx_parts_checksum"" ON ""Parts""(""Checksum"");
-                    CREATE INDEX IF NOT EXISTS ""idx_parts_duplicate"" ON ""Parts""(""IsDuplicate"");
-                ";
+            CREATE TABLE IF NOT EXISTS ""Parts"" (
+                ""ID"" TEXT PRIMARY KEY,
+                ""Name"" TEXT NOT NULL,
+                ""Type"" TEXT NOT NULL,
+                ""Source"" TEXT NOT NULL,
+                ""FilePath"" TEXT,
+                ""FileName"" TEXT,
+                ""Checksum"" TEXT,
+                ""IsDuplicate"" INTEGER DEFAULT 0,
+                ""DuplicateOf"" TEXT,
+                ""Metadata"" TEXT
+            );
+            
+            CREATE INDEX IF NOT EXISTS ""idx_parts_name"" ON ""Parts""(""Name"");
+            CREATE INDEX IF NOT EXISTS ""idx_parts_source"" ON ""Parts""(""Source"");
+            CREATE INDEX IF NOT EXISTS ""idx_parts_checksum"" ON ""Parts""(""Checksum"");
+            CREATE INDEX IF NOT EXISTS ""idx_parts_duplicate"" ON ""Parts""(""IsDuplicate"");
+        ";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {

@@ -7,181 +7,78 @@ using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 
 namespace cytk_NX2TCMigrationTool.src.UI.Windows
 {
-    public class LogViewerForm : Form
+    public partial class LogViewerForm : Form
     {
-        private TextBox _logTextBox;
-        private ComboBox _logLevelComboBox;
-        private Button _refreshButton;
-        private Button _clearButton;
-        private Button _closeButton;
-        private CheckBox _autoRefreshCheckBox;
-        private System.Windows.Forms.Timer _refreshTimer; // Fully qualified Timer type
-        private ComboBox _logFileComboBox;
-
         private string _currentLogFile;
         private DateTime _lastModified = DateTime.MinValue;
 
         public LogViewerForm()
         {
             InitializeComponent();
+
+            // Hook up event handlers manually after InitializeComponent
+            SetupEventHandlers();
+
+            // Load data
             LoadLogFiles();
             LoadCurrentLog();
+        }
+
+        private void SetupEventHandlers()
+        {
+            // Set up event handlers for controls
+            _logFileComboBox.SelectedIndexChanged += OnLogFileComboBoxSelectedIndexChanged;
+            _logLevelComboBox.SelectedIndexChanged += OnLogLevelComboBoxSelectedIndexChanged;
+            _autoRefreshCheckBox.CheckedChanged += OnAutoRefreshCheckBoxCheckedChanged;
+            _refreshButton.Click += OnRefreshButtonClick;
+            _clearButton.Click += OnClearButtonClick;
+            _closeButton.Click += OnCloseButtonClick;
 
             // Set up auto refresh timer
-            _refreshTimer = new System.Windows.Forms.Timer();
+            _refreshTimer = new System.Windows.Forms.Timer(components);
             _refreshTimer.Interval = 1000; // 1 second
-            _refreshTimer.Tick += (s, e) => RefreshLog();
+            _refreshTimer.Tick += OnRefreshTimerTick;
             _refreshTimer.Start();
         }
 
-        private void InitializeComponent()
+        private void OnLogFileComboBoxSelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Text = "Log Viewer";
-            this.Size = new Size(900, 600);
-            this.StartPosition = FormStartPosition.CenterParent;
-            this.FormBorderStyle = FormBorderStyle.Sizable;
-            this.MinimizeBox = true;
-            this.MaximizeBox = true;
+            LoadCurrentLog();
+        }
 
-            // Main layout panel
-            TableLayoutPanel mainPanel = new TableLayoutPanel
+        private void OnLogLevelComboBoxSelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadCurrentLog();
+        }
+
+        private void OnAutoRefreshCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            _refreshTimer.Enabled = _autoRefreshCheckBox.Checked;
+        }
+
+        private void OnRefreshButtonClick(object sender, EventArgs e)
+        {
+            LoadCurrentLog();
+        }
+
+        private void OnClearButtonClick(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Clear the log viewer? This does not delete the log file.",
+                "Confirm Clear", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Dock = DockStyle.Fill,
-                RowCount = 3,
-                ColumnCount = 1
-            };
-
-            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
-            mainPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
-
-            this.Controls.Add(mainPanel);
-
-            // Top panel for controls
-            Panel topPanel = new Panel
-            {
-                Dock = DockStyle.Fill
-            };
-
-            // Log file selection
-            Label logFileLabel = new Label
-            {
-                Text = "Log File:",
-                AutoSize = true,
-                Location = new Point(10, 12)
-            };
-            topPanel.Controls.Add(logFileLabel);
-
-            _logFileComboBox = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Width = 250,
-                Location = new Point(80, 8)
-            };
-            _logFileComboBox.SelectedIndexChanged += (s, e) => LoadCurrentLog();
-            topPanel.Controls.Add(_logFileComboBox);
-
-            // Log level filter
-            Label logLevelLabel = new Label
-            {
-                Text = "Log Level:",
-                AutoSize = true,
-                Location = new Point(350, 12)
-            };
-            topPanel.Controls.Add(logLevelLabel);
-
-            _logLevelComboBox = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                Width = 120,
-                Location = new Point(420, 8)
-            };
-
-            // Add log levels to the combo box
-            foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
-            {
-                _logLevelComboBox.Items.Add(level.ToString());
+                _logTextBox.Clear();
             }
+        }
 
-            // Default to Info level
-            _logLevelComboBox.SelectedIndex = (int)LogLevel.Info;
-            _logLevelComboBox.SelectedIndexChanged += (s, e) => LoadCurrentLog();
-            topPanel.Controls.Add(_logLevelComboBox);
+        private void OnCloseButtonClick(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-            // Auto refresh checkbox
-            _autoRefreshCheckBox = new CheckBox
-            {
-                Text = "Auto Refresh",
-                Checked = true,
-                Location = new Point(560, 10),
-                AutoSize = true
-            };
-            _autoRefreshCheckBox.CheckedChanged += (s, e) => _refreshTimer.Enabled = _autoRefreshCheckBox.Checked;
-            topPanel.Controls.Add(_autoRefreshCheckBox);
-
-            // Refresh button
-            _refreshButton = new Button
-            {
-                Text = "Refresh",
-                Location = new Point(670, 8),
-                Width = 80
-            };
-            _refreshButton.Click += (s, e) => LoadCurrentLog();
-            topPanel.Controls.Add(_refreshButton);
-
-            mainPanel.Controls.Add(topPanel, 0, 0);
-
-            // Log text box
-            _logTextBox = new TextBox
-            {
-                Dock = DockStyle.Fill,
-                Multiline = true,
-                ReadOnly = true,
-                ScrollBars = ScrollBars.Both,
-                Font = new Font("Consolas", 9F),
-                BackColor = Color.White,
-                WordWrap = false
-            };
-
-            mainPanel.Controls.Add(_logTextBox, 0, 1);
-
-            // Bottom panel for buttons
-            Panel bottomPanel = new Panel
-            {
-                Dock = DockStyle.Fill
-            };
-
-            // Clear button
-            _clearButton = new Button
-            {
-                Text = "Clear",
-                Location = new Point(670, 8),
-                Width = 80
-            };
-            _clearButton.Click += (s, e) => {
-                if (MessageBox.Show("Clear the log viewer? This does not delete the log file.",
-                                    "Confirm Clear", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    _logTextBox.Clear();
-                }
-            };
-            bottomPanel.Controls.Add(_clearButton);
-
-            // Close button
-            _closeButton = new Button
-            {
-                Text = "Close",
-                Location = new Point(770, 8),
-                Width = 80,
-                DialogResult = DialogResult.Cancel
-            };
-            _closeButton.Click += (s, e) => this.Close();
-            bottomPanel.Controls.Add(_closeButton);
-
-            mainPanel.Controls.Add(bottomPanel, 0, 2);
-
-            // Set as cancel button
-            this.CancelButton = _closeButton;
+        private void OnRefreshTimerTick(object sender, EventArgs e)
+        {
+            RefreshLog();
         }
 
         private void LoadLogFiles()
@@ -324,20 +221,6 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                     LoadCurrentLog();
                 }
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_refreshTimer != null)
-                {
-                    _refreshTimer.Stop();
-                    _refreshTimer.Dispose();
-                }
-            }
-
-            base.Dispose(disposing);
         }
     }
 }

@@ -212,15 +212,18 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
             return parts;
         }
 
-        public Part GetByChecksum(string checksum)
+        // In PartRepository.cs, modify the GetByChecksum method
+        public IEnumerable<Part> GetByChecksum(string checksum)
         {
+            List<Part> parts = new List<Part>();
+
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
-                               FROM ""Parts"" WHERE ""Checksum"" = @Checksum AND ""IsDuplicate"" = 0 LIMIT 1";
+                       ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                       FROM ""Parts"" WHERE ""Checksum"" = @Checksum";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -228,9 +231,9 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
 
                     using (var reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
-                            return new Part
+                            parts.Add(new Part
                             {
                                 Id = reader.GetString(0),
                                 Name = reader.GetString(1),
@@ -242,13 +245,13 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
                                 DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
                                 Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
-                            };
+                            });
                         }
                     }
                 }
             }
 
-            return null;
+            return parts;
         }
 
         public IEnumerable<Part> GetDuplicates()

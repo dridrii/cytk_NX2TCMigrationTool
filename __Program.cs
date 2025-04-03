@@ -126,6 +126,7 @@ namespace cytk_NX2TCMigrationTool
 
                 logger.Info("Application", $"Creating database schema file: {dbSchemaPath}");
 
+                // Make sure this schema has all the required columns
                 string schemaContent = @"-- PLMIntegration Database Schema
 
 -- Parts table for storing part information

@@ -12,6 +12,7 @@ using cytk_NX2TCMigrationTool.src.Core.Settings;
 using cytk_NX2TCMigrationTool.src.PLM.NX;
 using cytk_NX2TCMigrationTool.src.PLM.Teamcenter;
 
+
 namespace cytk_NX2TCMigrationTool.src.UI.Windows
 {
     public partial class PartBrowser : Form
@@ -50,6 +51,9 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
 
             // Register event handlers
             _fileScanner.ScanProgress += OnScanProgress;
+
+            // Add form closing handler
+            this.FormClosing += PartBrowser_FormClosing;
         }
 
         /// <summary>
@@ -106,10 +110,24 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             _progressBar.Visible = false;
             this.Controls.Add(_progressBar);
 
+            Button closeButton = new Button();
+            closeButton.Text = "Close";
+            closeButton.Location = new Point(680, 500); // Adjust position as needed
+            closeButton.Click += (sender, e) => {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            };
+            this.Controls.Add(closeButton);
+
+            // Set as the form's cancel button
+            this.CancelButton = closeButton;
+
             // Load data
             LoadDirectories();
             LoadParts();
             LoadDuplicates();
+
+
         }
 
         private void InitializeDirectoryTab()
@@ -162,6 +180,13 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             _partsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             _partsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             _partsTab.Controls.Add(_partsGrid);
+
+            DataGridViewTextBoxColumn rowNumberColumn = new DataGridViewTextBoxColumn();
+            rowNumberColumn.HeaderText = "#";
+            rowNumberColumn.Width = 40;
+            rowNumberColumn.ReadOnly = true;
+            rowNumberColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            _partsGrid.Columns.Insert(0, rowNumberColumn);
 
             // Add search panel
             Panel searchPanel = new Panel();
@@ -235,11 +260,13 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             _partsGrid.Rows.Clear();
 
             var parts = _partRepository.GetAll();
+            int rowNumber = 1;
             foreach (var part in parts)
             {
                 if (!part.IsDuplicate)
                 {
                     _partsGrid.Rows.Add(
+                        rowNumber,  // Add the row number
                         part.Id,
                         part.Name,
                         part.Type,
@@ -248,6 +275,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                         part.Checksum,
                         part.IsDuplicate
                     );
+                    rowNumber++;
                 }
             }
         }
@@ -383,6 +411,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             }
         }
 
+        // In src/UI/Windows/PartBrowser.cs
         private void OnScanProgress(object sender, FileScanProgressEventArgs e)
         {
             // Make sure we're on the UI thread
@@ -403,6 +432,12 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             {
                 _progressBar.Value = e.OverallProgress;
             }
+        }
+
+        private void PartBrowser_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Unregister event handlers to prevent memory leaks
+            _fileScanner.ScanProgress -= OnScanProgress;
         }
     }
 }

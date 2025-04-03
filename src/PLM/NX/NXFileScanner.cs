@@ -185,17 +185,31 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         {
             _logger.Trace("NXFileScanner", $"Calculating checksum for: {filePath}");
 
-            // Generate checksum for the file (this could be time-consuming for large files)
+            // Generate checksum for the file
             string checksum = await Task.Run(() => FileUtils.CalculateChecksum(filePath));
 
             _logger.Trace("NXFileScanner", $"Checksum: {checksum} for file: {filePath}");
 
-            // Check if a part with this checksum already exists
-            var existingPart = _partRepository.GetByChecksum(checksum);
+            // Check if this exact file has already been processed (same path and checksum)
+            var parts = _partRepository.GetByChecksum(checksum);
+            bool isDuplicate = false;
+            string duplicateOfId = null;
 
-            if (existingPart != null)
+            // If there are existing parts with this checksum, check if any have the same path
+            foreach (var existingPart in parts)
             {
+                if (existingPart.FilePath.Equals(filePath, StringComparison.OrdinalIgnoreCase))
+                {
+                    // This is the same physical file we've already processed, skip it
+                    _logger.Debug("NXFileScanner", $"File already exists in database with same path: {filePath}");
+                    return false;
+                }
+
+                // If we found another file with the same checksum but different path, it's a duplicate
+                isDuplicate = true;
+                duplicateOfId = existingPart.Id;
                 _logger.Debug("NXFileScanner", $"Found existing part with same checksum: {existingPart.Id} - {existingPart.FilePath}");
+                break;
             }
 
             // Create a new part
@@ -211,8 +225,8 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 FilePath = filePath,
                 FileName = Path.GetFileName(filePath),
                 Checksum = checksum,
-                IsDuplicate = (existingPart != null),
-                DuplicateOf = existingPart?.Id,
+                IsDuplicate = isDuplicate,
+                DuplicateOf = duplicateOfId,
                 Metadata = null
             };
 
@@ -222,20 +236,40 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 _logger.Trace("NXFileScanner", $"Adding part to database: {part.Id} - {part.FilePath}");
                 _partRepository.Add(part);
 
-                // If this is a duplicate, mark the original as well (it will have duplicates)
-                if (existingPart != null)
-                {
-                    _logger.Debug("NXFileScanner", $"File is a duplicate of: {existingPart.Id}");
-                    return false; // This was a duplicate
-                }
-
-                return true; // This was a new file
+                return !isDuplicate; // Return true if this was not a duplicate
             }
             catch (Exception ex)
             {
                 _logger.Error("NXFileScanner", $"Database error while adding part {part.Id}: {ex.Message}");
                 throw; // Re-throw to be handled by caller
             }
+        }
+
+
+        /// <summary>
+        /// Results of a file scan operation
+        /// </summary>
+        public class ScanResults
+        {
+            /// <summary>
+            /// Number of files scanned
+            /// </summary>
+            public int FilesScanned { get; set; }
+
+            /// <summary>
+            /// Number of files added to the database
+            /// </summary>
+            public int FilesAdded { get; set; }
+
+            /// <summary>
+            /// Number of duplicate files found
+            /// </summary>
+            public int DuplicatesFound { get; set; }
+
+            /// <summary>
+            /// List of errors that occurred during the scan
+            /// </summary>
+            public List<string> Errors { get; set; } = new List<string>();
         }
     }
 
@@ -268,31 +302,5 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         /// Current file number being processed
         /// </summary>
         public int CurrentFileNumber { get; set; }
-    }
-
-    /// <summary>
-    /// Results of a file scan operation
-    /// </summary>
-    public class ScanResults
-    {
-        /// <summary>
-        /// Number of files scanned
-        /// </summary>
-        public int FilesScanned { get; set; }
-
-        /// <summary>
-        /// Number of files added to the database
-        /// </summary>
-        public int FilesAdded { get; set; }
-
-        /// <summary>
-        /// Number of duplicate files found
-        /// </summary>
-        public int DuplicatesFound { get; set; }
-
-        /// <summary>
-        /// List of errors that occurred during the scan
-        /// </summary>
-        public List<string> Errors { get; set; } = new List<string>();
     }
 }
