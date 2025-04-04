@@ -7,6 +7,7 @@ using cytk_NX2TCMigrationTool.src.PLM.Teamcenter;
 using cytk_NX2TCMigrationTool.src.UI.Windows;
 using cytk_NX2TCMigrationTool.src.Core.Database.Repositories;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
+using cytk_NX2TCMigrationTool.src.Core.Database;
 
 namespace cytk_NX2TCMigrationTool
 {
@@ -16,14 +17,20 @@ namespace cytk_NX2TCMigrationTool
         private NXConnection _nxConnection;
         private TCConnection _tcConnection;
         private PartRepository _partRepository;
+        private BOMRelationshipRepository _bomRepository;
+        private AssemblyStatsRepository _statsRepository;
+        private DatabaseMigrator _databaseMigrator;
 
         public cytk_nx2tcmigtool_form1(SettingsManager settingsManager)
         {
             _settingsManager = settingsManager ?? throw new ArgumentNullException(nameof(settingsManager));
             InitializeComponent();
 
-            // Initialize repository
-            InitializeRepository();
+            // Initialize repositories
+            InitializeRepositories();
+
+            // Ensure databases are up to date
+            EnsureDatabaseStructure();
 
             // Hook up event handlers for the menu items
             if (configToolStripMenuItem?.DropDownItems != null &&
@@ -56,6 +63,9 @@ namespace cytk_NX2TCMigrationTool
                 }
             }
 
+            // Add BOM menu
+            InitializeBOMMenu();
+
             // Add log menu
             InitializeLogMenu();
 
@@ -63,7 +73,7 @@ namespace cytk_NX2TCMigrationTool
             this.Load += MainForm_Load;
         }
 
-        private void InitializeRepository()
+        private void InitializeRepositories()
         {
             try
             {
@@ -83,13 +93,34 @@ namespace cytk_NX2TCMigrationTool
                     Directory.CreateDirectory(dbDir);
                 }
 
-                // Create connection string and repository
+                // Create connection string and repositories
                 string connectionString = $"Data Source={dbPath};Version=3;";
                 _partRepository = new PartRepository(connectionString);
+                _bomRepository = new BOMRelationshipRepository(connectionString);
+                _statsRepository = new AssemblyStatsRepository(connectionString);
+                _databaseMigrator = new DatabaseMigrator(connectionString);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error initializing repository: {ex.Message}", "Initialization Error",
+                MessageBox.Show($"Error initializing repositories: {ex.Message}", "Initialization Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EnsureDatabaseStructure()
+        {
+            try
+            {
+                bool result = _databaseMigrator.MigrateDatabase();
+                if (!result)
+                {
+                    MessageBox.Show("Database migration failed. Some features may not work correctly.",
+                                    "Database Migration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error migrating database: {ex.Message}", "Database Migration Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -158,6 +189,79 @@ namespace cytk_NX2TCMigrationTool
                     MessageBox.Show($"Error creating NX root directories setting: {ex.Message}", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        // BOM menu integration
+        private void InitializeBOMMenu()
+        {
+            try
+            {
+                // Create a BOM menu item
+                ToolStripMenuItem bomMenuItem = new ToolStripMenuItem("BOM");
+
+                // Add BOM Browser menu item
+                ToolStripMenuItem browseMenuItem = new ToolStripMenuItem("BOM Browser");
+                browseMenuItem.Click += OnBrowseBOMClick;
+                bomMenuItem.DropDownItems.Add(browseMenuItem);
+
+                // Add BOM Analysis menu item
+                ToolStripMenuItem analysisMenuItem = new ToolStripMenuItem("Run BOM Analysis");
+                analysisMenuItem.Click += OnRunBOMAnalysisClick;
+                bomMenuItem.DropDownItems.Add(analysisMenuItem);
+
+                // Add to main menu - insert after File
+                int insertIndex = menuStrip1.Items.IndexOf(fileToolStripMenuItem) + 1;
+                menuStrip1.Items.Insert(insertIndex, bomMenuItem);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error initializing BOM menu: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnBrowseBOMClick(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open the BOM Browser
+                using (BOMBrowser browser = new BOMBrowser(
+                    _partRepository,
+                    _bomRepository,
+                    _statsRepository,
+                    _settingsManager))
+                {
+                    browser.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening BOM Browser: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnRunBOMAnalysisClick(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open the BOM Browser directly to run analysis
+                using (BOMBrowser browser = new BOMBrowser(
+                    _partRepository,
+                    _bomRepository,
+                    _statsRepository,
+                    _settingsManager))
+                {
+                    // We can safely use AnalyzeButton now since it's a public property
+                    browser.AnalyzeButton.PerformClick();
+                    browser.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error running BOM analysis: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -243,7 +347,7 @@ namespace cytk_NX2TCMigrationTool
             {
                 if (_partRepository == null)
                 {
-                    InitializeRepository();
+                    InitializeRepositories();
                 }
 
                 using (PartBrowser browser = new PartBrowser(_nxConnection, _tcConnection, _settingsManager, _partRepository))
@@ -264,7 +368,7 @@ namespace cytk_NX2TCMigrationTool
             {
                 if (_partRepository == null)
                 {
-                    InitializeRepository();
+                    InitializeRepositories();
                 }
 
                 // Open the Part Browser directly to the Directory Management tab
