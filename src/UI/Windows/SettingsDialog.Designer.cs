@@ -39,13 +39,30 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             databasePathSettings = new TextBox();
             databaseSettingsLabel = new Label();
             nxTab = new TabPage();
+            nxInstallPathBrowseButton = new Button();
+            nxVersionComboBox = new ComboBox();
+            nxVersionLabel = new Label();
+            nxInstallPathTextBox = new TextBox();
+            nxInstallPathLabel = new Label();
             tcTab = new TabPage();
+            tcTestConnectionButton = new Button();
+            tcPasswordTextBox = new TextBox();
+            tcPasswordLabel = new Label();
+            tcUserTextBox = new TextBox();
+            tcUserLabel = new Label();
+            tcPortNumeric = new NumericUpDown();
+            tcPortLabel = new Label();
+            tcServerTextBox = new TextBox();
+            tcServerLabel = new Label();
             buttonPanel = new FlowLayoutPanel();
             cancelButton = new Button();
             okButton = new Button();
             mainLayout.SuspendLayout();
             tabControl.SuspendLayout();
             databaseTab.SuspendLayout();
+            nxTab.SuspendLayout();
+            tcTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)tcPortNumeric).BeginInit();
             buttonPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -91,7 +108,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // 
             // databaseSettingsBrowseButton
             // 
-            databaseSettingsBrowseButton.Location = new Point(629, 32);
+            databaseSettingsBrowseButton.Location = new Point(629, 33);
             databaseSettingsBrowseButton.Name = "databaseSettingsBrowseButton";
             databaseSettingsBrowseButton.Size = new Size(103, 23);
             databaseSettingsBrowseButton.TabIndex = 2;
@@ -110,7 +127,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // databaseSettingsLabel
             // 
             databaseSettingsLabel.AutoSize = true;
-            databaseSettingsLabel.Location = new Point(6, 36);
+            databaseSettingsLabel.Location = new Point(9, 39);
             databaseSettingsLabel.Name = "databaseSettingsLabel";
             databaseSettingsLabel.Size = new Size(85, 15);
             databaseSettingsLabel.TabIndex = 0;
@@ -118,6 +135,11 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // 
             // nxTab
             // 
+            nxTab.Controls.Add(nxInstallPathBrowseButton);
+            nxTab.Controls.Add(nxVersionComboBox);
+            nxTab.Controls.Add(nxVersionLabel);
+            nxTab.Controls.Add(nxInstallPathTextBox);
+            nxTab.Controls.Add(nxInstallPathLabel);
             nxTab.Location = new Point(4, 24);
             nxTab.Name = "nxTab";
             nxTab.Padding = new Padding(3);
@@ -126,8 +148,64 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             nxTab.Text = "NX";
             nxTab.UseVisualStyleBackColor = true;
             // 
+            // nxInstallPathBrowseButton
+            // 
+            nxInstallPathBrowseButton.Location = new Point(629, 33);
+            nxInstallPathBrowseButton.Name = "nxInstallPathBrowseButton";
+            nxInstallPathBrowseButton.Size = new Size(103, 23);
+            nxInstallPathBrowseButton.TabIndex = 2;
+            nxInstallPathBrowseButton.Text = "Browse...";
+            nxInstallPathBrowseButton.UseVisualStyleBackColor = true;
+            nxInstallPathBrowseButton.Click += OnNXBrowseClick;
+            // 
+            // nxVersionComboBox
+            // 
+            nxVersionComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            nxVersionComboBox.FormattingEnabled = true;
+            nxVersionComboBox.Items.AddRange(new object[] { "NX 1847", "NX 1872", "NX 1899", "NX 1919", "NX 1926", "NX 1980" });
+            nxVersionComboBox.Location = new Point(97, 63);
+            nxVersionComboBox.Name = "nxVersionComboBox";
+            nxVersionComboBox.Size = new Size(167, 23);
+            nxVersionComboBox.TabIndex = 4;
+            nxVersionComboBox.Tag = "/Settings/NX/Version";
+            // 
+            // nxVersionLabel
+            // 
+            nxVersionLabel.AutoSize = true;
+            nxVersionLabel.Location = new Point(9, 69);
+            nxVersionLabel.Name = "nxVersionLabel";
+            nxVersionLabel.Size = new Size(48, 15);
+            nxVersionLabel.TabIndex = 3;
+            nxVersionLabel.Text = "Version:";
+            // 
+            // nxInstallPathTextBox
+            // 
+            nxInstallPathTextBox.Location = new Point(97, 33);
+            nxInstallPathTextBox.Name = "nxInstallPathTextBox";
+            nxInstallPathTextBox.Size = new Size(526, 23);
+            nxInstallPathTextBox.TabIndex = 1;
+            nxInstallPathTextBox.Tag = "/Settings/NX/InstallPath";
+            // 
+            // nxInstallPathLabel
+            // 
+            nxInstallPathLabel.AutoSize = true;
+            nxInstallPathLabel.Location = new Point(9, 39);
+            nxInstallPathLabel.Name = "nxInstallPathLabel";
+            nxInstallPathLabel.Size = new Size(68, 15);
+            nxInstallPathLabel.TabIndex = 0;
+            nxInstallPathLabel.Text = "Install Path:";
+            // 
             // tcTab
             // 
+            tcTab.Controls.Add(tcTestConnectionButton);
+            tcTab.Controls.Add(tcPasswordTextBox);
+            tcTab.Controls.Add(tcPasswordLabel);
+            tcTab.Controls.Add(tcUserTextBox);
+            tcTab.Controls.Add(tcUserLabel);
+            tcTab.Controls.Add(tcPortNumeric);
+            tcTab.Controls.Add(tcPortLabel);
+            tcTab.Controls.Add(tcServerTextBox);
+            tcTab.Controls.Add(tcServerLabel);
             tcTab.Location = new Point(4, 24);
             tcTab.Name = "tcTab";
             tcTab.Padding = new Padding(3);
@@ -135,6 +213,87 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             tcTab.TabIndex = 2;
             tcTab.Text = "Teamcenter";
             tcTab.UseVisualStyleBackColor = true;
+            // 
+            // tcTestConnectionButton
+            // 
+            tcTestConnectionButton.Location = new Point(97, 163);
+            tcTestConnectionButton.Name = "tcTestConnectionButton";
+            tcTestConnectionButton.Size = new Size(120, 23);
+            tcTestConnectionButton.TabIndex = 8;
+            tcTestConnectionButton.Text = "Test Connection";
+            tcTestConnectionButton.UseVisualStyleBackColor = true;
+            tcTestConnectionButton.Click += OnTestTCConnectionClick;
+            // 
+            // tcPasswordTextBox
+            // 
+            tcPasswordTextBox.Location = new Point(97, 123);
+            tcPasswordTextBox.Name = "tcPasswordTextBox";
+            tcPasswordTextBox.PasswordChar = '*';
+            tcPasswordTextBox.Size = new Size(255, 23);
+            tcPasswordTextBox.TabIndex = 7;
+            tcPasswordTextBox.Tag = "/Settings/Teamcenter/EncryptedPassword";
+            // 
+            // tcPasswordLabel
+            // 
+            tcPasswordLabel.AutoSize = true;
+            tcPasswordLabel.Location = new Point(9, 129);
+            tcPasswordLabel.Name = "tcPasswordLabel";
+            tcPasswordLabel.Size = new Size(60, 15);
+            tcPasswordLabel.TabIndex = 6;
+            tcPasswordLabel.Text = "Password:";
+            // 
+            // tcUserTextBox
+            // 
+            tcUserTextBox.Location = new Point(97, 93);
+            tcUserTextBox.Name = "tcUserTextBox";
+            tcUserTextBox.Size = new Size(255, 23);
+            tcUserTextBox.TabIndex = 5;
+            tcUserTextBox.Tag = "/Settings/Teamcenter/User";
+            // 
+            // tcUserLabel
+            // 
+            tcUserLabel.AutoSize = true;
+            tcUserLabel.Location = new Point(9, 99);
+            tcUserLabel.Name = "tcUserLabel";
+            tcUserLabel.Size = new Size(63, 15);
+            tcUserLabel.TabIndex = 4;
+            tcUserLabel.Text = "Username:";
+            // 
+            // tcPortNumeric
+            // 
+            tcPortNumeric.Location = new Point(97, 64);
+            tcPortNumeric.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            tcPortNumeric.Name = "tcPortNumeric";
+            tcPortNumeric.Size = new Size(120, 23);
+            tcPortNumeric.TabIndex = 3;
+            tcPortNumeric.Tag = "/Settings/Teamcenter/Port";
+            tcPortNumeric.Value = new decimal(new int[] { 7001, 0, 0, 0 });
+            // 
+            // tcPortLabel
+            // 
+            tcPortLabel.AutoSize = true;
+            tcPortLabel.Location = new Point(9, 69);
+            tcPortLabel.Name = "tcPortLabel";
+            tcPortLabel.Size = new Size(32, 15);
+            tcPortLabel.TabIndex = 2;
+            tcPortLabel.Text = "Port:";
+            // 
+            // tcServerTextBox
+            // 
+            tcServerTextBox.Location = new Point(97, 33);
+            tcServerTextBox.Name = "tcServerTextBox";
+            tcServerTextBox.Size = new Size(255, 23);
+            tcServerTextBox.TabIndex = 1;
+            tcServerTextBox.Tag = "/Settings/Teamcenter/Server";
+            // 
+            // tcServerLabel
+            // 
+            tcServerLabel.AutoSize = true;
+            tcServerLabel.Location = new Point(9, 39);
+            tcServerLabel.Name = "tcServerLabel";
+            tcServerLabel.Size = new Size(42, 15);
+            tcServerLabel.TabIndex = 0;
+            tcServerLabel.Text = "Server:";
             // 
             // buttonPanel
             // 
@@ -188,6 +347,11 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             tabControl.ResumeLayout(false);
             databaseTab.ResumeLayout(false);
             databaseTab.PerformLayout();
+            nxTab.ResumeLayout(false);
+            nxTab.PerformLayout();
+            tcTab.ResumeLayout(false);
+            tcTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)tcPortNumeric).EndInit();
             buttonPanel.ResumeLayout(false);
             buttonPanel.PerformLayout();
             ResumeLayout(false);
@@ -207,5 +371,23 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         private Label databaseSettingsLabel;
         private TextBox databasePathSettings;
         private Button databaseSettingsBrowseButton;
+
+        // NX Tab Controls
+        private Label nxInstallPathLabel;
+        private TextBox nxInstallPathTextBox;
+        private Button nxInstallPathBrowseButton;
+        private Label nxVersionLabel;
+        private ComboBox nxVersionComboBox;
+
+        // Teamcenter Tab Controls
+        private Label tcServerLabel;
+        private TextBox tcServerTextBox;
+        private Label tcPortLabel;
+        private NumericUpDown tcPortNumeric;
+        private Label tcUserLabel;
+        private TextBox tcUserTextBox;
+        private Label tcPasswordLabel;
+        private TextBox tcPasswordTextBox;
+        private Button tcTestConnectionButton;
     }
 }

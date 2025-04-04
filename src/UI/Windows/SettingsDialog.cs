@@ -12,11 +12,6 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         {
             _settingsManager = settingsManager;
             InitializeComponent();
-
-            // Create tab content after InitializeComponent is called
-            CreateDatabaseSettings(databaseTab);
-            CreateNXSettings(nxTab);
-            CreateTeamcenterSettings(tcTab);
         }
 
         private void OnOKClick(object sender, EventArgs e)
@@ -66,173 +61,6 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             }
         }
 
-        // Move tab content creation methods to the main code file
-        private void CreateDatabaseSettings(TabPage tab)
-        {
-            // Create layout panel
-            TableLayoutPanel layout = new TableLayoutPanel();
-            layout.Dock = DockStyle.Fill;
-            layout.RowCount = 2;
-            layout.ColumnCount = 3;
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layout.Padding = new Padding(10);
-            tab.Controls.Add(layout);
-
-            
-        }
-
-        private void CreateNXSettings(TabPage tab)
-        {
-            // Create layout panel
-            TableLayoutPanel layout = new TableLayoutPanel();
-            layout.Dock = DockStyle.Fill;
-            layout.RowCount = 3;
-            layout.ColumnCount = 3;
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layout.Padding = new Padding(10);
-            tab.Controls.Add(layout);
-
-            // NX Install Path
-            Label installPathLabel = new Label();
-            installPathLabel.Text = "Install Path:";
-            installPathLabel.Dock = DockStyle.Fill;
-            installPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            layout.Controls.Add(installPathLabel, 0, 0);
-
-            TextBox installPathTextBox = new TextBox();
-            installPathTextBox.Dock = DockStyle.Fill;
-            installPathTextBox.Text = _settingsManager.GetSetting("/Settings/NX/InstallPath");
-            installPathTextBox.Tag = "/Settings/NX/InstallPath";
-            layout.Controls.Add(installPathTextBox, 1, 0);
-
-            Button browseButton = new Button();
-            browseButton.Text = "Browse...";
-            browseButton.Dock = DockStyle.Fill;
-            browseButton.Click += (sender, e) =>
-            {
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.Description = "Select NX Installation Directory";
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    installPathTextBox.Text = dialog.SelectedPath;
-                }
-            };
-            layout.Controls.Add(browseButton, 2, 0);
-
-            // NX Version
-            Label versionLabel = new Label();
-            versionLabel.Text = "Version:";
-            versionLabel.Dock = DockStyle.Fill;
-            versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            layout.Controls.Add(versionLabel, 0, 1);
-
-            ComboBox versionComboBox = new ComboBox();
-            versionComboBox.Dock = DockStyle.Fill;
-            versionComboBox.Items.AddRange(new object[] { "NX 1847", "NX 1872", "NX 1899", "NX 1919", "NX 1926", "NX 1980" });
-            versionComboBox.Text = _settingsManager.GetSetting("/Settings/NX/Version");
-            versionComboBox.Tag = "/Settings/NX/Version";
-            layout.Controls.Add(versionComboBox, 1, 1);
-        }
-
-        private void CreateTeamcenterSettings(TabPage tab)
-        {
-            // Create layout panel
-            TableLayoutPanel layout = new TableLayoutPanel();
-            layout.Dock = DockStyle.Fill;
-            layout.RowCount = 6;
-            layout.ColumnCount = 2;
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layout.Padding = new Padding(10);
-            tab.Controls.Add(layout);
-
-            // Server
-            Label serverLabel = new Label();
-            serverLabel.Text = "Server:";
-            serverLabel.Dock = DockStyle.Fill;
-            serverLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            layout.Controls.Add(serverLabel, 0, 0);
-
-            TextBox serverTextBox = new TextBox();
-            serverTextBox.Dock = DockStyle.Fill;
-            serverTextBox.Text = _settingsManager.GetSetting("/Settings/Teamcenter/Server");
-            serverTextBox.Tag = "/Settings/Teamcenter/Server";
-            layout.Controls.Add(serverTextBox, 1, 0);
-
-            // Port
-            Label portLabel = new Label();
-            portLabel.Text = "Port:";
-            portLabel.Dock = DockStyle.Fill;
-            portLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            layout.Controls.Add(portLabel, 0, 1);
-
-            NumericUpDown portNumeric = new NumericUpDown();
-            portNumeric.Dock = DockStyle.Left;
-            portNumeric.Width = 100;
-            portNumeric.Minimum = 0;
-            portNumeric.Maximum = 65535;
-            int port;
-            if (int.TryParse(_settingsManager.GetSetting("/Settings/Teamcenter/Port"), out port))
-            {
-                portNumeric.Value = port;
-            }
-            portNumeric.Tag = "/Settings/Teamcenter/Port";
-            layout.Controls.Add(portNumeric, 1, 1);
-
-            // Username
-            Label userLabel = new Label();
-            userLabel.Text = "Username:";
-            userLabel.Dock = DockStyle.Fill;
-            userLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            layout.Controls.Add(userLabel, 0, 2);
-
-            TextBox userTextBox = new TextBox();
-            userTextBox.Dock = DockStyle.Fill;
-            userTextBox.Text = _settingsManager.GetSetting("/Settings/Teamcenter/User");
-            userTextBox.Tag = "/Settings/Teamcenter/User";
-            layout.Controls.Add(userTextBox, 1, 2);
-
-            // Password
-            Label passwordLabel = new Label();
-            passwordLabel.Text = "Password:";
-            passwordLabel.Dock = DockStyle.Fill;
-            passwordLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            layout.Controls.Add(passwordLabel, 0, 3);
-
-            TextBox passwordTextBox = new TextBox();
-            passwordTextBox.Dock = DockStyle.Fill;
-            passwordTextBox.PasswordChar = '*';
-            passwordTextBox.Tag = "/Settings/Teamcenter/EncryptedPassword";
-            layout.Controls.Add(passwordTextBox, 1, 3);
-
-            // Test Connection button
-            Button testButton = new Button();
-            testButton.Text = "Test Connection";
-            testButton.Width = 120;
-            testButton.Click += (sender, e) =>
-            {
-                MessageBox.Show("Testing connection to Teamcenter...");
-                // Implement actual connection test here
-            };
-            layout.Controls.Add(testButton, 1, 4);
-        }
-
         private void OnBrowseClick1(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -243,12 +71,67 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             {
                 databasePathSettings.Text = dialog.FileName;
             }
+        }
 
+        private void OnNXBrowseClick(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "Select NX Installation Directory";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                nxInstallPathTextBox.Text = dialog.SelectedPath;
+            }
+        }
+
+        private void OnTestTCConnectionClick(object sender, EventArgs e)
+        {
+            try
+            {
+                // Store the current values temporarily in case they changed
+                string server = tcServerTextBox.Text;
+                int port = (int)tcPortNumeric.Value;
+                string user = tcUserTextBox.Text;
+                string password = tcPasswordTextBox.Text;
+
+                // You would implement the actual connection test here
+                MessageBox.Show($"Testing connection to Teamcenter server: {server}:{port} as user {user}...",
+                               "Test Connection", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Placeholder for actual connection test
+                // In a real implementation, you would create a TCConnection and try to connect
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Connection test failed: {ex.Message}", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void SettingsDialog_Load(object sender, EventArgs e)
         {
+            // Database settings
             databasePathSettings.Text = _settingsManager.GetSetting("/Settings/Database/Path");
+
+            // NX settings
+            nxInstallPathTextBox.Text = _settingsManager.GetSetting("/Settings/NX/InstallPath");
+            nxVersionComboBox.Text = _settingsManager.GetSetting("/Settings/NX/Version");
+
+            // Teamcenter settings
+            tcServerTextBox.Text = _settingsManager.GetSetting("/Settings/Teamcenter/Server");
+
+            int port;
+            if (int.TryParse(_settingsManager.GetSetting("/Settings/Teamcenter/Port"), out port))
+            {
+                tcPortNumeric.Value = port;
+            }
+            else
+            {
+                tcPortNumeric.Value = 7001; // Default port
+            }
+
+            tcUserTextBox.Text = _settingsManager.GetSetting("/Settings/Teamcenter/User");
+            // Note: Password will need special handling if it's encrypted
         }
     }
 }
