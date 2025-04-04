@@ -46,126 +46,173 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-
-            this.Text = "Log Viewer";
-            this.Size = new System.Drawing.Size(900, 600);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-            this.MinimizeBox = true;
-            this.MaximizeBox = true;
-
-            // Main layout panel
-            System.Windows.Forms.TableLayoutPanel mainPanel = new System.Windows.Forms.TableLayoutPanel();
-            mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            mainPanel.RowCount = 3;
+            components = new System.ComponentModel.Container();
+            mainPanel = new TableLayoutPanel();
+            topPanel = new Panel();
+            logFileLabel = new Label();
+            _logFileComboBox = new ComboBox();
+            logLevelLabel = new Label();
+            _logLevelComboBox = new ComboBox();
+            _autoRefreshCheckBox = new CheckBox();
+            _refreshButton = new Button();
+            _logTextBox = new TextBox();
+            bottomPanel = new Panel();
+            _clearButton = new Button();
+            _closeButton = new Button();
+            _refreshTimer = new System.Windows.Forms.Timer(components);
+            mainPanel.SuspendLayout();
+            topPanel.SuspendLayout();
+            bottomPanel.SuspendLayout();
+            SuspendLayout();
+            // 
+            // mainPanel
+            // 
             mainPanel.ColumnCount = 1;
-
-            mainPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            mainPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            mainPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-
-            this.Controls.Add(mainPanel);
-
-            // Top panel for controls
-            System.Windows.Forms.Panel topPanel = new System.Windows.Forms.Panel();
-            topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-
-            // Log file selection
-            System.Windows.Forms.Label logFileLabel = new System.Windows.Forms.Label();
-            logFileLabel.Text = "Log File:";
-            logFileLabel.AutoSize = true;
-            logFileLabel.Location = new System.Drawing.Point(10, 12);
-            topPanel.Controls.Add(logFileLabel);
-
-            _logFileComboBox = new System.Windows.Forms.ComboBox();
-            _logFileComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            _logFileComboBox.Width = 250;
-            _logFileComboBox.Location = new System.Drawing.Point(80, 8);
-            topPanel.Controls.Add(_logFileComboBox);
-
-            // Log level filter
-            System.Windows.Forms.Label logLevelLabel = new System.Windows.Forms.Label();
-            logLevelLabel.Text = "Log Level:";
-            logLevelLabel.AutoSize = true;
-            logLevelLabel.Location = new System.Drawing.Point(350, 12);
-            topPanel.Controls.Add(logLevelLabel);
-
-            _logLevelComboBox = new System.Windows.Forms.ComboBox();
-            _logLevelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            _logLevelComboBox.Width = 120;
-            _logLevelComboBox.Location = new System.Drawing.Point(420, 8);
-
-            // Add log levels to the combo box
-            _logLevelComboBox.Items.Add("Trace");
-            _logLevelComboBox.Items.Add("Debug");
-            _logLevelComboBox.Items.Add("Info");
-            _logLevelComboBox.Items.Add("Warning");
-            _logLevelComboBox.Items.Add("Error");
-            _logLevelComboBox.Items.Add("Critical");
-            _logLevelComboBox.Items.Add("None");
-
-            // Default to Info level
-            _logLevelComboBox.SelectedIndex = 2; // Info
-            topPanel.Controls.Add(_logLevelComboBox);
-
-            // Auto refresh checkbox
-            _autoRefreshCheckBox = new System.Windows.Forms.CheckBox();
-            _autoRefreshCheckBox.Text = "Auto Refresh";
-            _autoRefreshCheckBox.Checked = true;
-            _autoRefreshCheckBox.Location = new System.Drawing.Point(560, 10);
-            _autoRefreshCheckBox.AutoSize = true;
-            topPanel.Controls.Add(_autoRefreshCheckBox);
-
-            // Refresh button
-            _refreshButton = new System.Windows.Forms.Button();
-            _refreshButton.Text = "Refresh";
-            _refreshButton.Location = new System.Drawing.Point(670, 8);
-            _refreshButton.Width = 80;
-            topPanel.Controls.Add(_refreshButton);
-
+            mainPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             mainPanel.Controls.Add(topPanel, 0, 0);
-
-            // Log text box
-            _logTextBox = new System.Windows.Forms.TextBox();
-            _logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            _logTextBox.Multiline = true;
-            _logTextBox.ReadOnly = true;
-            _logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            _logTextBox.Font = new System.Drawing.Font("Consolas", 9F);
-            _logTextBox.BackColor = System.Drawing.Color.White;
-            _logTextBox.WordWrap = false;
-
             mainPanel.Controls.Add(_logTextBox, 0, 1);
-
-            // Bottom panel for buttons
-            System.Windows.Forms.Panel bottomPanel = new System.Windows.Forms.Panel();
-            bottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-
-            // Clear button
-            _clearButton = new System.Windows.Forms.Button();
-            _clearButton.Text = "Clear";
-            _clearButton.Location = new System.Drawing.Point(670, 8);
-            _clearButton.Width = 80;
-            bottomPanel.Controls.Add(_clearButton);
-
-            // Close button
-            _closeButton = new System.Windows.Forms.Button();
-            _closeButton.Text = "Close";
-            _closeButton.Location = new System.Drawing.Point(770, 8);
-            _closeButton.Width = 80;
-            _closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            bottomPanel.Controls.Add(_closeButton);
-
             mainPanel.Controls.Add(bottomPanel, 0, 2);
-
-            // Set as cancel button
-            this.CancelButton = _closeButton;
-
-            // Create timer for auto-refresh - this will be set up in the main form
-            _refreshTimer = new System.Windows.Forms.Timer(this.components);
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(0, 0);
+            mainPanel.Name = "mainPanel";
+            mainPanel.RowCount = 3;
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            mainPanel.Size = new Size(936, 585);
+            mainPanel.TabIndex = 0;
+            // 
+            // topPanel
+            // 
+            topPanel.Controls.Add(logFileLabel);
+            topPanel.Controls.Add(_logFileComboBox);
+            topPanel.Controls.Add(logLevelLabel);
+            topPanel.Controls.Add(_logLevelComboBox);
+            topPanel.Controls.Add(_autoRefreshCheckBox);
+            topPanel.Controls.Add(_refreshButton);
+            topPanel.Dock = DockStyle.Fill;
+            topPanel.Location = new Point(3, 3);
+            topPanel.Name = "topPanel";
+            topPanel.Size = new Size(930, 34);
+            topPanel.TabIndex = 0;
+            // 
+            // logFileLabel
+            // 
+            logFileLabel.AutoSize = true;
+            logFileLabel.Location = new Point(10, 12);
+            logFileLabel.Name = "logFileLabel";
+            logFileLabel.Size = new Size(51, 15);
+            logFileLabel.TabIndex = 0;
+            logFileLabel.Text = "Log File:";
+            // 
+            // _logFileComboBox
+            // 
+            _logFileComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            _logFileComboBox.Location = new Point(80, 8);
+            _logFileComboBox.Name = "_logFileComboBox";
+            _logFileComboBox.Size = new Size(250, 23);
+            _logFileComboBox.TabIndex = 1;
+            // 
+            // logLevelLabel
+            // 
+            logLevelLabel.AutoSize = true;
+            logLevelLabel.Location = new Point(350, 12);
+            logLevelLabel.Name = "logLevelLabel";
+            logLevelLabel.Size = new Size(60, 15);
+            logLevelLabel.TabIndex = 2;
+            logLevelLabel.Text = "Log Level:";
+            // 
+            // _logLevelComboBox
+            // 
+            _logLevelComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            _logLevelComboBox.Items.AddRange(new object[] { "Trace", "Debug", "Info", "Warning", "Error", "Critical", "None" });
+            _logLevelComboBox.Location = new Point(420, 8);
+            _logLevelComboBox.Name = "_logLevelComboBox";
+            _logLevelComboBox.Size = new Size(120, 23);
+            _logLevelComboBox.TabIndex = 3;
+            // 
+            // _autoRefreshCheckBox
+            // 
+            _autoRefreshCheckBox.AutoSize = true;
+            _autoRefreshCheckBox.Checked = true;
+            _autoRefreshCheckBox.CheckState = CheckState.Checked;
+            _autoRefreshCheckBox.Location = new Point(560, 10);
+            _autoRefreshCheckBox.Name = "_autoRefreshCheckBox";
+            _autoRefreshCheckBox.Size = new Size(94, 19);
+            _autoRefreshCheckBox.TabIndex = 4;
+            _autoRefreshCheckBox.Text = "Auto Refresh";
+            // 
+            // _refreshButton
+            // 
+            _refreshButton.Location = new Point(670, 8);
+            _refreshButton.Name = "_refreshButton";
+            _refreshButton.Size = new Size(80, 23);
+            _refreshButton.TabIndex = 5;
+            _refreshButton.Text = "Refresh";
+            // 
+            // _logTextBox
+            // 
+            _logTextBox.BackColor = Color.White;
+            _logTextBox.Dock = DockStyle.Fill;
+            _logTextBox.Font = new Font("Consolas", 9F);
+            _logTextBox.Location = new Point(3, 43);
+            _logTextBox.Multiline = true;
+            _logTextBox.Name = "_logTextBox";
+            _logTextBox.ReadOnly = true;
+            _logTextBox.ScrollBars = ScrollBars.Both;
+            _logTextBox.Size = new Size(930, 499);
+            _logTextBox.TabIndex = 1;
+            _logTextBox.WordWrap = false;
+            // 
+            // bottomPanel
+            // 
+            bottomPanel.Controls.Add(_clearButton);
+            bottomPanel.Controls.Add(_closeButton);
+            bottomPanel.Dock = DockStyle.Fill;
+            bottomPanel.Location = new Point(3, 548);
+            bottomPanel.Name = "bottomPanel";
+            bottomPanel.Size = new Size(930, 34);
+            bottomPanel.TabIndex = 2;
+            // 
+            // _clearButton
+            // 
+            _clearButton.Location = new Point(670, 8);
+            _clearButton.Name = "_clearButton";
+            _clearButton.Size = new Size(80, 23);
+            _clearButton.TabIndex = 0;
+            _clearButton.Text = "Clear";
+            // 
+            // _closeButton
+            // 
+            _closeButton.DialogResult = DialogResult.Cancel;
+            _closeButton.Location = new Point(770, 8);
+            _closeButton.Name = "_closeButton";
+            _closeButton.Size = new Size(80, 23);
+            _closeButton.TabIndex = 1;
+            _closeButton.Text = "Close";
+            // 
+            // LogViewerForm
+            // 
+            CancelButton = _closeButton;
+            ClientSize = new Size(936, 585);
+            Controls.Add(mainPanel);
+            Name = "LogViewerForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Log Viewer";
+            mainPanel.ResumeLayout(false);
+            mainPanel.PerformLayout();
+            topPanel.ResumeLayout(false);
+            topPanel.PerformLayout();
+            bottomPanel.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private TableLayoutPanel mainPanel;
+        private Panel topPanel;
+        private Label logFileLabel;
+        private Label logLevelLabel;
+        private Panel bottomPanel;
     }
 }
