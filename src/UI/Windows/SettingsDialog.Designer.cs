@@ -35,6 +35,9 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             mainLayout = new TableLayoutPanel();
             tabControl = new TabControl();
             databaseTab = new TabPage();
+            databaseSettingsBrowseButton = new Button();
+            databasePathSettings = new TextBox();
+            databaseSettingsLabel = new Label();
             nxTab = new TabPage();
             tcTab = new TabPage();
             buttonPanel = new FlowLayoutPanel();
@@ -42,6 +45,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             okButton = new Button();
             mainLayout.SuspendLayout();
             tabControl.SuspendLayout();
+            databaseTab.SuspendLayout();
             buttonPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -74,6 +78,9 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // 
             // databaseTab
             // 
+            databaseTab.Controls.Add(databaseSettingsBrowseButton);
+            databaseTab.Controls.Add(databasePathSettings);
+            databaseTab.Controls.Add(databaseSettingsLabel);
             databaseTab.Location = new Point(4, 24);
             databaseTab.Name = "databaseTab";
             databaseTab.Padding = new Padding(3);
@@ -82,12 +89,39 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             databaseTab.Text = "Database";
             databaseTab.UseVisualStyleBackColor = true;
             // 
+            // databaseSettingsBrowseButton
+            // 
+            databaseSettingsBrowseButton.Location = new Point(629, 32);
+            databaseSettingsBrowseButton.Name = "databaseSettingsBrowseButton";
+            databaseSettingsBrowseButton.Size = new Size(103, 23);
+            databaseSettingsBrowseButton.TabIndex = 2;
+            databaseSettingsBrowseButton.Text = "Browse...";
+            databaseSettingsBrowseButton.UseVisualStyleBackColor = true;
+            databaseSettingsBrowseButton.Click += OnBrowseClick1;
+            // 
+            // databasePathSettings
+            // 
+            databasePathSettings.Location = new Point(97, 33);
+            databasePathSettings.Name = "databasePathSettings";
+            databasePathSettings.Size = new Size(526, 23);
+            databasePathSettings.TabIndex = 1;
+            databasePathSettings.Tag = "/Settings/Database/Path";
+            // 
+            // databaseSettingsLabel
+            // 
+            databaseSettingsLabel.AutoSize = true;
+            databaseSettingsLabel.Location = new Point(6, 36);
+            databaseSettingsLabel.Name = "databaseSettingsLabel";
+            databaseSettingsLabel.Size = new Size(85, 15);
+            databaseSettingsLabel.TabIndex = 0;
+            databaseSettingsLabel.Text = "Database Path:";
+            // 
             // nxTab
             // 
             nxTab.Location = new Point(4, 24);
             nxTab.Name = "nxTab";
             nxTab.Padding = new Padding(3);
-            nxTab.Size = new Size(598, 408);
+            nxTab.Size = new Size(751, 404);
             nxTab.TabIndex = 1;
             nxTab.Text = "NX";
             nxTab.UseVisualStyleBackColor = true;
@@ -97,7 +131,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             tcTab.Location = new Point(4, 24);
             tcTab.Name = "tcTab";
             tcTab.Padding = new Padding(3);
-            tcTab.Size = new Size(598, 408);
+            tcTab.Size = new Size(751, 404);
             tcTab.TabIndex = 2;
             tcTab.Text = "Teamcenter";
             tcTab.UseVisualStyleBackColor = true;
@@ -149,8 +183,11 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             Name = "SettingsDialog";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Settings";
+            Load += SettingsDialog_Load;
             mainLayout.ResumeLayout(false);
             tabControl.ResumeLayout(false);
+            databaseTab.ResumeLayout(false);
+            databaseTab.PerformLayout();
             buttonPanel.ResumeLayout(false);
             buttonPanel.PerformLayout();
             ResumeLayout(false);
@@ -167,5 +204,8 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         private TabPage nxTab;
         private TabPage tcTab;
         private FlowLayoutPanel buttonPanel;
+        private Label databaseSettingsLabel;
+        private TextBox databasePathSettings;
+        private Button databaseSettingsBrowseButton;
     }
 }

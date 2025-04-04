@@ -36,7 +36,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                 if (control.Tag != null && control.Tag is string xpath)
                 {
                     string value = null;
-                    
+
                     if (control is TextBox textBox)
                     {
                         value = textBox.Text;
@@ -49,7 +49,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                     {
                         value = numericUpDown.Value.ToString();
                     }
-                    
+
                     // Save the setting if we got a value
                     if (value != null)
                     {
@@ -57,7 +57,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                         Console.WriteLine($"Saved setting: {xpath} = {value}");
                     }
                 }
-                
+
                 // Process child controls recursively
                 if (control.Controls.Count > 0)
                 {
@@ -82,36 +82,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             layout.Padding = new Padding(10);
             tab.Controls.Add(layout);
 
-            // Path label
-            Label pathLabel = new Label();
-            pathLabel.Text = "Database Path:";
-            pathLabel.Dock = DockStyle.Fill;
-            pathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            layout.Controls.Add(pathLabel, 0, 0);
-
-            // Path textbox
-            TextBox pathTextBox = new TextBox();
-            pathTextBox.Dock = DockStyle.Fill;
-            pathTextBox.Text = _settingsManager.GetSetting("/Settings/Database/Path");
-            pathTextBox.Tag = "/Settings/Database/Path"; // Store XPath for later use
-            layout.Controls.Add(pathTextBox, 1, 0);
-
-            // Browse button
-            Button browseButton = new Button();
-            browseButton.Text = "Browse...";
-            browseButton.Dock = DockStyle.Fill;
-            browseButton.Click += (sender, e) =>
-            {
-                SaveFileDialog dialog = new SaveFileDialog();
-                dialog.Filter = "SQLite Database (*.db)|*.db";
-                dialog.Title = "Select Database Location";
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    pathTextBox.Text = dialog.FileName;
-                }
-            };
-            layout.Controls.Add(browseButton, 2, 0);
+            
         }
 
         private void CreateNXSettings(TabPage tab)
@@ -260,6 +231,24 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                 // Implement actual connection test here
             };
             layout.Controls.Add(testButton, 1, 4);
+        }
+
+        private void OnBrowseClick1(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "SQLite Database (*.db)|*.db";
+            dialog.Title = "Select Database Location";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                databasePathSettings.Text = dialog.FileName;
+            }
+
+        }
+
+        private void SettingsDialog_Load(object sender, EventArgs e)
+        {
+            databasePathSettings.Text = _settingsManager.GetSetting("/Settings/Database/Path");
         }
     }
 }
