@@ -47,57 +47,92 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-
-            this.Text = "Part Browser";
-            this.Size = new Size(800, 600);
-            this.StartPosition = FormStartPosition.CenterParent;
-            this.FormBorderStyle = FormBorderStyle.Sizable;
-            this.MinimizeBox = true;
-            this.MaximizeBox = true;
-
-            // Create tab control
             _tabControl = new TabControl();
-            _tabControl.Dock = DockStyle.Fill;
-            this.Controls.Add(_tabControl);
-
-            // Create directory management tab
-            _directoryTab = new TabPage("Directory Management");
-            _tabControl.TabPages.Add(_directoryTab);
-            InitializeDirectoryTab();
-
-            // Create parts tab
-            _partsTab = new TabPage("Parts");
-            _tabControl.TabPages.Add(_partsTab);
-            InitializePartsTab();
-
-            // Create duplicates tab
-            _duplicatesTab = new TabPage("Duplicates");
-            _tabControl.TabPages.Add(_duplicatesTab);
-            InitializeDuplicatesTab();
-
-            // Create status bar
+            _directoryTab = new TabPage();
+            _partsTab = new TabPage();
+            _duplicatesTab = new TabPage();
             _statusLabel = new Label();
-            _statusLabel.Dock = DockStyle.Bottom;
-            _statusLabel.Text = "Ready";
-            _statusLabel.Height = 20;
-            this.Controls.Add(_statusLabel);
-
-            // Create progress bar
             _progressBar = new ProgressBar();
-            _progressBar.Dock = DockStyle.Bottom;
-            _progressBar.Visible = false;
-            this.Controls.Add(_progressBar);
-
-            // Create close button
             _closeButton = new Button();
-            _closeButton.Text = "Close";
+            _tabControl.SuspendLayout();
+            SuspendLayout();
+            // 
+            // _tabControl
+            // 
+            _tabControl.Controls.Add(_directoryTab);
+            _tabControl.Controls.Add(_partsTab);
+            _tabControl.Controls.Add(_duplicatesTab);
+            _tabControl.Dock = DockStyle.Fill;
+            _tabControl.Location = new Point(0, 0);
+            _tabControl.Name = "_tabControl";
+            _tabControl.SelectedIndex = 0;
+            _tabControl.Size = new Size(865, 511);
+            _tabControl.TabIndex = 0;
+            // 
+            // _directoryTab
+            // 
+            _directoryTab.Location = new Point(4, 24);
+            _directoryTab.Name = "_directoryTab";
+            _directoryTab.Size = new Size(857, 483);
+            _directoryTab.TabIndex = 0;
+            _directoryTab.Text = "Directory Management";
+            // 
+            // _partsTab
+            // 
+            _partsTab.Location = new Point(4, 24);
+            _partsTab.Name = "_partsTab";
+            _partsTab.Size = new Size(857, 483);
+            _partsTab.TabIndex = 1;
+            _partsTab.Text = "Parts";
+            // 
+            // _duplicatesTab
+            // 
+            _duplicatesTab.Location = new Point(4, 24);
+            _duplicatesTab.Name = "_duplicatesTab";
+            _duplicatesTab.Size = new Size(857, 483);
+            _duplicatesTab.TabIndex = 2;
+            _duplicatesTab.Text = "Duplicates";
+            // 
+            // _statusLabel
+            // 
+            _statusLabel.Dock = DockStyle.Bottom;
+            _statusLabel.Location = new Point(0, 511);
+            _statusLabel.Name = "_statusLabel";
+            _statusLabel.Size = new Size(865, 20);
+            _statusLabel.TabIndex = 1;
+            _statusLabel.Text = "Ready";
+            // 
+            // _progressBar
+            // 
+            _progressBar.Dock = DockStyle.Bottom;
+            _progressBar.Location = new Point(0, 531);
+            _progressBar.Name = "_progressBar";
+            _progressBar.Size = new Size(865, 23);
+            _progressBar.TabIndex = 2;
+            _progressBar.Visible = false;
+            // 
+            // _closeButton
+            // 
             _closeButton.Location = new Point(680, 500);
-            _closeButton.Click += new EventHandler(CloseButton_Click);
-            this.Controls.Add(_closeButton);
-
-            // Set as the form's cancel button
-            this.CancelButton = _closeButton;
+            _closeButton.Name = "_closeButton";
+            _closeButton.Size = new Size(75, 23);
+            _closeButton.TabIndex = 3;
+            _closeButton.Text = "Close";
+            _closeButton.Click += CloseButton_Click;
+            // 
+            // PartBrowser
+            // 
+            CancelButton = _closeButton;
+            ClientSize = new Size(865, 554);
+            Controls.Add(_tabControl);
+            Controls.Add(_statusLabel);
+            Controls.Add(_progressBar);
+            Controls.Add(_closeButton);
+            Name = "PartBrowser";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Part Browser";
+            _tabControl.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)

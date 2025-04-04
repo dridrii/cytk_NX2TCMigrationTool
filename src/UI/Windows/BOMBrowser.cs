@@ -10,49 +10,62 @@ using cytk_NX2TCMigrationTool.src.Core.Database.Repositories;
 using cytk_NX2TCMigrationTool.src.Core.Settings;
 using cytk_NX2TCMigrationTool.src.PLM.NX;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
+using cytk_NX2TCMigrationTool.src.UI.ViewModels;
+using static cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel;
 
 namespace cytk_NX2TCMigrationTool.src.UI.Windows
 {
     public partial class BOMBrowser : Form
     {
-        private readonly PartRepository _partRepository;
-        private readonly BOMRelationshipRepository _bomRepository;
-        private readonly AssemblyStatsRepository _statsRepository;
-        private readonly SettingsManager _settingsManager;
-        private readonly BOMAnalyzerService _bomAnalyzer;
-        private readonly Logger _logger;
+        private BOMBrowserViewModel _viewModel;
+        private Logger _logger;
 
         // Make _analyzeButton public to enable external triggering of analysis
         public Button AnalyzeButton => _analyzeButton;
-
-        // Cache for part data
-        private Dictionary<string, Part> _partsCache = new Dictionary<string, Part>();
-        private Dictionary<string, AssemblyStats> _statsCache = new Dictionary<string, AssemblyStats>();
-        private Dictionary<string, List<BOMRelationship>> _parentChildCache = new Dictionary<string, List<BOMRelationship>>();
 
         // Constructor
         public BOMBrowser(PartRepository partRepository, BOMRelationshipRepository bomRepository,
                           AssemblyStatsRepository statsRepository, SettingsManager settingsManager)
         {
-            // Initialize UI components first (to create the controls)
-            InitializeComponent();
-
-            // Validate parameters
-            _partRepository = partRepository ?? throw new ArgumentNullException(nameof(partRepository));
-            _bomRepository = bomRepository ?? throw new ArgumentNullException(nameof(bomRepository));
-            _statsRepository = statsRepository ?? throw new ArgumentNullException(nameof(statsRepository));
-            _settingsManager = settingsManager ?? throw new ArgumentNullException(nameof(settingsManager));
             _logger = Logger.Instance;
 
-            // Initialize BOM analyzer
-            _bomAnalyzer = new BOMAnalyzerService(_partRepository, _bomRepository, _statsRepository, _settingsManager);
-            _bomAnalyzer.AnalysisProgress += OnAnalysisProgress;
+            // Initialize UI components (this will use the designer-generated method)
+            InitializeComponent();
 
-            // Register form closing handler to clean up event handlers
+            // Create the view model
+            _viewModel = new BOMBrowserViewModel(partRepository, bomRepository, statsRepository, settingsManager);
+            _viewModel.ProgressChanged += ViewModel_ProgressChanged;
+
+            // Register form events
+            this.Load += BOMBrowser_Load;
             this.FormClosing += BOMBrowser_FormClosing;
+        }
 
-            // Initialize data
-            LoadData();
+        #region Form Event Handlers
+
+        /// <summary>
+        /// Initialize the form when it loads
+        /// </summary>
+        private void BOMBrowser_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                // Initialize UI elements
+                InitializeComponentsTab();
+                InitializeHierarchyTab();
+                ConfigureEventHandlers();
+
+                // Load data
+                _viewModel.LoadData();
+                PopulateAssemblyComboBox();
+                LoadHierarchyView();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMBrowser", $"Error initializing form: {ex.Message}");
+                MessageBox.Show($"Error initializing form: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -63,10 +76,8 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             try
             {
                 // Unregister event handlers to prevent memory leaks
-                if (_bomAnalyzer != null)
-                {
-                    _bomAnalyzer.AnalysisProgress -= OnAnalysisProgress;
-                }
+                _viewModel.ProgressChanged -= ViewModel_ProgressChanged;
+                _viewModel.Cleanup();
             }
             catch (Exception ex)
             {
@@ -75,91 +86,129 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         }
 
         /// <summary>
-        /// Loads initial data for the BOM browser
+        /// Handler for ViewModel progress events
         /// </summary>
-        private void LoadData()
+        private void ViewModel_ProgressChanged(object sender, BOMProgressEventArgs e)
         {
+            // Make sure we're on the UI thread
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new EventHandler<BOMProgressEventArgs>(ViewModel_ProgressChanged), sender, e);
+                return;
+            }
+
             try
             {
-                // Show loading message and progress
-                _statusLabel.Text = "Loading data...";
-                _progressBar.Visible = true;
-                _progressBar.Style = ProgressBarStyle.Marquee;
+                // Update status display
+                _statusLabel.Text = e.Message;
+                _progressBar.Visible = e.ShowProgress;
 
-                // Clear existing data
-                _assemblyTreeView.Nodes.Clear();
-                _componentsGrid.Rows.Clear();
-                _topLevelAssemblyComboBox.Items.Clear();
-
-                // Clear caches
-                _partsCache.Clear();
-                _statsCache.Clear();
-                _parentChildCache.Clear();
-
-                // Load parts into cache
-                var allParts = _partRepository.GetAll();
-                foreach (var part in allParts)
+                if (e.ShowProgress)
                 {
-                    _partsCache[part.Id] = part;
-                }
-
-                // Load assembly stats into cache
-                var allStats = _statsRepository.GetAll();
-                foreach (var stats in allStats)
-                {
-                    _statsCache[stats.PartId] = stats;
-                }
-
-                // Populate top-level assembly dropdown
-                var assemblies = _statsCache.Values
-                    .Where(s => s.IsAssembly)
-                    .OrderByDescending(s => s.TotalComponentCount)
-                    .ToList();
-
-                foreach (var assembly in assemblies)
-                {
-                    if (_partsCache.TryGetValue(assembly.PartId, out var part))
+                    _progressBar.Style = e.ProgressStyle;
+                    if (e.ProgressStyle == ProgressBarStyle.Blocks)
                     {
-                        _topLevelAssemblyComboBox.Items.Add(new AssemblyListItem(part, assembly));
+                        _progressBar.Value = e.ProgressValue;
                     }
-                }
-
-                // Load the hierarchy tab data
-                LoadHierarchyView();
-
-                // If there's a top-level assembly, select it
-                if (_topLevelAssemblyComboBox.Items.Count > 0)
-                {
-                    _topLevelAssemblyComboBox.SelectedIndex = 0;
-                }
-                else
-                {
-                    // No assemblies found - clear tree view
-                    _assemblyTreeView.Nodes.Clear();
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error("BOMBrowser", $"Error loading BOM data: {ex.Message}");
-                MessageBox.Show($"Error loading BOM data: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _logger.Error("BOMBrowser", $"Error updating progress UI: {ex.Message}");
             }
-            finally
+        }
+
+        #endregion
+
+        #region UI Initialization
+
+        /// <summary>
+        /// Initialize components tab elements after form creation
+        /// </summary>
+        private void InitializeComponentsTab()
+        {
+            // Configure grid columns
+            ConfigureComponentsGridColumns();
+
+            // Set initial values for checkbox
+            _showDraftingsCheckBox.Checked = true;
+        }
+
+        /// <summary>
+        /// Configure columns for the components grid
+        /// </summary>
+        private void ConfigureComponentsGridColumns()
+        {
+            // Clear existing columns to avoid duplicates
+            _componentsGrid.Columns.Clear();
+
+            // Configure columns for the grid
+            _componentsGrid.Columns.Add("ID", "ID");
+            _componentsGrid.Columns.Add("Name", "Name");
+            _componentsGrid.Columns.Add("Type", "Type");
+            _componentsGrid.Columns.Add("RelationType", "Relation Type");
+            _componentsGrid.Columns.Add("Quantity", "Quantity");
+            _componentsGrid.Columns.Add("InstanceName", "Instance Name");
+            _componentsGrid.Columns.Add("Verified", "Verified");
+        }
+
+        /// <summary>
+        /// Initialize hierarchy tab elements after form creation
+        /// </summary>
+        private void InitializeHierarchyTab()
+        {
+            // Ensure sort method combo box is populated and has a selection
+            if (_sortMethodComboBox.Items.Count == 0)
             {
-                // Hide progress
-                _progressBar.Visible = false;
-                _statusLabel.Text = "Ready";
+                _sortMethodComboBox.Items.AddRange(new object[] {
+                    "Total Component Count (Largest First)",
+                    "Total Component Count (Smallest First)",
+                    "Direct Component Count (Largest First)",
+                    "Direct Component Count (Smallest First)",
+                    "Assembly Depth (Deepest First)",
+                    "Assembly Depth (Shallowest First)",
+                    "Alphabetical (A-Z)",
+                    "Alphabetical (Z-A)"
+                });
+            }
+
+            if (_sortMethodComboBox.SelectedIndex < 0)
+            {
+                _sortMethodComboBox.SelectedIndex = 0;
             }
         }
 
         /// <summary>
-        /// Handles the selection change in the top-level assembly combo box
+        /// Configure event handlers for UI elements
         /// </summary>
+        private void ConfigureEventHandlers()
+        {
+            // Assembly selection
+            _topLevelAssemblyComboBox.SelectedIndexChanged += TopLevelAssemblyComboBox_SelectedIndexChanged;
+
+            // Tree view
+            _assemblyTreeView.AfterSelect += AssemblyTreeView_AfterSelect;
+
+            // Checkbox
+            _showDraftingsCheckBox.CheckedChanged += ShowDraftingsCheckBox_CheckedChanged;
+
+            // Sort method
+            _sortMethodComboBox.SelectedIndexChanged += SortMethodComboBox_SelectedIndexChanged;
+
+            // Buttons
+            _analyzeButton.Click += AnalyzeButton_Click;
+            _closeButton.Click += CloseButton_Click;
+        }
+
+        #endregion
+
+        #region UI Event Handlers
+
         private void TopLevelAssemblyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                if (_topLevelAssemblyComboBox.SelectedItem is AssemblyListItem selectedItem)
+                if (_topLevelAssemblyComboBox.SelectedItem is AssemblyData selectedItem)
                 {
                     LoadAssemblyTree(selectedItem.Part.Id);
                 }
@@ -172,6 +221,175 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             }
         }
 
+        private void AssemblyTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            try
+            {
+                if (e.Node?.Tag is NodeData nodeData)
+                {
+                    LoadComponentDetails(nodeData.PartId);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMBrowser", $"Error handling tree node selection: {ex.Message}");
+            }
+        }
+
+        private void ShowDraftingsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Reload current assembly tree
+                if (_topLevelAssemblyComboBox.SelectedItem is AssemblyData selectedItem)
+                {
+                    LoadAssemblyTree(selectedItem.Part.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMBrowser", $"Error handling show draftings change: {ex.Message}");
+            }
+        }
+
+        private void SortMethodComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadHierarchyView();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMBrowser", $"Error handling sort method change: {ex.Message}");
+            }
+        }
+
+        private async void AnalyzeButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Confirm analysis
+                if (MessageBox.Show("This will analyze all parts in the database for BOM relationships. " +
+                                  "This may take a while. Do you want to continue?", "Confirm Analysis",
+                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                // Disable UI during analysis
+                _analyzeButton.Enabled = false;
+
+                // Run analysis using view model
+                var results = await _viewModel.AnalyzeAllPartsAsync();
+
+                // Show results
+                MessageBox.Show($"Analysis complete!\n\n" +
+                              $"Parts analyzed: {results.AnalyzedParts}\n" +
+                              $"Assemblies found: {results.Assemblies}\n" +
+                              $"Drafting files found: {results.Draftings}\n" +
+                              $"Failed parts: {results.FailedParts}\n" +
+                              $"Invalid parts: {results.InvalidParts}\n" +
+                              $"Errors: {results.Errors.Count}",
+                              "Analysis Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Reload UI after analysis
+                PopulateAssemblyComboBox();
+                LoadHierarchyView();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMBrowser", $"Error analyzing parts: {ex.Message}");
+                MessageBox.Show($"Error analyzing parts: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Re-enable UI
+                _analyzeButton.Enabled = true;
+            }
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void AssemblyLabel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (sender is Label label && label.Tag is string partId)
+                {
+                    // Switch to the Components tab
+                    _tabControl.SelectedTab = _componentTabPage;
+
+                    // Find and select the assembly in the combobox
+                    for (int i = 0; i < _topLevelAssemblyComboBox.Items.Count; i++)
+                    {
+                        if (_topLevelAssemblyComboBox.Items[i] is AssemblyData item &&
+                            item.Part.Id == partId)
+                        {
+                            _topLevelAssemblyComboBox.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMBrowser", $"Error handling assembly label click: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region UI Update Methods
+
+        /// <summary>
+        /// Populates the assembly dropdown with available assemblies
+        /// </summary>
+        private void PopulateAssemblyComboBox()
+        {
+            // Remember selected item
+            object selectedItem = _topLevelAssemblyComboBox.SelectedItem;
+            string selectedId = selectedItem is AssemblyData selectedAssembly ? selectedAssembly.Part.Id : null;
+
+            // Clear and repopulate
+            _topLevelAssemblyComboBox.Items.Clear();
+
+            var assemblies = _viewModel.GetSortedAssemblies();
+            foreach (var assemblyItem in assemblies)
+            {
+                _topLevelAssemblyComboBox.Items.Add(assemblyItem);
+            }
+
+            // Try to reselect previous item or select first item
+            if (!string.IsNullOrEmpty(selectedId))
+            {
+                for (int i = 0; i < _topLevelAssemblyComboBox.Items.Count; i++)
+                {
+                    if (_topLevelAssemblyComboBox.Items[i] is AssemblyData itemAssembly &&
+                        itemAssembly.Part.Id == selectedId)
+                    {
+                        _topLevelAssemblyComboBox.SelectedIndex = i;
+                        return;
+                    }
+                }
+            }
+
+            // If no previous selection or it's not found, select first item
+            if (_topLevelAssemblyComboBox.Items.Count > 0)
+            {
+                _topLevelAssemblyComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                // No assemblies found - clear tree view
+                _assemblyTreeView.Nodes.Clear();
+            }
+        }
+
         /// <summary>
         /// Loads the assembly tree view for a specific assembly
         /// </summary>
@@ -181,13 +399,30 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             {
                 _assemblyTreeView.Nodes.Clear();
 
-                if (!_partsCache.TryGetValue(assemblyId, out var part))
+                // Get components from view model
+                var components = _viewModel.GetAssemblyComponents(assemblyId, true);
+                var rootComponent = components.FirstOrDefault(c => c.Part.Id == assemblyId);
+
+                if (rootComponent == null)
                 {
-                    return;
+                    // Root component might not be in the children, get it directly
+                    var assemblies = _viewModel.GetSortedAssemblies();
+                    rootComponent = assemblies
+                        .Where(a => a.Part.Id == assemblyId)
+                        .Select(a => new ComponentData
+                        {
+                            Part = a.Part,
+                            Stats = a.Stats,
+                            IsAssembly = true
+                        })
+                        .FirstOrDefault();
                 }
 
+                if (rootComponent == null)
+                    return;
+
                 // Create the root node
-                var rootNode = CreateTreeNode(part);
+                var rootNode = CreateTreeNode(rootComponent);
                 _assemblyTreeView.Nodes.Add(rootNode);
 
                 // Populate child nodes recursively
@@ -210,103 +445,71 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         private void PopulateChildNodes(TreeNode parentNode, string assemblyId)
         {
             // Get children for this assembly
-            var children = GetChildRelationships(assemblyId);
             bool showDraftings = _showDraftingsCheckBox.Checked;
+            var components = _viewModel.GetAssemblyComponents(assemblyId, showDraftings);
 
-            foreach (var relationship in children)
+            foreach (var component in components)
             {
-                // Skip drafting relationships if not showing them
-                if (!showDraftings && relationship.RelationType == BOMRelationType.MASTER_MODEL.ToString())
-                {
-                    continue;
-                }
-
-                if (!_partsCache.TryGetValue(relationship.ChildId, out var childPart))
-                {
-                    continue;
-                }
-
                 // Create node for this child
-                var childNode = CreateTreeNode(childPart, relationship);
+                var childNode = CreateTreeNode(component);
                 parentNode.Nodes.Add(childNode);
 
                 // If this child is also an assembly, populate its children
-                if (_statsCache.TryGetValue(childPart.Id, out var stats) && stats.IsAssembly)
+                if (component.IsAssembly)
                 {
-                    PopulateChildNodes(childNode, childPart.Id);
+                    PopulateChildNodes(childNode, component.Part.Id);
                 }
             }
         }
 
         /// <summary>
-        /// Creates a tree node for a part
+        /// Creates a tree node for a component
         /// </summary>
-        private TreeNode CreateTreeNode(Part part, BOMRelationship relationship = null)
+        private TreeNode CreateTreeNode(ComponentData component)
         {
-            string nodeText = part.Name;
+            string nodeText = component.Part.Name;
 
             // Add relationship info if available
-            if (relationship != null)
+            if (component.Relationship != null)
             {
-                if (relationship.Quantity > 1)
+                if (component.Relationship.Quantity > 1)
                 {
-                    nodeText += $" ({relationship.Quantity}x)";
+                    nodeText += $" ({component.Relationship.Quantity}x)";
                 }
 
-                if (relationship.RelationType == BOMRelationType.MASTER_MODEL.ToString())
+                if (component.Relationship.RelationType == BOMRelationType.MASTER_MODEL.ToString())
                 {
                     nodeText += " [Drafting]";
                 }
             }
 
             // Add assembly info if available
-            if (_statsCache.TryGetValue(part.Id, out var stats))
+            if (component.Stats != null)
             {
-                if (stats.IsAssembly)
+                if (component.IsAssembly)
                 {
-                    nodeText += $" - Assembly ({stats.ComponentCount} direct, {stats.TotalComponentCount} total)";
+                    nodeText += $" - Assembly ({component.Stats.ComponentCount} direct, {component.Stats.TotalComponentCount} total)";
                 }
-                else if (stats.IsDrafting)
+                else if (component.IsDrafting)
                 {
                     nodeText += " - Drafting";
                 }
             }
 
             var node = new TreeNode(nodeText);
-            node.Tag = new NodeData { PartId = part.Id, Relationship = relationship };
+            node.Tag = new NodeData { PartId = component.Part.Id, Relationship = component.Relationship };
 
             // Set icon based on part type
-            if (_statsCache.TryGetValue(part.Id, out var nodeStats))
+            if (component.IsDrafting)
             {
-                if (nodeStats.IsDrafting)
-                {
-                    node.ForeColor = Color.Blue;
-                }
-                else if (nodeStats.IsAssembly)
-                {
-                    node.ForeColor = Color.Green;
-                }
+                node.ForeColor = Color.Blue;
+            }
+            else if (component.IsAssembly)
+            {
+                node.ForeColor = Color.Green;
             }
 
             return node;
-        }
-
-        /// <summary>
-        /// Handles the selection of a node in the assembly tree
-        /// </summary>
-        private void AssemblyTreeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            try
-            {
-                if (e.Node?.Tag is NodeData nodeData)
-                {
-                    LoadComponentDetails(nodeData.PartId);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("BOMBrowser", $"Error handling tree node selection: {ex.Message}");
-            }
         }
 
         /// <summary>
@@ -318,45 +521,21 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             {
                 _componentsGrid.Rows.Clear();
 
-                var children = GetChildRelationships(assemblyId);
+                // Get components from view model
                 bool showDraftings = _showDraftingsCheckBox.Checked;
+                var components = _viewModel.GetAssemblyComponents(assemblyId, showDraftings);
 
-                foreach (var relationship in children)
+                foreach (var component in components)
                 {
-                    // Skip drafting relationships if not showing them
-                    if (!showDraftings && relationship.RelationType == BOMRelationType.MASTER_MODEL.ToString())
-                    {
-                        continue;
-                    }
-
-                    if (!_partsCache.TryGetValue(relationship.ChildId, out var childPart))
-                    {
-                        continue;
-                    }
-
-                    // Determine type description
-                    string typeDescription = childPart.Type;
-                    if (_statsCache.TryGetValue(childPart.Id, out var stats))
-                    {
-                        if (stats.IsAssembly)
-                        {
-                            typeDescription = "Assembly";
-                        }
-                        else if (stats.IsDrafting)
-                        {
-                            typeDescription = "Drafting";
-                        }
-                    }
-
                     // Add row to grid
                     _componentsGrid.Rows.Add(
-                        childPart.Id,
-                        childPart.Name,
-                        typeDescription,
-                        relationship.RelationType,
-                        relationship.Quantity,
-                        relationship.InstanceName,
-                        relationship.Verified ? "Yes" : "No"
+                        component.Part.Id,
+                        component.Part.Name,
+                        component.TypeDescription,
+                        component.Relationship.RelationType,
+                        component.Relationship.Quantity,
+                        component.Relationship.InstanceName,
+                        component.Relationship.Verified ? "Yes" : "No"
                     );
                 }
             }
@@ -389,7 +568,8 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                 if (sortMethod < 0) sortMethod = 0; // Default to first option if none selected
 
                 // Get assemblies
-                var assemblies = _statsCache.Values.Where(s => s.IsAssembly).ToList();
+                var assemblies = _viewModel.GetSortedAssemblies(sortMethod);
+
                 if (assemblies.Count == 0)
                 {
                     // No assemblies found
@@ -401,45 +581,10 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                     return;
                 }
 
-                // Apply sorting
-                switch (sortMethod)
-                {
-                    case 0: // Total Component Count (Largest First)
-                        assemblies = assemblies.OrderByDescending(s => s.TotalComponentCount).ToList();
-                        break;
-                    case 1: // Total Component Count (Smallest First)
-                        assemblies = assemblies.OrderBy(s => s.TotalComponentCount).ToList();
-                        break;
-                    case 2: // Direct Component Count (Largest First)
-                        assemblies = assemblies.OrderByDescending(s => s.ComponentCount).ToList();
-                        break;
-                    case 3: // Direct Component Count (Smallest First)
-                        assemblies = assemblies.OrderBy(s => s.ComponentCount).ToList();
-                        break;
-                    case 4: // Assembly Depth (Deepest First)
-                        assemblies = assemblies.OrderByDescending(s => s.AssemblyDepth).ToList();
-                        break;
-                    case 5: // Assembly Depth (Shallowest First)
-                        assemblies = assemblies.OrderBy(s => s.AssemblyDepth).ToList();
-                        break;
-                    case 6: // Alphabetical (A-Z)
-                        assemblies = assemblies
-                            .Where(s => _partsCache.ContainsKey(s.PartId))
-                            .OrderBy(s => _partsCache[s.PartId].Name)
-                            .ToList();
-                        break;
-                    case 7: // Alphabetical (Z-A)
-                        assemblies = assemblies
-                            .Where(s => _partsCache.ContainsKey(s.PartId))
-                            .OrderByDescending(s => _partsCache[s.PartId].Name)
-                            .ToList();
-                        break;
-                }
-
                 // Create the visualization panel
                 Panel visualizationPanel = new Panel();
                 visualizationPanel.Location = new Point(10, 50);
-                visualizationPanel.Size = new Size(960, 525);
+                visualizationPanel.Size = new Size(760, 300);
                 visualizationPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
                 visualizationPanel.AutoScroll = true;
                 _hierarchyPanel.Controls.Add(visualizationPanel);
@@ -456,36 +601,21 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                 int yPos = 30;
                 foreach (var assembly in assemblies)
                 {
-                    if (!_partsCache.TryGetValue(assembly.PartId, out var part))
-                    {
-                        continue;
-                    }
-
                     // Create assembly label
-                    Label assemblyLabel = new Label();
-                    assemblyLabel.Text = $"{part.Name} - {assembly.ComponentCount} direct components, " +
-                                        $"{assembly.TotalComponentCount} total components, " +
-                                        $"Depth: {assembly.AssemblyDepth}";
-                    assemblyLabel.Location = new Point(10, yPos);
-                    assemblyLabel.AutoSize = true;
-                    assemblyLabel.Tag = part.Id;
-                    assemblyLabel.ForeColor = Color.Green;
-                    assemblyLabel.Font = new Font(assemblyLabel.Font, FontStyle.Bold);
-                    assemblyLabel.Cursor = Cursors.Hand;
-                    assemblyLabel.Click += AssemblyLabel_Click;
+                    Label assemblyLabel = CreateAssemblyLabel(assembly, yPos);
                     visualizationPanel.Controls.Add(assemblyLabel);
 
                     // Create bar visualization
-                    int barWidth = Math.Max(1, (int)(Math.Min(assembly.TotalComponentCount, 1000) * 0.5));
+                    int barWidth = Math.Max(1, (int)(Math.Min(assembly.Stats.TotalComponentCount, 1000) * 0.5));
                     Panel barPanel = new Panel();
                     barPanel.Location = new Point(10, yPos + 20);
                     barPanel.Size = new Size(barWidth, 15);
-                    barPanel.BackColor = GetBarColor(assembly);
+                    barPanel.BackColor = _viewModel.GetBarColor(assembly.Stats);
                     visualizationPanel.Controls.Add(barPanel);
 
                     // Create count label next to bar
                     Label countLabel = new Label();
-                    countLabel.Text = assembly.TotalComponentCount.ToString();
+                    countLabel.Text = assembly.Stats.TotalComponentCount.ToString();
                     countLabel.Location = new Point(barWidth + 15, yPos + 20);
                     countLabel.AutoSize = true;
                     visualizationPanel.Controls.Add(countLabel);
@@ -502,197 +632,28 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         }
 
         /// <summary>
-        /// Gets a color for a bar based on assembly size
+        /// Creates an assembly label for the hierarchy view
         /// </summary>
-        private Color GetBarColor(AssemblyStats stats)
+        private Label CreateAssemblyLabel(AssemblyData assembly, int yPos)
         {
-            // Scale from light blue to dark blue based on total component count
-            int maxComponents = 1000; // Cap for display purposes
-            int components = Math.Min(stats.TotalComponentCount, maxComponents);
-            int intensity = (int)(255 * (1 - (double)components / maxComponents));
-            intensity = Math.Max(0, Math.Min(255, intensity)); // Clamp to valid range
+            Label assemblyLabel = new Label();
+            assemblyLabel.Text = $"{assembly.Part.Name} - {assembly.Stats.ComponentCount} direct components, " +
+                               $"{assembly.Stats.TotalComponentCount} total components, " +
+                               $"Depth: {assembly.Stats.AssemblyDepth}";
+            assemblyLabel.Location = new Point(10, yPos);
+            assemblyLabel.AutoSize = true;
+            assemblyLabel.Tag = assembly.Part.Id;
+            assemblyLabel.ForeColor = Color.Green;
+            assemblyLabel.Font = new Font(assemblyLabel.Font, FontStyle.Bold);
+            assemblyLabel.Cursor = Cursors.Hand;
+            assemblyLabel.Click += AssemblyLabel_Click;
 
-            return Color.FromArgb(255, intensity, intensity, 255);
+            return assemblyLabel;
         }
 
-        /// <summary>
-        /// Handles click on an assembly label in the hierarchy view
-        /// </summary>
-        private void AssemblyLabel_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (sender is Label label && label.Tag is string partId)
-                {
-                    // Switch to the Components tab
-                    _tabControl.SelectedTab = _componentTabPage;
+        #endregion
 
-                    // Find and select the assembly in the combobox
-                    for (int i = 0; i < _topLevelAssemblyComboBox.Items.Count; i++)
-                    {
-                        if (_topLevelAssemblyComboBox.Items[i] is AssemblyListItem item && item.Part.Id == partId)
-                        {
-                            _topLevelAssemblyComboBox.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("BOMBrowser", $"Error handling assembly label click: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Handles change to sort method dropdown
-        /// </summary>
-        private void SortMethodComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                LoadHierarchyView();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("BOMBrowser", $"Error handling sort method change: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Handles change to "Show Draftings" checkbox
-        /// </summary>
-        private void ShowDraftingsCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                // Reload current assembly tree
-                if (_topLevelAssemblyComboBox.SelectedItem is AssemblyListItem selectedItem)
-                {
-                    LoadAssemblyTree(selectedItem.Part.Id);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("BOMBrowser", $"Error handling show draftings change: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Handles the Analyze button click
-        /// </summary>
-        private async void AnalyzeButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Confirm analysis
-                if (MessageBox.Show("This will analyze all parts in the database for BOM relationships. " +
-                                  "This may take a while. Do you want to continue?", "Confirm Analysis",
-                                  MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                {
-                    return;
-                }
-
-                // Disable UI during analysis
-                _analyzeButton.Enabled = false;
-                _progressBar.Visible = true;
-                _progressBar.Style = ProgressBarStyle.Marquee;
-                _statusLabel.Text = "Analyzing parts...";
-
-                // Run analysis
-                var results = await _bomAnalyzer.AnalyzeAllPartsAsync();
-
-                // Show results
-                MessageBox.Show($"Analysis complete!\n\n" +
-                              $"Parts analyzed: {results.AnalyzedParts}\n" +
-                              $"Assemblies found: {results.Assemblies}\n" +
-                              $"Drafting files found: {results.Draftings}\n" +
-                              $"Failed parts: {results.FailedParts}\n" +
-                              $"Invalid parts: {results.InvalidParts}\n" +
-                              $"Errors: {results.Errors.Count}",
-                              "Analysis Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Reload data
-                LoadData();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("BOMBrowser", $"Error analyzing parts: {ex.Message}");
-                MessageBox.Show($"Error analyzing parts: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                // Re-enable UI
-                _analyzeButton.Enabled = true;
-                _progressBar.Visible = false;
-                _statusLabel.Text = "Ready";
-            }
-        }
-
-        /// <summary>
-        /// Handles progress updates from the BOM analyzer
-        /// </summary>
-        private void OnAnalysisProgress(object sender, BOMAnalysisProgressEventArgs e)
-        {
-            // Make sure we're on the UI thread
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new EventHandler<BOMAnalysisProgressEventArgs>(OnAnalysisProgress), sender, e);
-                return;
-            }
-
-            try
-            {
-                // Update status
-                _statusLabel.Text = $"{e.Operation} - {e.CurrentItem} ({e.ProgressPercentage:F1}%)";
-
-                // Update progress bar
-                if (_progressBar.Style == ProgressBarStyle.Marquee)
-                {
-                    _progressBar.Style = ProgressBarStyle.Blocks;
-                }
-
-                // Ensure progress value is in valid range (0-100)
-                int progressValue = (int)Math.Max(0, Math.Min(100, e.ProgressPercentage));
-                _progressBar.Value = progressValue;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("BOMBrowser", $"Error updating progress: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Handles close button click
-        /// </summary>
-        private void CloseButton_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
-        /// <summary>
-        /// Gets child relationships for a part, with caching
-        /// </summary>
-        private List<BOMRelationship> GetChildRelationships(string parentId)
-        {
-            try
-            {
-                if (!_parentChildCache.TryGetValue(parentId, out var relationships))
-                {
-                    relationships = _bomRepository.GetByParent(parentId)?.ToList() ?? new List<BOMRelationship>();
-                    _parentChildCache[parentId] = relationships;
-                }
-
-                return relationships;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("BOMBrowser", $"Error getting child relationships: {ex.Message}");
-                return new List<BOMRelationship>();
-            }
-        }
+        #region Helper Classes
 
         /// <summary>
         /// Helper class for tree node data
@@ -703,24 +664,6 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             public BOMRelationship Relationship { get; set; }
         }
 
-        /// <summary>
-        /// Helper class for assembly list items
-        /// </summary>
-        private class AssemblyListItem
-        {
-            public Part Part { get; }
-            public AssemblyStats Stats { get; }
-
-            public AssemblyListItem(Part part, AssemblyStats stats)
-            {
-                Part = part;
-                Stats = stats;
-            }
-
-            public override string ToString()
-            {
-                return $"{Part.Name} ({Stats.ComponentCount} direct, {Stats.TotalComponentCount} total)";
-            }
-        }
+        #endregion
     }
 }

@@ -13,7 +13,6 @@
     <Folder Include="src\Core\Common\Extensions\" />
     <Folder Include="src\UI\Converters\" />
     <Folder Include="src\UI\Resources\" />
-    <Folder Include="src\UI\ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
