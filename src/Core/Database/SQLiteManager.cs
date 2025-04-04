@@ -28,7 +28,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
             }
             else
             {
-                _schemaFilePath = schemaFilePath;
+                _schemaFilePath = schemaFilePath ?? string.Empty;
             }
 
             _logger.Debug("SQLiteManager", $"Database path: {dbPath}");
