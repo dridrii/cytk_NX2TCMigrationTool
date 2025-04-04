@@ -35,6 +35,11 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // Initialize the UI
             InitializeComponent();
 
+            // Initialize tab controls
+            InitializeDirectoryTab();
+            InitializePartsTab();
+            InitializeDuplicatesTab();
+
             // Register event handlers
             _fileScanner.ScanProgress += OnScanProgress;
 

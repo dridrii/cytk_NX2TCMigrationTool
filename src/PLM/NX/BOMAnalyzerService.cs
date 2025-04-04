@@ -152,7 +152,7 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             var startInfo = new ProcessStartInfo
             {
                 FileName = ugpcPath,
-                Arguments = $"-s -n \"{partFilePath}\"", // Use -s for structure and -n for counts
+                Arguments = $"-s4 -n \"{partFilePath}\"", // Use -s for structure and -n for counts
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -387,9 +387,26 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         /// Calculates total component count and maximum depth for an assembly
         /// </summary>
         private (int TotalCount, int MaxDepth) CalculateHierarchyInfo(string assemblyId,
-                                                                    List<BOMRelationship> allRelationships,
-                                                                    List<AssemblyStats> allStats)
+                                                                   List<BOMRelationship> allRelationships,
+                                                                   List<AssemblyStats> allStats,
+                                                                   HashSet<string> processedAssemblies = null)
         {
+            // Initialize the HashSet to track processed assemblies if it hasn't been created yet
+            if (processedAssemblies == null)
+            {
+                processedAssemblies = new HashSet<string>();
+            }
+
+            // Check if we've already processed this assembly to prevent infinite recursion
+            if (processedAssemblies.Contains(assemblyId))
+            {
+                // Return zeros to avoid double-counting in circular references
+                return (0, 0);
+            }
+
+            // Add this assembly to the processed set
+            processedAssemblies.Add(assemblyId);
+
             // Get all direct children
             var directChildren = allRelationships
                 .Where(r => r.ParentId == assemblyId && r.RelationType == BOMRelationType.ASSEMBLY.ToString())
@@ -408,8 +425,8 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 // If the child is also an assembly
                 if (childStats != null && childStats.IsAssembly)
                 {
-                    // Recursively calculate its hierarchy info
-                    var (childTotalCount, childMaxDepth) = CalculateHierarchyInfo(childId, allRelationships, allStats);
+                    // Recursively calculate its hierarchy info, passing the processed set
+                    var (childTotalCount, childMaxDepth) = CalculateHierarchyInfo(childId, allRelationships, allStats, processedAssemblies);
 
                     // Add the child's components to the total count
                     totalCount += childTotalCount;

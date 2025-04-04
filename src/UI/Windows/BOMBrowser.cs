@@ -439,11 +439,28 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             }
         }
 
-        /// <summary>
-        /// Recursively populates child nodes for an assembly
-        /// </summary>
         private void PopulateChildNodes(TreeNode parentNode, string assemblyId)
         {
+            // Add a HashSet to track already processed assemblies
+            HashSet<string> processedAssemblies = new HashSet<string>();
+            PopulateChildNodesInternal(parentNode, assemblyId, processedAssemblies);
+        }
+
+        private void PopulateChildNodesInternal(TreeNode parentNode, string assemblyId, HashSet<string> processedAssemblies)
+        {
+            // Check if we've already processed this assembly to prevent infinite recursion
+            if (processedAssemblies.Contains(assemblyId))
+            {
+                // This assembly has already been processed, so we'll mark it as a circular reference
+                var circularRefNode = new TreeNode("Circular reference detected");
+                circularRefNode.ForeColor = Color.Red;
+                parentNode.Nodes.Add(circularRefNode);
+                return;
+            }
+
+            // Add this assembly to the processed set
+            processedAssemblies.Add(assemblyId);
+
             // Get children for this assembly
             bool showDraftings = _showDraftingsCheckBox.Checked;
             var components = _viewModel.GetAssemblyComponents(assemblyId, showDraftings);
@@ -457,7 +474,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                 // If this child is also an assembly, populate its children
                 if (component.IsAssembly)
                 {
-                    PopulateChildNodes(childNode, component.Part.Id);
+                    PopulateChildNodesInternal(childNode, component.Part.Id, processedAssemblies);
                 }
             }
         }
