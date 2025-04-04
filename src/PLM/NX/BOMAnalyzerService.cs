@@ -254,38 +254,70 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             // Split output into lines
             string[] lines = ugpcOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-            // Process each line
-            int position = 0;
-            foreach (var line in lines)
+            // Skip if lines count is less than 2 (we need at least command result and a response line)
+            if (lines.Length < 2)
             {
-                // Skip header lines or empty lines
+                _logger.Debug("BOMAnalyzer", $"Unexpected output format from ugpc.exe for part {parentPart.Name}");
+                return relationships;
+            }
+
+            // Check if the part has no assembly structure
+            // Based on the screenshot, the "no assembly structure" message appears on the second line
+            if (lines.Length >= 2 && lines[1].Contains("has no assembly structure"))
+            {
+                _logger.Debug("BOMAnalyzer", $"Part {parentPart.Name} has no assembly structure");
+                return relationships; // Return empty list since this isn't an assembly
+            }
+
+            // First line after the command is the part path, so we start from the second line (index 1)
+            int position = 0;
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string line = lines[i];
+
+                // Skip lines that are empty, contain notes, or are the part itself
                 if (string.IsNullOrWhiteSpace(line) ||
-                    line.Contains("components found") ||
-                    line.Contains("Component Listing"))
+                    line.StartsWith("Note:") ||
+                    !line.Contains(" x ")) // Components are displayed with quantity as "x N"
                 {
                     continue;
                 }
 
-                // Extract the component's file path
-                // Look for indentation indicating structure
-                string filePath = line.Trim();
+                // Parse the component line
+                // Format: <path/filename> x <quantity>
+                string[] parts = line.Trim().Split(new[] { " x " }, StringSplitOptions.None);
+                if (parts.Length != 2)
+                {
+                    _logger.Warning("BOMAnalyzer", $"Unexpected line format in ugpc output: {line}");
+                    continue;
+                }
+
+                string componentPath = parts[0].Trim();
+                string componentFileName = Path.GetFileName(componentPath);
+                int quantity;
+                if (!int.TryParse(parts[1].Trim(), out quantity))
+                {
+                    quantity = 1; // Default to 1 if parsing fails
+                }
+
+                // Count indentation to determine level in assembly hierarchy
                 int indentationLevel = CountIndentation(line);
 
-                // The first level (indentation 0) is the parent part itself, which we skip
-                if (indentationLevel == 0 && filePath == Path.GetFileName(parentPart.FilePath))
+                // Only process direct children of the parent
+                // Note: First-level components have indentation (usually 4 spaces)
+                if (indentationLevel != 4) // Adjust this based on your actual output
                 {
                     continue;
                 }
 
                 // Look up the child part in the database
-                string childFileName = Path.GetFileName(filePath);
                 var childParts = _partRepository.GetAll()
-                    .Where(p => p.FileName != null && p.FileName.Equals(childFileName, StringComparison.OrdinalIgnoreCase))
+                    .Where(p => p.FileName != null && p.FileName.Equals(componentFileName, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
                 if (childParts.Count == 0)
                 {
-                    _logger.Warning("BOMAnalyzer", $"Child part not found in database: {childFileName}");
+                    _logger.Warning("BOMAnalyzer", $"Child part not found in database: {componentFileName}");
                     continue;
                 }
 
@@ -301,18 +333,17 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                     RelationType = BOMRelationType.ASSEMBLY.ToString(),
                     InstanceName = $"Instance_{position + 1}",
                     Position = position++,
-                    Quantity = 1, // Default to 1, ugpc doesn't provide quantity info
+                    Quantity = quantity,
                     Verified = true,
                     LastUpdated = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                 };
 
                 relationships.Add(relationship);
-                _logger.Trace("BOMAnalyzer", $"Found relationship: {parentPart.Name} -> {childPart.Name}");
+                _logger.Trace("BOMAnalyzer", $"Found relationship: {parentPart.Name} -> {childPart.Name} (Qty: {quantity})");
             }
 
             return relationships;
         }
-
         /// <summary>
         /// Calculates assembly statistics based on BOM relationships
         /// </summary>
@@ -321,6 +352,7 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             var stats = new AssemblyStats
             {
                 PartId = part.Id,
+                // This is the key line - only mark as assembly if it has child relationships
                 IsAssembly = directRelationships.Count > 0,
                 ComponentCount = directRelationships.Count,
                 LastAnalyzed = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
