@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cytk_NX2TCMigrationTool", "cytk_NX2TCMigrationTool.csproj", "{24FACE93-1325-436F-93F9-13B5F248A74F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cytk_NX2TCMigrationTool", "src\cytk_NX2TCMigrationTool.csproj", "{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{24FACE93-1325-436F-93F9-13B5F248A74F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24FACE93-1325-436F-93F9-13B5F248A74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24FACE93-1325-436F-93F9-13B5F248A74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24FACE93-1325-436F-93F9-13B5F248A74F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

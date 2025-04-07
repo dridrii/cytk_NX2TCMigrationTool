@@ -1,0 +1,92 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.UI.ViewModels
+  commentId: N:cytk_NX2TCMigrationTool.src.UI.ViewModels
+  id: cytk_NX2TCMigrationTool.src.UI.ViewModels
+  children:
+  - cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+  - cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData
+  - cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs
+  - cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.UI.ViewModels
+  nameWithType: cytk_NX2TCMigrationTool.src.UI.ViewModels
+  fullName: cytk_NX2TCMigrationTool.src.UI.ViewModels
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+  href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  name: BOMBrowserViewModel
+  nameWithType: BOMBrowserViewModel
+  fullName: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+- uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData
+  href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  name: BOMBrowserViewModel.AssemblyData
+  nameWithType: BOMBrowserViewModel.AssemblyData
+  fullName: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+    name: BOMBrowserViewModel
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData
+    name: AssemblyData
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+    name: BOMBrowserViewModel
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData
+    name: AssemblyData
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData.html
+- uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData
+  href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  name: BOMBrowserViewModel.ComponentData
+  nameWithType: BOMBrowserViewModel.ComponentData
+  fullName: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+    name: BOMBrowserViewModel
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData
+    name: ComponentData
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+    name: BOMBrowserViewModel
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData
+    name: ComponentData
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData.html
+- uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs
+  href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  name: BOMBrowserViewModel.BOMProgressEventArgs
+  nameWithType: BOMBrowserViewModel.BOMProgressEventArgs
+  fullName: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+    name: BOMBrowserViewModel
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs
+    name: BOMProgressEventArgs
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+    name: BOMBrowserViewModel
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs
+    name: BOMProgressEventArgs
+    href: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs.html

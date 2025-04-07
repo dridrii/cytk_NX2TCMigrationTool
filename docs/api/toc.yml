@@ -1,0 +1,159 @@
+### YamlMime:TableOfContent
+items:
+- uid: cytk_NX2TCMigrationTool
+  name: cytk_NX2TCMigrationTool
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.cytk_nx2tcmigtool_form1
+    name: cytk_nx2tcmigtool_form1
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  name: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.FileUtils
+    name: FileUtils
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+    name: LogLevel
+    type: Enum
+  - uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.Logger
+    name: Logger
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.Core.Database
+  name: cytk_NX2TCMigrationTool.src.Core.Database
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.DatabaseMigrator
+    name: DatabaseMigrator
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.SQLiteManager
+    name: SQLiteManager
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.AssemblyStats
+    name: AssemblyStats
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+    name: BOMRelationType
+    type: Enum
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationship
+    name: BOMRelationship
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.Part
+    name: Part
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+    name: AssemblyStatsRepository
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+    name: BOMRelationshipRepository
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+    name: IDataRepository<T>
+    type: Interface
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+    name: PartRepository
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings
+  name: cytk_NX2TCMigrationTool.src.Core.Settings
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+    name: SettingsManager
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  name: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs.PartDTO
+    name: PartDTO
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  name: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMConnection
+    name: IPLMConnection
+    type: Interface
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMPartManager
+    name: IPLMPartManager
+    type: Interface
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX
+  name: cytk_NX2TCMigrationTool.src.PLM.NX
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs
+    name: BOMAnalysisProgressEventArgs
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+    name: BOMAnalyzerService
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+    name: BOMAnalyzerService.AnalysisResults
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+    name: FileScanProgressEventArgs
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXConnection
+    name: NXConnection
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+    name: NXFileScanner
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+    name: NXFileScanner.ScanResults
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXPartManager
+    name: NXPartManager
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  name: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCConnection
+    name: TCConnection
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCPartManager
+    name: TCPartManager
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.UI.ViewModels
+  name: cytk_NX2TCMigrationTool.src.UI.ViewModels
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel
+    name: BOMBrowserViewModel
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.AssemblyData
+    name: BOMBrowserViewModel.AssemblyData
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.BOMProgressEventArgs
+    name: BOMBrowserViewModel.BOMProgressEventArgs
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel.ComponentData
+    name: BOMBrowserViewModel.ComponentData
+    type: Class
+- uid: cytk_NX2TCMigrationTool.src.UI.Windows
+  name: cytk_NX2TCMigrationTool.src.UI.Windows
+  type: Namespace
+  items:
+  - uid: cytk_NX2TCMigrationTool.src.UI.Windows.BOMBrowser
+    name: BOMBrowser
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.UI.Windows.LogViewerForm
+    name: LogViewerForm
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.UI.Windows.PartBrowser
+    name: PartBrowser
+    type: Class
+  - uid: cytk_NX2TCMigrationTool.src.UI.Windows.SettingsDialog
+    name: SettingsDialog
+    type: Class
+memberLayout: SamePage

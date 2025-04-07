@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  id: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  children:
+  - cytk_NX2TCMigrationTool.src.PLM.Common.DTOs.PartDTO
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs.PartDTO
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.Common.DTOs.PartDTO
+  href: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs.PartDTO.html
+  name: PartDTO
+  nameWithType: PartDTO
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Common.DTOs.PartDTO

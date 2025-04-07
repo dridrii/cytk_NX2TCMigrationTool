@@ -1,0 +1,138 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+  id: BOMRelationType
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  children:
+  - cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.ASSEMBLY
+  - cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.MASTER_MODEL
+  langs:
+  - csharp
+  - vb
+  name: BOMRelationType
+  nameWithType: BOMRelationType
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+  type: Enum
+  source:
+    remote:
+      path: src/Core/Database/Models/BOMRelationship.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: BOMRelationType
+    path: ../src/Core/Database/Models/BOMRelationship.cs
+    startLine: 7
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  summary: Represents the relationship types in the BOM structure
+  example: []
+  syntax:
+    content: public enum BOMRelationType
+    content.vb: Public Enum BOMRelationType
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.ASSEMBLY
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.ASSEMBLY
+  id: ASSEMBLY
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+  langs:
+  - csharp
+  - vb
+  name: ASSEMBLY
+  nameWithType: BOMRelationType.ASSEMBLY
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.ASSEMBLY
+  type: Field
+  source:
+    remote:
+      path: src/Core/Database/Models/BOMRelationship.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: ASSEMBLY
+    path: ../src/Core/Database/Models/BOMRelationship.cs
+    startLine: 9
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  syntax:
+    content: ASSEMBLY = 0
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.MASTER_MODEL
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.MASTER_MODEL
+  id: MASTER_MODEL
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+  langs:
+  - csharp
+  - vb
+  name: MASTER_MODEL
+  nameWithType: BOMRelationType.MASTER_MODEL
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.MASTER_MODEL
+  type: Field
+  source:
+    remote:
+      path: src/Core/Database/Models/BOMRelationship.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: MASTER_MODEL
+    path: ../src/Core/Database/Models/BOMRelationship.cs
+    startLine: 10
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  syntax:
+    content: MASTER_MODEL = 1
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+references:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database.Models
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models
+    name: Models
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Models.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models
+    name: Models
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Models.html
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType.html
+  name: BOMRelationType
+  nameWithType: BOMRelationType
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Models.BOMRelationType

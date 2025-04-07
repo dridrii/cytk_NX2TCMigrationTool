@@ -1,0 +1,44 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.UI.Windows
+  commentId: N:cytk_NX2TCMigrationTool.src.UI.Windows
+  id: cytk_NX2TCMigrationTool.src.UI.Windows
+  children:
+  - cytk_NX2TCMigrationTool.src.UI.Windows.BOMBrowser
+  - cytk_NX2TCMigrationTool.src.UI.Windows.LogViewerForm
+  - cytk_NX2TCMigrationTool.src.UI.Windows.PartBrowser
+  - cytk_NX2TCMigrationTool.src.UI.Windows.SettingsDialog
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.UI.Windows
+  nameWithType: cytk_NX2TCMigrationTool.src.UI.Windows
+  fullName: cytk_NX2TCMigrationTool.src.UI.Windows
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.UI.Windows.BOMBrowser
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.Windows.BOMBrowser
+  href: cytk_NX2TCMigrationTool.src.UI.Windows.BOMBrowser.html
+  name: BOMBrowser
+  nameWithType: BOMBrowser
+  fullName: cytk_NX2TCMigrationTool.src.UI.Windows.BOMBrowser
+- uid: cytk_NX2TCMigrationTool.src.UI.Windows.LogViewerForm
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.Windows.LogViewerForm
+  href: cytk_NX2TCMigrationTool.src.UI.Windows.LogViewerForm.html
+  name: LogViewerForm
+  nameWithType: LogViewerForm
+  fullName: cytk_NX2TCMigrationTool.src.UI.Windows.LogViewerForm
+- uid: cytk_NX2TCMigrationTool.src.UI.Windows.PartBrowser
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.Windows.PartBrowser
+  href: cytk_NX2TCMigrationTool.src.UI.Windows.PartBrowser.html
+  name: PartBrowser
+  nameWithType: PartBrowser
+  fullName: cytk_NX2TCMigrationTool.src.UI.Windows.PartBrowser
+- uid: cytk_NX2TCMigrationTool.src.UI.Windows.SettingsDialog
+  commentId: T:cytk_NX2TCMigrationTool.src.UI.Windows.SettingsDialog
+  href: cytk_NX2TCMigrationTool.src.UI.Windows.SettingsDialog.html
+  name: SettingsDialog
+  nameWithType: SettingsDialog
+  fullName: cytk_NX2TCMigrationTool.src.UI.Windows.SettingsDialog

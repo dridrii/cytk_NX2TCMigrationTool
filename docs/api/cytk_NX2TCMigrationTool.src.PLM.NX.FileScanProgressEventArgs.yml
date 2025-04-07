@@ -1,0 +1,546 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  id: FileScanProgressEventArgs
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX
+  children:
+  - cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile
+  - cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber
+  - cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation
+  - cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress
+  - cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles
+  langs:
+  - csharp
+  - vb
+  name: FileScanProgressEventArgs
+  nameWithType: FileScanProgressEventArgs
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  type: Class
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: FileScanProgressEventArgs
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 278
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Event arguments for file scan progress reporting
+  example: []
+  syntax:
+    content: 'public class FileScanProgressEventArgs : EventArgs'
+    content.vb: Public Class FileScanProgressEventArgs Inherits EventArgs
+  inheritance:
+  - System.Object
+  - System.EventArgs
+  inheritedMembers:
+  - System.EventArgs.Empty
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation
+  commentId: P:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation
+  id: CurrentOperation
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  langs:
+  - csharp
+  - vb
+  name: CurrentOperation
+  nameWithType: FileScanProgressEventArgs.CurrentOperation
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation
+  type: Property
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: CurrentOperation
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 283
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Description of the current operation
+  example: []
+  syntax:
+    content: public string CurrentOperation { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CurrentOperation As String
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation*
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress
+  commentId: P:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress
+  id: OverallProgress
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  langs:
+  - csharp
+  - vb
+  name: OverallProgress
+  nameWithType: FileScanProgressEventArgs.OverallProgress
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress
+  type: Property
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: OverallProgress
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 288
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Overall progress percentage (0-100)
+  example: []
+  syntax:
+    content: public int OverallProgress { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property OverallProgress As Integer
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress*
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile
+  commentId: P:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile
+  id: CurrentFile
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  langs:
+  - csharp
+  - vb
+  name: CurrentFile
+  nameWithType: FileScanProgressEventArgs.CurrentFile
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile
+  type: Property
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: CurrentFile
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 293
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Path to the current file being processed
+  example: []
+  syntax:
+    content: public string CurrentFile { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CurrentFile As String
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile*
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles
+  commentId: P:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles
+  id: TotalFiles
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  langs:
+  - csharp
+  - vb
+  name: TotalFiles
+  nameWithType: FileScanProgressEventArgs.TotalFiles
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles
+  type: Property
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: TotalFiles
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 298
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Total number of files to process
+  example: []
+  syntax:
+    content: public int TotalFiles { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TotalFiles As Integer
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles*
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber
+  commentId: P:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber
+  id: CurrentFileNumber
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  langs:
+  - csharp
+  - vb
+  name: CurrentFileNumber
+  nameWithType: FileScanProgressEventArgs.CurrentFileNumber
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber
+  type: Property
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: CurrentFileNumber
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 303
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Current file number being processed
+  example: []
+  syntax:
+    content: public int CurrentFileNumber { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property CurrentFileNumber As Integer
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber*
+references:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.NX
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.PLM.NX
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.NX
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.EventArgs
+  commentId: T:System.EventArgs
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.eventargs
+  name: EventArgs
+  nameWithType: EventArgs
+  fullName: System.EventArgs
+- uid: System.EventArgs.Empty
+  commentId: F:System.EventArgs.Empty
+  parent: System.EventArgs
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.eventargs.empty
+  name: Empty
+  nameWithType: EventArgs.Empty
+  fullName: System.EventArgs.Empty
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html#cytk_NX2TCMigrationTool_src_PLM_NX_FileScanProgressEventArgs_CurrentOperation
+  name: CurrentOperation
+  nameWithType: FileScanProgressEventArgs.CurrentOperation
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentOperation
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html#cytk_NX2TCMigrationTool_src_PLM_NX_FileScanProgressEventArgs_OverallProgress
+  name: OverallProgress
+  nameWithType: FileScanProgressEventArgs.OverallProgress
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.OverallProgress
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html#cytk_NX2TCMigrationTool_src_PLM_NX_FileScanProgressEventArgs_CurrentFile
+  name: CurrentFile
+  nameWithType: FileScanProgressEventArgs.CurrentFile
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFile
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html#cytk_NX2TCMigrationTool_src_PLM_NX_FileScanProgressEventArgs_TotalFiles
+  name: TotalFiles
+  nameWithType: FileScanProgressEventArgs.TotalFiles
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.TotalFiles
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html#cytk_NX2TCMigrationTool_src_PLM_NX_FileScanProgressEventArgs_CurrentFileNumber
+  name: CurrentFileNumber
+  nameWithType: FileScanProgressEventArgs.CurrentFileNumber
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.CurrentFileNumber

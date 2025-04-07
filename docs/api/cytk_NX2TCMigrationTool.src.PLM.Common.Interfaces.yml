@@ -1,0 +1,77 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  id: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  children:
+  - cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMConnection
+  - cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMPartManager
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMConnection
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMConnection
+  href: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMConnection.html
+  name: IPLMConnection
+  nameWithType: IPLMConnection
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMConnection
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMPartManager
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMPartManager
+  parent: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  href: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMPartManager.html
+  name: IPLMPartManager
+  nameWithType: IPLMPartManager
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.IPLMPartManager
+- uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Common
+    name: Common
+    href: cytk_NX2TCMigrationTool.src.PLM.Common.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+    name: Interfaces
+    href: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Common
+    name: Common
+    href: cytk_NX2TCMigrationTool.src.PLM.Common.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces
+    name: Interfaces
+    href: cytk_NX2TCMigrationTool.src.PLM.Common.Interfaces.html

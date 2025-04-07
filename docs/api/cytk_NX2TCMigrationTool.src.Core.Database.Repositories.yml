@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  id: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  children:
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository.html
+  name: AssemblyStatsRepository
+  nameWithType: AssemblyStatsRepository
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository.html
+  name: BOMRelationshipRepository
+  nameWithType: BOMRelationshipRepository
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html
+  name: IDataRepository<T>
+  nameWithType: IDataRepository<T>
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>
+  nameWithType.vb: IDataRepository(Of T)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T)
+  name.vb: IDataRepository(Of T)
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+    name: IDataRepository
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+    name: IDataRepository
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository.html
+  name: PartRepository
+  nameWithType: PartRepository
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html

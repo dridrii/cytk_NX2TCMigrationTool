@@ -1,0 +1,405 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  id: IDataRepository`1
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  children:
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Add(`0)
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Delete(System.String)
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetAll
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetById(System.String)
+  - cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Update(`0)
+  langs:
+  - csharp
+  - vb
+  name: IDataRepository<T>
+  nameWithType: IDataRepository<T>
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>
+  type: Interface
+  source:
+    remote:
+      path: src/Core/Database/Repositories/IDataRepositoryContent.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: IDataRepository
+    path: ../src/Core/Database/Repositories/IDataRepositoryContent.cs
+    startLine: 5
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  syntax:
+    content: 'public interface IDataRepository<T> where T : class'
+    typeParameters:
+    - id: T
+    content.vb: Public Interface IDataRepository(Of T As Class)
+  nameWithType.vb: IDataRepository(Of T)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T)
+  name.vb: IDataRepository(Of T)
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetById(System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetById(System.String)
+  id: GetById(System.String)
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  langs:
+  - csharp
+  - vb
+  name: GetById(string)
+  nameWithType: IDataRepository<T>.GetById(string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.GetById(string)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Database/Repositories/IDataRepositoryContent.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: GetById
+    path: ../src/Core/Database/Repositories/IDataRepositoryContent.cs
+    startLine: 7
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  syntax:
+    content: T GetById(string id)
+    parameters:
+    - id: id
+      type: System.String
+    return:
+      type: '{T}'
+    content.vb: Function GetById(id As String) As T
+  overload: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetById*
+  nameWithType.vb: IDataRepository(Of T).GetById(String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).GetById(String)
+  name.vb: GetById(String)
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetAll
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetAll
+  id: GetAll
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  langs:
+  - csharp
+  - vb
+  name: GetAll()
+  nameWithType: IDataRepository<T>.GetAll()
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.GetAll()
+  type: Method
+  source:
+    remote:
+      path: src/Core/Database/Repositories/IDataRepositoryContent.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: GetAll
+    path: ../src/Core/Database/Repositories/IDataRepositoryContent.cs
+    startLine: 8
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  syntax:
+    content: IEnumerable<T> GetAll()
+    return:
+      type: System.Collections.Generic.IEnumerable{{T}}
+    content.vb: Function GetAll() As IEnumerable(Of T)
+  overload: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetAll*
+  nameWithType.vb: IDataRepository(Of T).GetAll()
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).GetAll()
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Add(`0)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Add(`0)
+  id: Add(`0)
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  langs:
+  - csharp
+  - vb
+  name: Add(T)
+  nameWithType: IDataRepository<T>.Add(T)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.Add(T)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Database/Repositories/IDataRepositoryContent.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Add
+    path: ../src/Core/Database/Repositories/IDataRepositoryContent.cs
+    startLine: 9
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  syntax:
+    content: void Add(T entity)
+    parameters:
+    - id: entity
+      type: '{T}'
+    content.vb: Sub Add(entity As T)
+  overload: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Add*
+  nameWithType.vb: IDataRepository(Of T).Add(T)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).Add(T)
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Update(`0)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Update(`0)
+  id: Update(`0)
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  langs:
+  - csharp
+  - vb
+  name: Update(T)
+  nameWithType: IDataRepository<T>.Update(T)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.Update(T)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Database/Repositories/IDataRepositoryContent.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Update
+    path: ../src/Core/Database/Repositories/IDataRepositoryContent.cs
+    startLine: 10
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  syntax:
+    content: void Update(T entity)
+    parameters:
+    - id: entity
+      type: '{T}'
+    content.vb: Sub Update(entity As T)
+  overload: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Update*
+  nameWithType.vb: IDataRepository(Of T).Update(T)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).Update(T)
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Delete(System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Delete(System.String)
+  id: Delete(System.String)
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1
+  langs:
+  - csharp
+  - vb
+  name: Delete(string)
+  nameWithType: IDataRepository<T>.Delete(string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.Delete(string)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Database/Repositories/IDataRepositoryContent.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Delete
+    path: ../src/Core/Database/Repositories/IDataRepositoryContent.cs
+    startLine: 11
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  syntax:
+    content: void Delete(string id)
+    parameters:
+    - id: id
+      type: System.String
+    content.vb: Sub Delete(id As String)
+  overload: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Delete*
+  nameWithType.vb: IDataRepository(Of T).Delete(String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).Delete(String)
+  name.vb: Delete(String)
+references:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetById*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetById
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html#cytk_NX2TCMigrationTool_src_Core_Database_Repositories_IDataRepository_1_GetById_System_String_
+  name: GetById
+  nameWithType: IDataRepository<T>.GetById
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.GetById
+  nameWithType.vb: IDataRepository(Of T).GetById
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).GetById
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetAll*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.GetAll
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html#cytk_NX2TCMigrationTool_src_Core_Database_Repositories_IDataRepository_1_GetAll
+  name: GetAll
+  nameWithType: IDataRepository<T>.GetAll
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.GetAll
+  nameWithType.vb: IDataRepository(Of T).GetAll
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).GetAll
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Add*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Add
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html#cytk_NX2TCMigrationTool_src_Core_Database_Repositories_IDataRepository_1_Add__0_
+  name: Add
+  nameWithType: IDataRepository<T>.Add
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.Add
+  nameWithType.vb: IDataRepository(Of T).Add
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).Add
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Update*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Update
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html#cytk_NX2TCMigrationTool_src_Core_Database_Repositories_IDataRepository_1_Update__0_
+  name: Update
+  nameWithType: IDataRepository<T>.Update
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.Update
+  nameWithType.vb: IDataRepository(Of T).Update
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).Update
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Delete*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository`1.Delete
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository-1.html#cytk_NX2TCMigrationTool_src_Core_Database_Repositories_IDataRepository_1_Delete_System_String_
+  name: Delete
+  nameWithType: IDataRepository<T>.Delete
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository<T>.Delete
+  nameWithType.vb: IDataRepository(Of T).Delete
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.IDataRepository(Of T).Delete

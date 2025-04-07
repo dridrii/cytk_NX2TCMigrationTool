@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database
+  id: cytk_NX2TCMigrationTool.src.Core.Database
+  children:
+  - cytk_NX2TCMigrationTool.src.Core.Database.DatabaseMigrator
+  - cytk_NX2TCMigrationTool.src.Core.Database.SQLiteManager
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.Core.Database
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.DatabaseMigrator
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.DatabaseMigrator
+  href: cytk_NX2TCMigrationTool.src.Core.Database.DatabaseMigrator.html
+  name: DatabaseMigrator
+  nameWithType: DatabaseMigrator
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.DatabaseMigrator
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.SQLiteManager
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.SQLiteManager
+  href: cytk_NX2TCMigrationTool.src.Core.Database.SQLiteManager.html
+  name: SQLiteManager
+  nameWithType: SQLiteManager
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.SQLiteManager

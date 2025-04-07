@@ -1,0 +1,745 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  id: NXFileScanner
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX
+  children:
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync(System.String)
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanProgress
+  langs:
+  - csharp
+  - vb
+  name: NXFileScanner
+  nameWithType: NXFileScanner
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  type: Class
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: NXFileScanner
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 11
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  syntax:
+    content: public class NXFileScanner
+    content.vb: Public Class NXFileScanner
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanProgress
+  commentId: E:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanProgress
+  id: ScanProgress
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  langs:
+  - csharp
+  - vb
+  name: ScanProgress
+  nameWithType: NXFileScanner.ScanProgress
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanProgress
+  type: Event
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: ScanProgress
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 19
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  syntax:
+    content: public event EventHandler<FileScanProgressEventArgs> ScanProgress
+    return:
+      type: System.EventHandler{cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs}
+    content.vb: Public Event ScanProgress As EventHandler(Of FileScanProgressEventArgs)
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  commentId: M:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  id: '#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)'
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  langs:
+  - csharp
+  - vb
+  name: NXFileScanner(PartRepository, SettingsManager)
+  nameWithType: NXFileScanner.NXFileScanner(PartRepository, SettingsManager)
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.NXFileScanner(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository, cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  type: Constructor
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: .ctor
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 21
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  syntax:
+    content: public NXFileScanner(PartRepository partRepository, SettingsManager settingsManager)
+    parameters:
+    - id: partRepository
+      type: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+    - id: settingsManager
+      type: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+    content.vb: Public Sub New(partRepository As PartRepository, settingsManager As SettingsManager)
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.#ctor*
+  nameWithType.vb: NXFileScanner.New(PartRepository, SettingsManager)
+  fullName.vb: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.New(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository, cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  name.vb: New(PartRepository, SettingsManager)
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync
+  commentId: M:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync
+  id: ScanAllRootDirectoriesAsync
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  langs:
+  - csharp
+  - vb
+  name: ScanAllRootDirectoriesAsync()
+  nameWithType: NXFileScanner.ScanAllRootDirectoriesAsync()
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync()
+  type: Method
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: ScanAllRootDirectoriesAsync
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 37
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Scans all configured root directories for NX part files and adds them to the database
+  example: []
+  syntax:
+    content: public Task<NXFileScanner.ScanResults> ScanAllRootDirectoriesAsync()
+    return:
+      type: System.Threading.Tasks.Task{cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults}
+      description: Number of files scanned and added
+    content.vb: Public Function ScanAllRootDirectoriesAsync() As Task(Of NXFileScanner.ScanResults)
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync*
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync(System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync(System.String)
+  id: ScanDirectoryAsync(System.String)
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  langs:
+  - csharp
+  - vb
+  name: ScanDirectoryAsync(string)
+  nameWithType: NXFileScanner.ScanDirectoryAsync(string)
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/PLM/NX/NXFileScanner.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: ScanDirectoryAsync
+    path: ../src/PLM/NX/NXFileScanner.cs
+    startLine: 103
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Scans a single directory for NX part files and adds them to the database
+  example: []
+  syntax:
+    content: public Task<NXFileScanner.ScanResults> ScanDirectoryAsync(string rootDir)
+    parameters:
+    - id: rootDir
+      type: System.String
+      description: Directory to scan
+    return:
+      type: System.Threading.Tasks.Task{cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults}
+      description: Results of the scan
+    content.vb: Public Function ScanDirectoryAsync(rootDir As String) As Task(Of NXFileScanner.ScanResults)
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync*
+  nameWithType.vb: NXFileScanner.ScanDirectoryAsync(String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync(String)
+  name.vb: ScanDirectoryAsync(String)
+references:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.NX
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.PLM.NX
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.NX
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.EventHandler{cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs}
+  commentId: T:System.EventHandler{cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs}
+  parent: System
+  definition: System.EventHandler`1
+  href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  name: EventHandler<FileScanProgressEventArgs>
+  nameWithType: EventHandler<FileScanProgressEventArgs>
+  fullName: System.EventHandler<cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs>
+  nameWithType.vb: EventHandler(Of FileScanProgressEventArgs)
+  fullName.vb: System.EventHandler(Of cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs)
+  name.vb: EventHandler(Of FileScanProgressEventArgs)
+  spec.csharp:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: <
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+    name: FileScanProgressEventArgs
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html
+  - name: '>'
+  spec.vb:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+    name: FileScanProgressEventArgs
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html
+  - name: )
+- uid: System.EventHandler`1
+  commentId: T:System.EventHandler`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  name: EventHandler<TEventArgs>
+  nameWithType: EventHandler<TEventArgs>
+  fullName: System.EventHandler<TEventArgs>
+  nameWithType.vb: EventHandler(Of TEventArgs)
+  fullName.vb: System.EventHandler(Of TEventArgs)
+  name.vb: EventHandler(Of TEventArgs)
+  spec.csharp:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: <
+  - name: TEventArgs
+  - name: '>'
+  spec.vb:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEventArgs
+  - name: )
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.#ctor*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.#ctor
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html#cytk_NX2TCMigrationTool_src_PLM_NX_NXFileScanner__ctor_cytk_NX2TCMigrationTool_src_Core_Database_Repositories_PartRepository_cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_
+  name: NXFileScanner
+  nameWithType: NXFileScanner.NXFileScanner
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.NXFileScanner
+  nameWithType.vb: NXFileScanner.New
+  fullName.vb: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.New
+  name.vb: New
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository.html
+  name: PartRepository
+  nameWithType: PartRepository
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html
+  name: SettingsManager
+  nameWithType: SettingsManager
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Settings
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Settings
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Settings
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html#cytk_NX2TCMigrationTool_src_PLM_NX_NXFileScanner_ScanAllRootDirectoriesAsync
+  name: ScanAllRootDirectoriesAsync
+  nameWithType: NXFileScanner.ScanAllRootDirectoriesAsync
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanAllRootDirectoriesAsync
+- uid: System.Threading.Tasks.Task{cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults}
+  commentId: T:System.Threading.Tasks.Task{cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<NXFileScanner.ScanResults>
+  nameWithType: Task<NXFileScanner.ScanResults>
+  fullName: System.Threading.Tasks.Task<cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults>
+  nameWithType.vb: Task(Of NXFileScanner.ScanResults)
+  fullName.vb: System.Threading.Tasks.Task(Of cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults)
+  name.vb: Task(Of NXFileScanner.ScanResults)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+    name: NXFileScanner
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+    name: ScanResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+    name: NXFileScanner
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+    name: ScanResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults.html
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html#cytk_NX2TCMigrationTool_src_PLM_NX_NXFileScanner_ScanDirectoryAsync_System_String_
+  name: ScanDirectoryAsync
+  nameWithType: NXFileScanner.ScanDirectoryAsync
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanDirectoryAsync
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String

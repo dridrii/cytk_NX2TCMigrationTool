@@ -1,0 +1,273 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  id: LogLevel
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  children:
+  - cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Critical
+  - cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Debug
+  - cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Error
+  - cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Info
+  - cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.None
+  - cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Trace
+  - cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Warning
+  langs:
+  - csharp
+  - vb
+  name: LogLevel
+  nameWithType: LogLevel
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  type: Enum
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: LogLevel
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 12
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  summary: Logging levels from most to least verbose
+  example: []
+  syntax:
+    content: public enum LogLevel
+    content.vb: Public Enum LogLevel
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Trace
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Trace
+  id: Trace
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  langs:
+  - csharp
+  - vb
+  name: Trace
+  nameWithType: LogLevel.Trace
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Trace
+  type: Field
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Trace
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 14
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  syntax:
+    content: Trace = 0
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Debug
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Debug
+  id: Debug
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  langs:
+  - csharp
+  - vb
+  name: Debug
+  nameWithType: LogLevel.Debug
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Debug
+  type: Field
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Debug
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 15
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  syntax:
+    content: Debug = 1
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Info
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Info
+  id: Info
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  langs:
+  - csharp
+  - vb
+  name: Info
+  nameWithType: LogLevel.Info
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Info
+  type: Field
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Info
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 16
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  syntax:
+    content: Info = 2
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Warning
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Warning
+  id: Warning
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  langs:
+  - csharp
+  - vb
+  name: Warning
+  nameWithType: LogLevel.Warning
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Warning
+  type: Field
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Warning
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 17
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  syntax:
+    content: Warning = 3
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Error
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Error
+  id: Error
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  langs:
+  - csharp
+  - vb
+  name: Error
+  nameWithType: LogLevel.Error
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Error
+  type: Field
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Error
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 18
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  syntax:
+    content: Error = 4
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Critical
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Critical
+  id: Critical
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  langs:
+  - csharp
+  - vb
+  name: Critical
+  nameWithType: LogLevel.Critical
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.Critical
+  type: Field
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Critical
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 19
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  syntax:
+    content: Critical = 5
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.None
+  commentId: F:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.None
+  id: None
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: LogLevel.None
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.None
+  type: Field
+  source:
+    remote:
+      path: src/Core/Common/Utilities/Logger.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: None
+    path: ../src/Core/Common/Utilities/Logger.cs
+    startLine: 20
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  syntax:
+    content: None = 6
+    return:
+      type: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+references:
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Common
+    name: Common
+    href: cytk_NX2TCMigrationTool.src.Core.Common.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+    name: Utilities
+    href: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Common
+    name: Common
+    href: cytk_NX2TCMigrationTool.src.Core.Common.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+    name: Utilities
+    href: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.html
+- uid: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel
+  parent: cytk_NX2TCMigrationTool.src.Core.Common.Utilities
+  href: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel.html
+  name: LogLevel
+  nameWithType: LogLevel
+  fullName: cytk_NX2TCMigrationTool.src.Core.Common.Utilities.LogLevel

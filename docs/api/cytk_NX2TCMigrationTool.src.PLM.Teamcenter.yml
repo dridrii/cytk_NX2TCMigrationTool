@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  id: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  children:
+  - cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCConnection
+  - cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCPartManager
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCConnection
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCConnection
+  parent: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  href: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCConnection.html
+  name: TCConnection
+  nameWithType: TCConnection
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCConnection
+- uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCPartManager
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCPartManager
+  href: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCPartManager.html
+  name: TCPartManager
+  nameWithType: TCPartManager
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.TCPartManager
+- uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  fullName: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+    name: Teamcenter
+    href: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.Teamcenter
+    name: Teamcenter
+    href: cytk_NX2TCMigrationTool.src.PLM.Teamcenter.html

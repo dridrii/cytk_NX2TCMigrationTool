@@ -1,0 +1,62 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Settings
+  id: cytk_NX2TCMigrationTool.src.Core.Settings
+  children:
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.Core.Settings
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Settings
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html
+  name: SettingsManager
+  nameWithType: SettingsManager
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Settings
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Settings
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Settings
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html

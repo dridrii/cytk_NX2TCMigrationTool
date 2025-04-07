@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool
+  commentId: N:cytk_NX2TCMigrationTool
+  id: cytk_NX2TCMigrationTool
+  children:
+  - cytk_NX2TCMigrationTool.cytk_nx2tcmigtool_form1
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool
+  nameWithType: cytk_NX2TCMigrationTool
+  fullName: cytk_NX2TCMigrationTool
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.cytk_nx2tcmigtool_form1
+  commentId: T:cytk_NX2TCMigrationTool.cytk_nx2tcmigtool_form1
+  href: cytk_NX2TCMigrationTool.cytk_nx2tcmigtool_form1.html
+  name: cytk_nx2tcmigtool_form1
+  nameWithType: cytk_nx2tcmigtool_form1
+  fullName: cytk_NX2TCMigrationTool.cytk_nx2tcmigtool_form1

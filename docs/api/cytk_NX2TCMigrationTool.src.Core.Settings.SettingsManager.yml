@@ -1,0 +1,736 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  id: SettingsManager
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings
+  children:
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.#ctor(System.String,System.String)
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement(System.String,System.String,System.String)
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting(System.String)
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements(System.String)
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement(System.String)
+  - cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting(System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: SettingsManager
+  nameWithType: SettingsManager
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  type: Class
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: SettingsManager
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 8
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  syntax:
+    content: public class SettingsManager
+    content.vb: Public Class SettingsManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.#ctor(System.String,System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.#ctor(System.String,System.String)
+  id: '#ctor(System.String,System.String)'
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: SettingsManager(string, string)
+  nameWithType: SettingsManager.SettingsManager(string, string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SettingsManager(string, string)
+  type: Constructor
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: .ctor
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 14
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  syntax:
+    content: public SettingsManager(string settingsFilePath, string schemaFilePath)
+    parameters:
+    - id: settingsFilePath
+      type: System.String
+    - id: schemaFilePath
+      type: System.String
+    content.vb: Public Sub New(settingsFilePath As String, schemaFilePath As String)
+  overload: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.#ctor*
+  nameWithType.vb: SettingsManager.New(String, String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.New(String, String)
+  name.vb: New(String, String)
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize
+  id: Initialize
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: Initialize()
+  nameWithType: SettingsManager.Initialize()
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize()
+  type: Method
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: Initialize
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 21
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  syntax:
+    content: public void Initialize()
+    content.vb: Public Sub Initialize()
+  overload: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize*
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting(System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting(System.String)
+  id: GetSetting(System.String)
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: GetSetting(string)
+  nameWithType: SettingsManager.GetSetting(string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting(string)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: GetSetting
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 48
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  syntax:
+    content: public string GetSetting(string xpath)
+    parameters:
+    - id: xpath
+      type: System.String
+    return:
+      type: System.String
+    content.vb: Public Function GetSetting(xpath As String) As String
+  overload: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting*
+  nameWithType.vb: SettingsManager.GetSetting(String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting(String)
+  name.vb: GetSetting(String)
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting(System.String,System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting(System.String,System.String)
+  id: SaveSetting(System.String,System.String)
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: SaveSetting(string, string)
+  nameWithType: SettingsManager.SaveSetting(string, string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: SaveSetting
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 54
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  syntax:
+    content: public void SaveSetting(string xpath, string value)
+    parameters:
+    - id: xpath
+      type: System.String
+    - id: value
+      type: System.String
+    content.vb: Public Sub SaveSetting(xpath As String, value As String)
+  overload: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting*
+  nameWithType.vb: SettingsManager.SaveSetting(String, String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting(String, String)
+  name.vb: SaveSetting(String, String)
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements(System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements(System.String)
+  id: GetSettingElements(System.String)
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: GetSettingElements(string)
+  nameWithType: SettingsManager.GetSettingElements(string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements(string)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: GetSettingElements
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 69
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  summary: Gets a list of XML elements matching the given XPath
+  example: []
+  syntax:
+    content: public List<XmlNode> GetSettingElements(string xpath)
+    parameters:
+    - id: xpath
+      type: System.String
+      description: XPath query to execute
+    return:
+      type: System.Collections.Generic.List{System.Xml.XmlNode}
+      description: A list of matching XML nodes
+    content.vb: Public Function GetSettingElements(xpath As String) As List(Of XmlNode)
+  overload: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements*
+  nameWithType.vb: SettingsManager.GetSettingElements(String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements(String)
+  name.vb: GetSettingElements(String)
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement(System.String,System.String,System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement(System.String,System.String,System.String)
+  id: AddElement(System.String,System.String,System.String)
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: AddElement(string, string, string)
+  nameWithType: SettingsManager.AddElement(string, string, string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement(string, string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: AddElement
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 92
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  summary: Adds a new element to the settings XML
+  example: []
+  syntax:
+    content: public bool AddElement(string parentXPath, string elementName, string value)
+    parameters:
+    - id: parentXPath
+      type: System.String
+      description: XPath to the parent element
+    - id: elementName
+      type: System.String
+      description: Name of the new element
+    - id: value
+      type: System.String
+      description: Value of the new element
+    return:
+      type: System.Boolean
+      description: True if the element was added, false otherwise
+    content.vb: Public Function AddElement(parentXPath As String, elementName As String, value As String) As Boolean
+  overload: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement*
+  nameWithType.vb: SettingsManager.AddElement(String, String, String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement(String, String, String)
+  name.vb: AddElement(String, String, String)
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement(System.String)
+  commentId: M:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement(System.String)
+  id: RemoveElement(System.String)
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  langs:
+  - csharp
+  - vb
+  name: RemoveElement(string)
+  nameWithType: SettingsManager.RemoveElement(string)
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement(string)
+  type: Method
+  source:
+    remote:
+      path: src/Core/Settings/SettingsManager.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: RemoveElement
+    path: ../src/Core/Settings/SettingsManager.cs
+    startLine: 112
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.Core.Settings
+  summary: Removes an element from the settings XML
+  example: []
+  syntax:
+    content: public bool RemoveElement(string xpath)
+    parameters:
+    - id: xpath
+      type: System.String
+      description: XPath to the element to remove
+    return:
+      type: System.Boolean
+      description: True if the element was removed, false otherwise
+    content.vb: Public Function RemoveElement(xpath As String) As Boolean
+  overload: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement*
+  nameWithType.vb: SettingsManager.RemoveElement(String)
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement(String)
+  name.vb: RemoveElement(String)
+references:
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Settings
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Settings
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Settings
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.#ctor*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.#ctor
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html#cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager__ctor_System_String_System_String_
+  name: SettingsManager
+  nameWithType: SettingsManager.SettingsManager
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SettingsManager
+  nameWithType.vb: SettingsManager.New
+  fullName.vb: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html#cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_Initialize
+  name: Initialize
+  nameWithType: SettingsManager.Initialize
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.Initialize
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html#cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_GetSetting_System_String_
+  name: GetSetting
+  nameWithType: SettingsManager.GetSetting
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSetting
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html#cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_SaveSetting_System_String_System_String_
+  name: SaveSetting
+  nameWithType: SettingsManager.SaveSetting
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.SaveSetting
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html#cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_GetSettingElements_System_String_
+  name: GetSettingElements
+  nameWithType: SettingsManager.GetSettingElements
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.GetSettingElements
+- uid: System.Collections.Generic.List{System.Xml.XmlNode}
+  commentId: T:System.Collections.Generic.List{System.Xml.XmlNode}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<XmlNode>
+  nameWithType: List<XmlNode>
+  fullName: System.Collections.Generic.List<System.Xml.XmlNode>
+  nameWithType.vb: List(Of XmlNode)
+  fullName.vb: System.Collections.Generic.List(Of System.Xml.XmlNode)
+  name.vb: List(Of XmlNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.Xml.XmlNode
+    name: XmlNode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.xml.xmlnode
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Xml.XmlNode
+    name: XmlNode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.xml.xmlnode
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html#cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_AddElement_System_String_System_String_System_String_
+  name: AddElement
+  nameWithType: SettingsManager.AddElement
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.AddElement
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html#cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_RemoveElement_System_String_
+  name: RemoveElement
+  nameWithType: SettingsManager.RemoveElement
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.RemoveElement

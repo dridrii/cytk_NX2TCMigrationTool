@@ -1,0 +1,143 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.NX
+  id: cytk_NX2TCMigrationTool.src.PLM.NX
+  children:
+  - cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs
+  - cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  - cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+  - cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXConnection
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+  - cytk_NX2TCMigrationTool.src.PLM.NX.NXPartManager
+  langs:
+  - csharp
+  - vb
+  name: cytk_NX2TCMigrationTool.src.PLM.NX
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.NX
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX
+  type: Namespace
+  assemblies:
+  - cytk_NX2TCMigrationTool
+references:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html
+  name: BOMAnalyzerService
+  nameWithType: BOMAnalyzerService
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html
+  name: BOMAnalyzerService.AnalysisResults
+  nameWithType: BOMAnalyzerService.AnalysisResults
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+    name: BOMAnalyzerService
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+    name: AnalysisResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+    name: BOMAnalyzerService
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+    name: AnalysisResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults.html
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs.html
+  name: BOMAnalysisProgressEventArgs
+  nameWithType: BOMAnalysisProgressEventArgs
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXConnection
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.NXConnection
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.NXConnection.html
+  name: NXConnection
+  nameWithType: NXConnection
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXConnection
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html
+  name: NXFileScanner
+  nameWithType: NXFileScanner
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html
+  name: NXFileScanner.ScanResults
+  nameWithType: NXFileScanner.ScanResults
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+    name: NXFileScanner
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+    name: ScanResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner
+    name: NXFileScanner
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults
+    name: ScanResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.NXFileScanner.ScanResults.html
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs.html
+  name: FileScanProgressEventArgs
+  nameWithType: FileScanProgressEventArgs
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.FileScanProgressEventArgs
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.NXPartManager
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.NXPartManager
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.NXPartManager.html
+  name: NXPartManager
+  nameWithType: NXPartManager
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.NXPartManager
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.NX
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.PLM.NX
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.NX
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html

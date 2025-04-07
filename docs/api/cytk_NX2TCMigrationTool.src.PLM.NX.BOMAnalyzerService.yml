@@ -1,0 +1,809 @@
+### YamlMime:ManagedReference
+items:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  commentId: T:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  id: BOMAnalyzerService
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX
+  children:
+  - cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  - cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisProgress
+  - cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync
+  - cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync(cytk_NX2TCMigrationTool.src.Core.Database.Models.Part)
+  langs:
+  - csharp
+  - vb
+  name: BOMAnalyzerService
+  nameWithType: BOMAnalyzerService
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  type: Class
+  source:
+    remote:
+      path: src/PLM/NX/BOMAnalyzerService.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: BOMAnalyzerService
+    path: ../src/PLM/NX/BOMAnalyzerService.cs
+    startLine: 17
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Service to analyze NX part files for BOM structure using ugpc.exe tool
+  example: []
+  syntax:
+    content: public class BOMAnalyzerService
+    content.vb: Public Class BOMAnalyzerService
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisProgress
+  commentId: E:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisProgress
+  id: AnalysisProgress
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  langs:
+  - csharp
+  - vb
+  name: AnalysisProgress
+  nameWithType: BOMAnalyzerService.AnalysisProgress
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisProgress
+  type: Event
+  source:
+    remote:
+      path: src/PLM/NX/BOMAnalyzerService.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: AnalysisProgress
+    path: ../src/PLM/NX/BOMAnalyzerService.cs
+    startLine: 27
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  syntax:
+    content: public event EventHandler<BOMAnalysisProgressEventArgs> AnalysisProgress
+    return:
+      type: System.EventHandler{cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs}
+    content.vb: Public Event AnalysisProgress As EventHandler(Of BOMAnalysisProgressEventArgs)
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  commentId: M:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  id: '#ctor(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository,cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository,cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)'
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  langs:
+  - csharp
+  - vb
+  name: BOMAnalyzerService(PartRepository, BOMRelationshipRepository, AssemblyStatsRepository, SettingsManager)
+  nameWithType: BOMAnalyzerService.BOMAnalyzerService(PartRepository, BOMRelationshipRepository, AssemblyStatsRepository, SettingsManager)
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.BOMAnalyzerService(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository, cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository, cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository, cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  type: Constructor
+  source:
+    remote:
+      path: src/PLM/NX/BOMAnalyzerService.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: .ctor
+    path: ../src/PLM/NX/BOMAnalyzerService.cs
+    startLine: 30
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  syntax:
+    content: public BOMAnalyzerService(PartRepository partRepository, BOMRelationshipRepository bomRepository, AssemblyStatsRepository statsRepository, SettingsManager settingsManager)
+    parameters:
+    - id: partRepository
+      type: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+    - id: bomRepository
+      type: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+    - id: statsRepository
+      type: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+    - id: settingsManager
+      type: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+    content.vb: Public Sub New(partRepository As PartRepository, bomRepository As BOMRelationshipRepository, statsRepository As AssemblyStatsRepository, settingsManager As SettingsManager)
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.#ctor*
+  nameWithType.vb: BOMAnalyzerService.New(PartRepository, BOMRelationshipRepository, AssemblyStatsRepository, SettingsManager)
+  fullName.vb: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.New(cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository, cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository, cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository, cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager)
+  name.vb: New(PartRepository, BOMRelationshipRepository, AssemblyStatsRepository, SettingsManager)
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync
+  commentId: M:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync
+  id: AnalyzeAllPartsAsync
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  langs:
+  - csharp
+  - vb
+  name: AnalyzeAllPartsAsync()
+  nameWithType: BOMAnalyzerService.AnalyzeAllPartsAsync()
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync()
+  type: Method
+  source:
+    remote:
+      path: src/PLM/NX/BOMAnalyzerService.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: AnalyzeAllPartsAsync
+    path: ../src/PLM/NX/BOMAnalyzerService.cs
+    startLine: 46
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Analyzes all parts in the database for BOM relationships
+  example: []
+  syntax:
+    content: public Task<BOMAnalyzerService.AnalysisResults> AnalyzeAllPartsAsync()
+    return:
+      type: System.Threading.Tasks.Task{cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults}
+    content.vb: Public Function AnalyzeAllPartsAsync() As Task(Of BOMAnalyzerService.AnalysisResults)
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync*
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync(cytk_NX2TCMigrationTool.src.Core.Database.Models.Part)
+  commentId: M:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync(cytk_NX2TCMigrationTool.src.Core.Database.Models.Part)
+  id: AnalyzePartAsync(cytk_NX2TCMigrationTool.src.Core.Database.Models.Part)
+  parent: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+  langs:
+  - csharp
+  - vb
+  name: AnalyzePartAsync(Part)
+  nameWithType: BOMAnalyzerService.AnalyzePartAsync(Part)
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync(cytk_NX2TCMigrationTool.src.Core.Database.Models.Part)
+  type: Method
+  source:
+    remote:
+      path: src/PLM/NX/BOMAnalyzerService.cs
+      branch: master
+      repo: git@gitlab.com:cytrus/tc/cytk_nx2tcmigrationtool.git
+    id: AnalyzePartAsync
+    path: ../src/PLM/NX/BOMAnalyzerService.cs
+    startLine: 111
+  assemblies:
+  - cytk_NX2TCMigrationTool
+  namespace: cytk_NX2TCMigrationTool.src.PLM.NX
+  summary: Analyzes a specific part for BOM relationships
+  example: []
+  syntax:
+    content: public Task AnalyzePartAsync(Part part)
+    parameters:
+    - id: part
+      type: cytk_NX2TCMigrationTool.src.Core.Database.Models.Part
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function AnalyzePartAsync(part As Part) As Task
+  overload: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync*
+references:
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX
+  commentId: N:cytk_NX2TCMigrationTool.src.PLM.NX
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.PLM.NX
+  nameWithType: cytk_NX2TCMigrationTool.src.PLM.NX
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM
+    name: PLM
+    href: cytk_NX2TCMigrationTool.src.PLM.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX
+    name: NX
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.EventHandler{cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs}
+  commentId: T:System.EventHandler{cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs}
+  parent: System
+  definition: System.EventHandler`1
+  href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  name: EventHandler<BOMAnalysisProgressEventArgs>
+  nameWithType: EventHandler<BOMAnalysisProgressEventArgs>
+  fullName: System.EventHandler<cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs>
+  nameWithType.vb: EventHandler(Of BOMAnalysisProgressEventArgs)
+  fullName.vb: System.EventHandler(Of cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs)
+  name.vb: EventHandler(Of BOMAnalysisProgressEventArgs)
+  spec.csharp:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: <
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs
+    name: BOMAnalysisProgressEventArgs
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs.html
+  - name: '>'
+  spec.vb:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs
+    name: BOMAnalysisProgressEventArgs
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalysisProgressEventArgs.html
+  - name: )
+- uid: System.EventHandler`1
+  commentId: T:System.EventHandler`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  name: EventHandler<TEventArgs>
+  nameWithType: EventHandler<TEventArgs>
+  fullName: System.EventHandler<TEventArgs>
+  nameWithType.vb: EventHandler(Of TEventArgs)
+  fullName.vb: System.EventHandler(Of TEventArgs)
+  name.vb: EventHandler(Of TEventArgs)
+  spec.csharp:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: <
+  - name: TEventArgs
+  - name: '>'
+  spec.vb:
+  - uid: System.EventHandler`1
+    name: EventHandler
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEventArgs
+  - name: )
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.#ctor*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.#ctor
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html#cytk_NX2TCMigrationTool_src_PLM_NX_BOMAnalyzerService__ctor_cytk_NX2TCMigrationTool_src_Core_Database_Repositories_PartRepository_cytk_NX2TCMigrationTool_src_Core_Database_Repositories_BOMRelationshipRepository_cytk_NX2TCMigrationTool_src_Core_Database_Repositories_AssemblyStatsRepository_cytk_NX2TCMigrationTool_src_Core_Settings_SettingsManager_
+  name: BOMAnalyzerService
+  nameWithType: BOMAnalyzerService.BOMAnalyzerService
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.BOMAnalyzerService
+  nameWithType.vb: BOMAnalyzerService.New
+  fullName.vb: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.New
+  name.vb: New
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository.html
+  name: PartRepository
+  nameWithType: PartRepository
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.PartRepository
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository.html
+  name: BOMRelationshipRepository
+  nameWithType: BOMRelationshipRepository
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.BOMRelationshipRepository
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository.html
+  name: AssemblyStatsRepository
+  nameWithType: AssemblyStatsRepository
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.AssemblyStatsRepository
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+  parent: cytk_NX2TCMigrationTool.src.Core.Settings
+  href: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager.html
+  name: SettingsManager
+  nameWithType: SettingsManager
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings.SettingsManager
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Repositories
+    name: Repositories
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Repositories.html
+- uid: cytk_NX2TCMigrationTool.src.Core.Settings
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Settings
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Settings
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Settings
+  fullName: cytk_NX2TCMigrationTool.src.Core.Settings
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Settings
+    name: Settings
+    href: cytk_NX2TCMigrationTool.src.Core.Settings.html
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html#cytk_NX2TCMigrationTool_src_PLM_NX_BOMAnalyzerService_AnalyzeAllPartsAsync
+  name: AnalyzeAllPartsAsync
+  nameWithType: BOMAnalyzerService.AnalyzeAllPartsAsync
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzeAllPartsAsync
+- uid: System.Threading.Tasks.Task{cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults}
+  commentId: T:System.Threading.Tasks.Task{cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<BOMAnalyzerService.AnalysisResults>
+  nameWithType: Task<BOMAnalyzerService.AnalysisResults>
+  fullName: System.Threading.Tasks.Task<cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults>
+  nameWithType.vb: Task(Of BOMAnalyzerService.AnalysisResults)
+  fullName.vb: System.Threading.Tasks.Task(Of cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults)
+  name.vb: Task(Of BOMAnalyzerService.AnalysisResults)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+    name: BOMAnalyzerService
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+    name: AnalysisResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService
+    name: BOMAnalyzerService
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults
+    name: AnalysisResults
+    href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalysisResults.html
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync*
+  commentId: Overload:cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync
+  href: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.html#cytk_NX2TCMigrationTool_src_PLM_NX_BOMAnalyzerService_AnalyzePartAsync_cytk_NX2TCMigrationTool_src_Core_Database_Models_Part_
+  name: AnalyzePartAsync
+  nameWithType: BOMAnalyzerService.AnalyzePartAsync
+  fullName: cytk_NX2TCMigrationTool.src.PLM.NX.BOMAnalyzerService.AnalyzePartAsync
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models.Part
+  commentId: T:cytk_NX2TCMigrationTool.src.Core.Database.Models.Part
+  parent: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  href: cytk_NX2TCMigrationTool.src.Core.Database.Models.Part.html
+  name: Part
+  nameWithType: Part
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Models.Part
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  commentId: N:cytk_NX2TCMigrationTool.src.Core.Database.Models
+  href: cytk_NX2TCMigrationTool.html
+  name: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  nameWithType: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  fullName: cytk_NX2TCMigrationTool.src.Core.Database.Models
+  spec.csharp:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models
+    name: Models
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Models.html
+  spec.vb:
+  - uid: cytk_NX2TCMigrationTool
+    name: cytk_NX2TCMigrationTool
+    href: cytk_NX2TCMigrationTool.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src
+    name: src
+    href: cytk_NX2TCMigrationTool.src.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core
+    name: Core
+    href: cytk_NX2TCMigrationTool.src.Core.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database
+    name: Database
+    href: cytk_NX2TCMigrationTool.src.Core.Database.html
+  - name: .
+  - uid: cytk_NX2TCMigrationTool.src.Core.Database.Models
+    name: Models
+    href: cytk_NX2TCMigrationTool.src.Core.Database.Models.html
