@@ -94,3 +94,4 @@ orleans.codegen.cs
 # User-specific files
 *.userprefs
 docs/_site
+docs/.obsidian
