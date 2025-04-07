@@ -682,5 +682,15 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         }
 
         #endregion
+
+        private void _statusLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void _closeButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
