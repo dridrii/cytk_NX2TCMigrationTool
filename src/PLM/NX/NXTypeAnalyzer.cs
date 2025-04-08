@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
+using NXOpen;
+using NXOpen.UF;
 
 namespace cytk_NX2TCMigrationTool.src.PLM.NX
 {
     /// <summary>
-    /// Class to analyze NX parts and identify their types
+    /// Class to analyze NX parts and identify their types using NXOpen API
     /// </summary>
     public class NXTypeAnalyzer
     {
@@ -19,7 +21,7 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         }
 
         /// <summary>
-        /// Analyzes an NX part file to determine its type
+        /// Analyzes an NX part file to determine its type using NXOpen API
         /// </summary>
         /// <param name="filePath">Path to the NX part file</param>
         /// <returns>Dictionary with type flags (IsPart, IsAssembly, IsDrafting, IsPartFamilyMaster, IsPartFamilyMember)</returns>
@@ -43,35 +45,57 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                     return result;
                 }
 
-                // In a real implementation, we would use NXOpen API to analyze the file
-                // For now, we'll use some heuristics based on file content
+                // Use NXOpen API for accurate part information
+                Session? theSession = null;
+                UFSession? ufSession = null;
+                bool isFamilyTemplate = false;
 
-                // Read a small portion of the file to check for signatures
-                byte[] buffer = new byte[4096];
-                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                try
                 {
-                    fs.Read(buffer, 0, buffer.Length);
+                    // Initialize NX session
+                    theSession = Session.GetSession();
+                    ufSession = UFSession.GetUFSession();
+
+                    _logger.Debug("NXTypeAnalyzer", $"Opening part base: {filePath}");
+
+                    // Use OpenBase to access part metadata without fully loading it
+                    PartLoadStatus loadStatus;
+                    BasePart basePart = theSession.Parts.OpenBase(filePath, out loadStatus);
+
+                    Tag partTag = basePart.Tag;
+
+                    try
+                    {
+                        // Call the UF API method to check if the part is a family template.
+                        ufSession.Part.IsFamilyTemplate(partTag, out isFamilyTemplate);
+
+                        // Output the result to the console for non-interactive execution.
+                        if (isFamilyTemplate)
+                        {
+                            
+                        }
+                        else
+                        {
+                            
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error while checking part family template: " + ex.Message);
+                        
+                    }
+
                 }
-
-                string fileSignature = System.Text.Encoding.ASCII.GetString(buffer);
-
-                // Check if it's a drafting
-                bool isDrafting = IsDraftingByContent(fileSignature);
-                result["IsDrafting"] = isDrafting;
-
-                // Check if it's an assembly
-                bool isAssembly = IsAssemblyByContent(fileSignature);
-                result["IsAssembly"] = isAssembly;
-
-                // Check for part family characteristics
-                bool isPartFamilyMaster = IsPartFamilyMasterByContent(fileSignature);
-                result["IsPartFamilyMaster"] = isPartFamilyMaster;
-
-                bool isPartFamilyMember = IsPartFamilyMemberByContent(fileSignature);
-                result["IsPartFamilyMember"] = isPartFamilyMember;
-
-                // If not any of the special types, it's a simple part
-                result["IsPart"] = !isDrafting && !isAssembly && !isPartFamilyMaster && !isPartFamilyMember;
+                catch (NXOpen.NXException nxEx)
+                {
+                    _logger.Error("NXTypeAnalyzer", $"NXOpen error analyzing part: {nxEx.Message}");
+                    throw;
+                }
+                finally
+                {
+                    // Clean up resources if needed
+                    // Note: Don't terminate the NX session as it may be used elsewhere
+                }
 
                 _logger.Debug("NXTypeAnalyzer", $"Analyzed part: {filePath}, IsPart: {result["IsPart"]}, " +
                                               $"IsAssembly: {result["IsAssembly"]}, IsDrafting: {result["IsDrafting"]}, " +
@@ -87,63 +111,68 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         }
 
         /// <summary>
-        /// Determines if a part is a drafting based on file content
+        /// Determines if a part is a drafting using NXOpen API
         /// </summary>
-        private bool IsDraftingByContent(string fileContent)
+        private bool IsDraftingWithNXOpen(Part part)
         {
-            // In a real implementation, we would use NXOpen API
-            // For this example, we'll check for drafting-related keywords
-            return fileContent.Contains("DRAWING_SHEET") ||
-                   fileContent.Contains("DB_PART_MASTER") ||
-                   fileContent.Contains("DRAFTING");
+            try
+            {
+                // In NX, drafting parts typically have drawing sheets
+                // This is one approach to detect drafting files
+                bool hasDraftingSheets = false;
+        
+                // Get the drawing sheets collection
+                var drawingSheets = part.DrawingSheets;
+                if (drawingSheets != null && drawingSheets.Count > 0)
+                {
+                    hasDraftingSheets = true;
+                }
+        
+                // Alternatively, check part type directly if available
+                // NX stores part type information that can be queried
+                bool isDraftingType = (part.Prototype == NXOpen.BasePart.PrototypeType.Drafting);
+        
+                return hasDraftingSheets || isDraftingType;
+            }
+            catch (Exception ex)
+            {
+                _logger.Warning("NXTypeAnalyzer", $"Error checking if part is drafting: {ex.Message}");
+                return false;
+            }
         }
 
         /// <summary>
-        /// Determines if a part is an assembly based on file content
+        /// Determines if a part is an assembly using NXOpen API
         /// </summary>
-        private bool IsAssemblyByContent(string fileContent)
+        private bool IsAssemblyWithNXOpen(Part part)
         {
-            // In a real implementation, we would use NXOpen API
-            // For now, we'll improve the detection heuristics
-
-            // Check for common assembly signatures
-            bool hasAssemblySignatures = fileContent.Contains("COMPONENT_ASSEMBLY") ||
-                                       fileContent.Contains("ASSEMBLY_CONSTRAINTS") ||
-                                       fileContent.Contains("ASSEMBLY_ROOT");
-
-            // Additional assembly indicators often found in NX files
-            bool hasComponentIndicators = fileContent.Contains("ug_component_") ||
-                                        fileContent.Contains("ug_member_of_assembly") ||
-                                        fileContent.Contains("COMPONENT_DATA") ||
-                                        fileContent.Contains("UG_COMPONENT");
-
-            return hasAssemblySignatures || hasComponentIndicators;
+            try
+            {
+                // In NX, assemblies have components
+                bool hasComponents = false;
+        
+                // Get the component collection
+                var components = part.ComponentAssembly?.RootComponent?.GetChildren();
+                if (components != null && components.Length > 0)
+                {
+                    hasComponents = true;
+                }
+        
+                // Alternatively, check part type directly
+                bool isAssemblyType = (part.Prototype == NXOpen.BasePart.PrototypeType.Assembly);
+        
+                return hasComponents || isAssemblyType;
+            }
+            catch (Exception ex)
+            {
+                _logger.Warning("NXTypeAnalyzer", $"Error checking if part is assembly: {ex.Message}");
+                return false;
+            }
         }
 
         /// <summary>
-        /// Determines if a part is a part family master
+        /// Checks if a part file is an assembly by examining its structure using NXOpen
         /// </summary>
-        private bool IsPartFamilyMasterByContent(string fileContent)
-        {
-            // In a real implementation, we would use NXOpen API
-            // For this example, we'll check for part family master-related keywords
-            return fileContent.Contains("FAMILY_MASTER") ||
-                   fileContent.Contains("FAMILY_TABLE_MASTER") ||
-                   fileContent.Contains("MASTER_MODEL");
-        }
-
-        /// <summary>
-        /// Determines if a part is a part family member
-        /// </summary>
-        private bool IsPartFamilyMemberByContent(string fileContent)
-        {
-            // In a real implementation, we would use NXOpen API
-            // For this example, we'll check for part family member-related keywords
-            return fileContent.Contains("FAMILY_MEMBER") ||
-                   fileContent.Contains("FAMILY_TABLE_MEMBER") ||
-                   fileContent.Contains("INSTANCE_OF_MASTER");
-        }
-
         public async Task<bool> IsAssemblyByStructureAsync(string filePath, string nxInstallPath)
         {
             try
@@ -154,47 +183,60 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                     return false;
                 }
 
-                // Construct the path to ugpc.exe
-                string ugpcPath = Path.Combine(nxInstallPath, "NXBIN", "ugpc.exe");
-
-                if (!File.Exists(ugpcPath))
+                Session theSession = null;
+                try
                 {
-                    _logger.Warning("NXTypeAnalyzer", $"ugpc.exe not found at: {ugpcPath}. Using file content analysis instead.");
-                    return IsAssemblyByContent(File.ReadAllText(filePath));
+                    // Initialize NX session
+                    theSession = Session.GetSession();
+
+                    // Use OpenBase to efficiently check part structure
+                    PartLoadStatus loadStatus;
+                    BasePart basePart = theSession.Parts.OpenBase(filePath, out loadStatus);
+
+                    if (basePart == null)
+                    {
+                        _logger.Warning("NXTypeAnalyzer", $"Failed to open part: {filePath}, Status: {loadStatus}");
+                        return false;
+                    }
+
+                    bool isAssembly = false;
+
+                    if (basePart is Part part)
+                    {
+                        // First check if it's defined as an assembly type
+                        if (part.Prototype == NXOpen.BasePart.PrototypeType.Assembly)
+                        {
+                            isAssembly = true;
+                        }
+
+                        // Then check if it has components, regardless of its official type
+                        var components = part.ComponentAssembly?.RootComponent?.GetChildren();
+                        if (components != null && components.Length > 0)
+                        {
+                            isAssembly = true;
+                        }
+                    }
+
+                    // Close the part without saving
+                    //theSession.Parts.Close(basePart, false, true);
+
+                    return isAssembly;
                 }
-
-                // Create process start info
-                var startInfo = new ProcessStartInfo
+                catch (NXOpen.NXException nxEx)
                 {
-                    FileName = ugpcPath,
-                    Arguments = $"-s4 -n \"{filePath}\"", // Use -s for structure and -n for counts
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-
-                // Create process
-                var process = new Process
-                {
-                    StartInfo = startInfo
-                };
-
-                // Start process and read output
-                process.Start();
-                string output = await process.StandardOutput.ReadToEndAsync();
-                process.WaitForExit();
-
-                // Check if the output indicates the part has an assembly structure
-                // If the output contains component information, it's an assembly
-                return !output.Contains("has no assembly structure") &&
-                       (output.Contains(" x ") || output.Contains("Assembly structure"));
+                    _logger.Error("NXTypeAnalyzer", $"NXOpen error checking assembly structure: {nxEx.Message}");
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 _logger.Error("NXTypeAnalyzer", $"Error checking assembly structure: {ex.Message}");
                 return false;
             }
+
+            // For compatibility with the interface
+            await Task.CompletedTask;
+            return false;
         }
     }
 }
