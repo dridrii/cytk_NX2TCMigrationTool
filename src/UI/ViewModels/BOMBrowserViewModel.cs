@@ -117,12 +117,22 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
         /// </summary>
         public List<AssemblyData> GetSortedAssemblies(int sortMethod = 0)
         {
-            var assemblies = _statsCache.Values
-                .Where(s => s.IsAssembly)
+            var assemblyParts = _partsCache.Values
+                .Where(p => p.IsAssembly == true) // Explicitly check for true
                 .ToList();
 
-            if (assemblies.Count == 0)
+            if (assemblyParts.Count == 0)
                 return new List<AssemblyData>();
+
+            // Get assembly stats for these parts
+            var assemblies = new List<AssemblyStats>(); // Declare and initialize assemblies here
+            foreach (var part in assemblyParts)
+            {
+                if (_statsCache.ContainsKey(part.Id))
+                {
+                    assemblies.Add(_statsCache[part.Id]);
+                }
+            }
 
             // Apply sorting
             assemblies = SortAssemblies(assemblies, sortMethod);
@@ -219,34 +229,35 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
         /// <summary>
         /// Sorts the assemblies based on the selected sort method
         /// </summary>
-        private List<AssemblyStats> SortAssemblies(List<AssemblyStats> assemblies, int sortMethod)
+        private List<AssemblyStats> SortAssemblies(List<AssemblyStats> assemblyStats, int sortMethod)
         {
+            // Make sure we're using assemblyStats (the parameter) and not assemblies (which doesn't exist)
             switch (sortMethod)
             {
                 case 0: // Total Component Count (Largest First)
-                    return assemblies.OrderByDescending(s => s.TotalComponentCount).ToList();
+                    return assemblyStats.OrderByDescending(s => s.TotalComponentCount).ToList();
                 case 1: // Total Component Count (Smallest First)
-                    return assemblies.OrderBy(s => s.TotalComponentCount).ToList();
+                    return assemblyStats.OrderBy(s => s.TotalComponentCount).ToList();
                 case 2: // Direct Component Count (Largest First)
-                    return assemblies.OrderByDescending(s => s.ComponentCount).ToList();
+                    return assemblyStats.OrderByDescending(s => s.ComponentCount).ToList();
                 case 3: // Direct Component Count (Smallest First)
-                    return assemblies.OrderBy(s => s.ComponentCount).ToList();
+                    return assemblyStats.OrderBy(s => s.ComponentCount).ToList();
                 case 4: // Assembly Depth (Deepest First)
-                    return assemblies.OrderByDescending(s => s.AssemblyDepth).ToList();
+                    return assemblyStats.OrderByDescending(s => s.AssemblyDepth).ToList();
                 case 5: // Assembly Depth (Shallowest First)
-                    return assemblies.OrderBy(s => s.AssemblyDepth).ToList();
+                    return assemblyStats.OrderBy(s => s.AssemblyDepth).ToList();
                 case 6: // Alphabetical (A-Z)
-                    return assemblies
+                    return assemblyStats
                         .Where(s => _partsCache.ContainsKey(s.PartId))
                         .OrderBy(s => _partsCache[s.PartId].Name)
                         .ToList();
                 case 7: // Alphabetical (Z-A)
-                    return assemblies
+                    return assemblyStats
                         .Where(s => _partsCache.ContainsKey(s.PartId))
                         .OrderByDescending(s => _partsCache[s.PartId].Name)
                         .ToList();
                 default:
-                    return assemblies.OrderByDescending(s => s.TotalComponentCount).ToList();
+                    return assemblyStats.OrderByDescending(s => s.TotalComponentCount).ToList();
             }
         }
 
