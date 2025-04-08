@@ -75,8 +75,8 @@
             // _mainSplitContainer.Panel2
             // 
             _mainSplitContainer.Panel2.Controls.Add(_componentsGrid);
-            _mainSplitContainer.Size = new Size(984, 474);
-            _mainSplitContainer.SplitterDistance = 235;
+            _mainSplitContainer.Size = new Size(984, 486);
+            _mainSplitContainer.SplitterDistance = 240;
             _mainSplitContainer.SplitterWidth = 5;
             _mainSplitContainer.TabIndex = 0;
             // 
@@ -86,7 +86,7 @@
             _assemblyTreeView.Location = new Point(6, 35);
             _assemblyTreeView.Margin = new Padding(4, 3, 4, 3);
             _assemblyTreeView.Name = "_assemblyTreeView";
-            _assemblyTreeView.Size = new Size(973, 197);
+            _assemblyTreeView.Size = new Size(973, 202);
             _assemblyTreeView.TabIndex = 0;
             // 
             // _topLevelAssemblyComboBox
@@ -129,7 +129,7 @@
             _componentsGrid.Margin = new Padding(4, 3, 4, 3);
             _componentsGrid.Name = "_componentsGrid";
             _componentsGrid.ReadOnly = true;
-            _componentsGrid.Size = new Size(984, 234);
+            _componentsGrid.Size = new Size(984, 241);
             _componentsGrid.TabIndex = 0;
             // 
             // _analyzeButton
@@ -165,7 +165,7 @@
             _tabControl.Margin = new Padding(4, 3, 4, 3);
             _tabControl.Name = "_tabControl";
             _tabControl.SelectedIndex = 0;
-            _tabControl.Size = new Size(1000, 508);
+            _tabControl.Size = new Size(1000, 520);
             _tabControl.TabIndex = 0;
             // 
             // _componentTabPage
@@ -175,7 +175,7 @@
             _componentTabPage.Margin = new Padding(4, 3, 4, 3);
             _componentTabPage.Name = "_componentTabPage";
             _componentTabPage.Padding = new Padding(4, 3, 4, 3);
-            _componentTabPage.Size = new Size(992, 480);
+            _componentTabPage.Size = new Size(992, 492);
             _componentTabPage.TabIndex = 0;
             _componentTabPage.Text = "Components";
             _componentTabPage.UseVisualStyleBackColor = true;
@@ -187,7 +187,7 @@
             _hierarchyTabPage.Margin = new Padding(4, 3, 4, 3);
             _hierarchyTabPage.Name = "_hierarchyTabPage";
             _hierarchyTabPage.Padding = new Padding(4, 3, 4, 3);
-            _hierarchyTabPage.Size = new Size(929, 457);
+            _hierarchyTabPage.Size = new Size(1003, 353);
             _hierarchyTabPage.TabIndex = 1;
             _hierarchyTabPage.Text = "Assembly Hierarchy";
             _hierarchyTabPage.UseVisualStyleBackColor = true;
@@ -200,7 +200,7 @@
             _hierarchyPanel.Location = new Point(4, 3);
             _hierarchyPanel.Margin = new Padding(4, 3, 4, 3);
             _hierarchyPanel.Name = "_hierarchyPanel";
-            _hierarchyPanel.Size = new Size(921, 451);
+            _hierarchyPanel.Size = new Size(995, 347);
             _hierarchyPanel.TabIndex = 0;
             // 
             // _sortMethodLabel
@@ -226,7 +226,7 @@
             // _progressBar
             // 
             _progressBar.Dock = DockStyle.Bottom;
-            _progressBar.Location = new Point(0, 508);
+            _progressBar.Location = new Point(0, 520);
             _progressBar.Margin = new Padding(4, 3, 4, 3);
             _progressBar.Name = "_progressBar";
             _progressBar.Size = new Size(1000, 19);
@@ -250,7 +250,7 @@
             panel1.Controls.Add(_statusLabel);
             panel1.Controls.Add(_closeButton);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 527);
+            panel1.Location = new Point(0, 539);
             panel1.Name = "panel1";
             panel1.Size = new Size(1000, 42);
             panel1.TabIndex = 5;
@@ -261,7 +261,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = _closeButton;
-            ClientSize = new Size(1000, 569);
+            ClientSize = new Size(1000, 581);
             Controls.Add(_tabControl);
             Controls.Add(_progressBar);
             Controls.Add(panel1);

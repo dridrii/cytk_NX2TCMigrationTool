@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 
@@ -103,10 +104,20 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         private bool IsAssemblyByContent(string fileContent)
         {
             // In a real implementation, we would use NXOpen API
-            // For this example, we'll check for assembly-related keywords
-            return fileContent.Contains("COMPONENT_ASSEMBLY") ||
-                   fileContent.Contains("ASSEMBLY_CONSTRAINTS") ||
-                   fileContent.Contains("ASSEMBLY_ROOT");
+            // For now, we'll improve the detection heuristics
+
+            // Check for common assembly signatures
+            bool hasAssemblySignatures = fileContent.Contains("COMPONENT_ASSEMBLY") ||
+                                       fileContent.Contains("ASSEMBLY_CONSTRAINTS") ||
+                                       fileContent.Contains("ASSEMBLY_ROOT");
+
+            // Additional assembly indicators often found in NX files
+            bool hasComponentIndicators = fileContent.Contains("ug_component_") ||
+                                        fileContent.Contains("ug_member_of_assembly") ||
+                                        fileContent.Contains("COMPONENT_DATA") ||
+                                        fileContent.Contains("UG_COMPONENT");
+
+            return hasAssemblySignatures || hasComponentIndicators;
         }
 
         /// <summary>
@@ -131,6 +142,59 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             return fileContent.Contains("FAMILY_MEMBER") ||
                    fileContent.Contains("FAMILY_TABLE_MEMBER") ||
                    fileContent.Contains("INSTANCE_OF_MASTER");
+        }
+
+        public async Task<bool> IsAssemblyByStructureAsync(string filePath, string nxInstallPath)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    _logger.Error("NXTypeAnalyzer", $"File does not exist: {filePath}");
+                    return false;
+                }
+
+                // Construct the path to ugpc.exe
+                string ugpcPath = Path.Combine(nxInstallPath, "NXBIN", "ugpc.exe");
+
+                if (!File.Exists(ugpcPath))
+                {
+                    _logger.Warning("NXTypeAnalyzer", $"ugpc.exe not found at: {ugpcPath}. Using file content analysis instead.");
+                    return IsAssemblyByContent(File.ReadAllText(filePath));
+                }
+
+                // Create process start info
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = ugpcPath,
+                    Arguments = $"-s4 -n \"{filePath}\"", // Use -s for structure and -n for counts
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                // Create process
+                var process = new Process
+                {
+                    StartInfo = startInfo
+                };
+
+                // Start process and read output
+                process.Start();
+                string output = await process.StandardOutput.ReadToEndAsync();
+                process.WaitForExit();
+
+                // Check if the output indicates the part has an assembly structure
+                // If the output contains component information, it's an assembly
+                return !output.Contains("has no assembly structure") &&
+                       (output.Contains(" x ") || output.Contains("Assembly structure"));
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("NXTypeAnalyzer", $"Error checking assembly structure: {ex.Message}");
+                return false;
+            }
         }
     }
 }

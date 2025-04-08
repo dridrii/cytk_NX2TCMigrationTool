@@ -19,15 +19,21 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
     {
         private BOMBrowserViewModel _viewModel;
         private Logger _logger;
+        private readonly PartRepository _partRepository;
+        private readonly AssemblyStatsRepository _statsRepository;
 
         // Make _analyzeButton public to enable external triggering of analysis
         public Button AnalyzeButton => _analyzeButton;
 
         // Constructor
         public BOMBrowser(PartRepository partRepository, BOMRelationshipRepository bomRepository,
-                          AssemblyStatsRepository statsRepository, SettingsManager settingsManager)
+                  AssemblyStatsRepository statsRepository, SettingsManager settingsManager)
         {
             _logger = Logger.Instance;
+
+            // Store the repository references
+            _partRepository = partRepository ?? throw new ArgumentNullException(nameof(partRepository));
+            _statsRepository = statsRepository ?? throw new ArgumentNullException(nameof(statsRepository));
 
             // Initialize UI components (this will use the designer-generated method)
             InitializeComponent();
@@ -210,7 +216,13 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             {
                 if (_topLevelAssemblyComboBox.SelectedItem is AssemblyData selectedItem)
                 {
+                    _logger.Debug("BOMBrowser", $"Selected assembly: {selectedItem.Part.Id}, {selectedItem.Part.Name}");
                     LoadAssemblyTree(selectedItem.Part.Id);
+                    LoadComponentDetails(selectedItem.Part.Id);
+                }
+                else
+                {
+                    _logger.Warning("BOMBrowser", "No assembly selected or invalid selection");
                 }
             }
             catch (Exception ex)
@@ -359,8 +371,12 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             _topLevelAssemblyComboBox.Items.Clear();
 
             var assemblies = _viewModel.GetSortedAssemblies();
+
+            _logger.Info("BOMBrowser", $"Populating assembly dropdown with {assemblies.Count} assemblies");
+
             foreach (var assemblyItem in assemblies)
             {
+                _logger.Debug("BOMBrowser", $"Adding assembly to dropdown: {assemblyItem.Part.Id}, {assemblyItem.Part.Name}");
                 _topLevelAssemblyComboBox.Items.Add(assemblyItem);
             }
 
@@ -382,11 +398,18 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             if (_topLevelAssemblyComboBox.Items.Count > 0)
             {
                 _topLevelAssemblyComboBox.SelectedIndex = 0;
+                _logger.Debug("BOMBrowser", "Selected first assembly in dropdown");
             }
             else
             {
                 // No assemblies found - clear tree view
                 _assemblyTreeView.Nodes.Clear();
+                _logger.Warning("BOMBrowser", "No assemblies found to populate dropdown");
+
+                // Add a root node with an error message
+                var errorNode = new TreeNode("No assemblies found. Please run BOM Analysis first.");
+                errorNode.ForeColor = Color.Red;
+                _assemblyTreeView.Nodes.Add(errorNode);
             }
         }
 
@@ -397,36 +420,66 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         {
             try
             {
+                _logger.Debug("BOMBrowser", $"Loading assembly tree for: {assemblyId}");
                 _assemblyTreeView.Nodes.Clear();
+
+                if (string.IsNullOrEmpty(assemblyId))
+                {
+                    _logger.Warning("BOMBrowser", "Attempted to load assembly tree with null or empty ID");
+                    return;
+                }
+
+                // First, get the part info for this assembly
+                var parts = _partRepository.GetAll().Where(p => p.Id.Equals(assemblyId)).ToList();
+                if (parts.Count == 0)
+                {
+                    _logger.Warning("BOMBrowser", $"Assembly not found in repository: {assemblyId}");
+                    var errorNode = new TreeNode($"Assembly {assemblyId} not found in database");
+                    errorNode.ForeColor = Color.Red;
+                    _assemblyTreeView.Nodes.Add(errorNode);
+                    return;
+                }
+
+                var assemblyPart = parts.First();
+                _logger.Debug("BOMBrowser", $"Found assembly part: {assemblyPart.Id}, {assemblyPart.Name}");
 
                 // Get components from view model
                 var components = _viewModel.GetAssemblyComponents(assemblyId, true);
-                var rootComponent = components.FirstOrDefault(c => c.Part.Id == assemblyId);
 
-                if (rootComponent == null)
+                // Create a ComponentData object for the root
+                var rootComponent = new BOMBrowserViewModel.ComponentData
                 {
-                    // Root component might not be in the children, get it directly
-                    var assemblies = _viewModel.GetSortedAssemblies();
-                    rootComponent = assemblies
-                        .Where(a => a.Part.Id == assemblyId)
-                        .Select(a => new ComponentData
-                        {
-                            Part = a.Part,
-                            Stats = a.Stats,
-                            IsAssembly = true
-                        })
-                        .FirstOrDefault();
-                }
+                    Part = assemblyPart,
+                    IsAssembly = true,
+                    TypeDescription = "Assembly",
+                    Relationship = null // Root has no relationship
+                };
 
-                if (rootComponent == null)
-                    return;
+                // Try to get assembly stats
+                var stats = _statsRepository.GetByPartId(assemblyId);
+                if (stats != null)
+                {
+                    rootComponent.Stats = stats;
+                }
 
                 // Create the root node
                 var rootNode = CreateTreeNode(rootComponent);
                 _assemblyTreeView.Nodes.Add(rootNode);
+                _logger.Debug("BOMBrowser", $"Created root node: {rootNode.Text}");
 
                 // Populate child nodes recursively
-                PopulateChildNodes(rootNode, assemblyId);
+                if (components.Count > 0)
+                {
+                    PopulateChildNodes(rootNode, assemblyId);
+                    _logger.Debug("BOMBrowser", $"Populated {components.Count} child nodes");
+                }
+                else
+                {
+                    _logger.Warning("BOMBrowser", $"No components found for assembly: {assemblyId}");
+                    var emptyNode = new TreeNode("No components found");
+                    emptyNode.ForeColor = Color.Gray;
+                    rootNode.Nodes.Add(emptyNode);
+                }
 
                 // Expand the root node
                 rootNode.Expand();
@@ -482,78 +535,93 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         /// <summary>
         /// Creates a tree node for a component
         /// </summary>
-        private TreeNode CreateTreeNode(ComponentData component)
+        private TreeNode CreateTreeNode(BOMBrowserViewModel.ComponentData component)
         {
-            string nodeText = component.Part.Name;
-
-            // Add relationship info if available
-            if (component.Relationship != null)
+            // Make sure we have a valid component
+            if (component == null || component.Part == null)
             {
-                if (component.Relationship.Quantity > 1)
+                _logger.Warning("BOMBrowser", "Attempted to create tree node with null component or part");
+                return new TreeNode("Invalid component");
+            }
+
+            string nodeText = component.Part.Name ?? "Unnamed Part";
+
+            try
+            {
+                // Add relationship info if available
+                if (component.Relationship != null)
                 {
-                    nodeText += $" ({component.Relationship.Quantity}x)";
+                    if (component.Relationship.Quantity > 1)
+                    {
+                        nodeText += $" ({component.Relationship.Quantity}x)";
+                    }
+
+                    if (component.Relationship.RelationType == BOMRelationType.MASTER_MODEL.ToString())
+                    {
+                        nodeText += " [Drafting]";
+                    }
                 }
 
-                if (component.Relationship.RelationType == BOMRelationType.MASTER_MODEL.ToString())
+                // Add part type info
+                if (component.Part.IsPartFamilyMaster == true)
+                {
+                    nodeText += " [Part Family Master]";
+                }
+                else if (component.Part.IsPartFamilyMember == true)
+                {
+                    nodeText += " [Part Family Member]";
+                }
+                else if (component.Part.IsDrafting == true)
                 {
                     nodeText += " [Drafting]";
                 }
-            }
-
-            // Add part type info
-            if (component.Part.IsPartFamilyMaster == true)
-            {
-                nodeText += " [Part Family Master]";
-            }
-            else if (component.Part.IsPartFamilyMember == true)
-            {
-                nodeText += " [Part Family Member]";
-            }
-            else if (component.Part.IsDrafting == true)
-            {
-                nodeText += " [Drafting]";
-            }
-            else if (component.Part.IsAssembly == true)
-            {
-                nodeText += " [Assembly]";
-
-                // Add stats if available
-                if (component.Stats != null)
+                else if (component.Part.IsAssembly == true)
                 {
-                    nodeText += $" ({component.Stats.ComponentCount} direct, {component.Stats.TotalComponentCount} total)";
+                    nodeText += " [Assembly]";
+
+                    // Add stats if available
+                    if (component.Stats != null)
+                    {
+                        nodeText += $" ({component.Stats.ComponentCount} direct, {component.Stats.TotalComponentCount} total)";
+                    }
                 }
-            }
-            else if (component.Part.IsPart == true)
-            {
-                nodeText += " [Part]";
-            }
+                else if (component.Part.IsPart == true)
+                {
+                    nodeText += " [Part]";
+                }
 
-            var node = new TreeNode(nodeText);
-            node.Tag = new NodeData { PartId = component.Part.Id, Relationship = component.Relationship };
+                var node = new TreeNode(nodeText);
+                node.Tag = new NodeData { PartId = component.Part.Id, Relationship = component.Relationship };
 
-            // Set icon based on part type
-            if (component.Part.IsPartFamilyMaster == true)
-            {
-                node.ForeColor = Color.Purple;
-            }
-            else if (component.Part.IsPartFamilyMember == true)
-            {
-                node.ForeColor = Color.DarkOrange;
-            }
-            else if (component.Part.IsDrafting == true)
-            {
-                node.ForeColor = Color.Blue;
-            }
-            else if (component.Part.IsAssembly == true)
-            {
-                node.ForeColor = Color.Green;
-            }
-            else if (component.Part.IsPart == true)
-            {
-                node.ForeColor = Color.Black;
-            }
+                // Set icon based on part type
+                if (component.Part.IsPartFamilyMaster == true)
+                {
+                    node.ForeColor = Color.Purple;
+                }
+                else if (component.Part.IsPartFamilyMember == true)
+                {
+                    node.ForeColor = Color.DarkOrange;
+                }
+                else if (component.Part.IsDrafting == true)
+                {
+                    node.ForeColor = Color.Blue;
+                }
+                else if (component.Part.IsAssembly == true)
+                {
+                    node.ForeColor = Color.Green;
+                }
+                else if (component.Part.IsPart == true)
+                {
+                    node.ForeColor = Color.Black;
+                }
 
-            return node;
+                return node;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMBrowser", $"Error creating tree node: {ex.Message}");
+                return new TreeNode(nodeText + " [Error]");
+            }
         }
 
         /// <summary>
@@ -565,22 +633,48 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             {
                 _componentsGrid.Rows.Clear();
 
+                // Add debug logging
+                _logger.Debug("BOMBrowser", $"Loading component details for assembly: {assemblyId}");
+
                 // Get components from view model
                 bool showDraftings = _showDraftingsCheckBox.Checked;
                 var components = _viewModel.GetAssemblyComponents(assemblyId, showDraftings);
 
+                _logger.Debug("BOMBrowser", $"Found {components.Count} components for assembly {assemblyId}");
+
+                if (components.Count == 0)
+                {
+                    // Add a message to the grid if no components found
+                    _statusLabel.Text = "No components found for this assembly.";
+                    return;
+                }
+
                 foreach (var component in components)
                 {
-                    // Add row to grid
-                    _componentsGrid.Rows.Add(
-                        component.Part.Id,
-                        component.Part.Name,
-                        component.TypeDescription,
-                        component.Relationship.RelationType,
-                        component.Relationship.Quantity,
-                        component.Relationship.InstanceName,
-                        component.Relationship.Verified ? "Yes" : "No"
-                    );
+                    // Add debugging to check component data
+                    _logger.Debug("BOMBrowser",
+                        $"Adding component: {component.Part.Id}, {component.Part.Name}, " +
+                        $"Type: {component.TypeDescription}, " +
+                        $"Relationship: {(component.Relationship != null ? component.Relationship.RelationType : "null")}");
+
+                    // Only attempt to add the row if we have valid relationship data
+                    if (component.Relationship != null)
+                    {
+                        // Add row to grid
+                        _componentsGrid.Rows.Add(
+                            component.Part.Id,
+                            component.Part.Name,
+                            component.TypeDescription,
+                            component.Relationship.RelationType,
+                            component.Relationship.Quantity,
+                            component.Relationship.InstanceName,
+                            component.Relationship.Verified ? "Yes" : "No"
+                        );
+                    }
+                    else
+                    {
+                        _logger.Warning("BOMBrowser", $"Skipping component with null relationship: {component.Part.Id}, {component.Part.Name}");
+                    }
                 }
             }
             catch (Exception ex)

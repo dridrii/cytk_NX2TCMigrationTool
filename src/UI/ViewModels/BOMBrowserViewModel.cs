@@ -102,6 +102,28 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
                     _statsCache[stats.PartId] = stats;
                 }
 
+                // Load all BOM relationships to identify assemblies
+                var allRelationships = _bomRepository.GetAll();
+                foreach (var rel in allRelationships)
+                {
+                    if (!_parentChildCache.ContainsKey(rel.ParentId))
+                    {
+                        _parentChildCache[rel.ParentId] = new List<BOMRelationship>();
+                    }
+                    _parentChildCache[rel.ParentId].Add(rel);
+
+                    // If a part has children, it's an assembly
+                    if (_partsCache.ContainsKey(rel.ParentId))
+                    {
+                        var part = _partsCache[rel.ParentId];
+                        if (part.IsAssembly != true)
+                        {
+                            _logger.Debug("BOMBrowserViewModel", $"Marking part {part.Id} ({part.Name}) as assembly based on relationships");
+                            part.IsAssembly = true;
+                        }
+                    }
+                }
+
                 // Report completion
                 ReportProgress("Ready", false);
             }
@@ -117,20 +139,42 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
         /// </summary>
         public List<AssemblyData> GetSortedAssemblies(int sortMethod = 0)
         {
+            // Problem: This filter might be too restrictive
+            // Original: var assemblyParts = _partsCache.Values.Where(p => p.IsAssembly == true).ToList();
+
+            // Updated version - check if the part is an assembly, accounting for null values
             var assemblyParts = _partsCache.Values
-                .Where(p => p.IsAssembly == true) // Explicitly check for true
+                .Where(p => p.IsAssembly.GetValueOrDefault(false) || // Either explicitly marked as assembly
+                      (_statsCache.ContainsKey(p.Id) && _statsCache[p.Id].IsAssembly) || // or has assembly stats
+                      _parentChildCache.ContainsKey(p.Id)) // or has child relationships
                 .ToList();
 
             if (assemblyParts.Count == 0)
                 return new List<AssemblyData>();
 
             // Get assembly stats for these parts
-            var assemblies = new List<AssemblyStats>(); // Declare and initialize assemblies here
+            var assemblies = new List<AssemblyStats>();
             foreach (var part in assemblyParts)
             {
+                // Add debugging log
+                _logger.Debug("BOMBrowserViewModel", $"Processing assembly part: {part.Id}, {part.Name}, IsAssembly: {part.IsAssembly}");
+
                 if (_statsCache.ContainsKey(part.Id))
                 {
                     assemblies.Add(_statsCache[part.Id]);
+                }
+                else
+                {
+                    // If no stats exist yet, create a minimal entry so the assembly still shows up
+                    _logger.Warning("BOMBrowserViewModel", $"No stats found for assembly part: {part.Id}, {part.Name}");
+                    var stats = new AssemblyStats
+                    {
+                        PartId = part.Id,
+                        IsAssembly = true,
+                        ComponentCount = 0,
+                        TotalComponentCount = 0
+                    };
+                    assemblies.Add(stats);
                 }
             }
 
@@ -138,7 +182,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
             assemblies = SortAssemblies(assemblies, sortMethod);
 
             // Convert to AssemblyData objects
-            return assemblies
+            var result = assemblies
                 .Where(stats => _partsCache.ContainsKey(stats.PartId))
                 .Select(stats => new AssemblyData
                 {
@@ -146,6 +190,9 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
                     Stats = stats
                 })
                 .ToList();
+
+            _logger.Info("BOMBrowserViewModel", $"Found {result.Count} assemblies to display");
+            return result;
         }
 
         /// <summary>
@@ -153,7 +200,34 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
         /// </summary>
         public List<ComponentData> GetAssemblyComponents(string assemblyId, bool includeDraftings)
         {
-            var children = GetChildRelationships(assemblyId);
+            _logger.Debug("BOMBrowserViewModel", $"Getting components for assembly: {assemblyId}");
+
+            // First, check if this assembly exists
+            if (string.IsNullOrEmpty(assemblyId) || !_partsCache.ContainsKey(assemblyId))
+            {
+                _logger.Warning("BOMBrowserViewModel", $"Assembly ID not found in cache: {assemblyId}");
+                return new List<ComponentData>();
+            }
+
+            // Get child relationships from repository if not in cache
+            if (!_parentChildCache.ContainsKey(assemblyId))
+            {
+                _logger.Debug("BOMBrowserViewModel", $"Relationships not in cache, fetching from repository: {assemblyId}");
+                var relationships = _bomRepository.GetByParent(assemblyId);
+                if (relationships != null && relationships.Any())
+                {
+                    _parentChildCache[assemblyId] = relationships.ToList();
+                }
+                else
+                {
+                    _logger.Debug("BOMBrowserViewModel", $"No relationships found for assembly: {assemblyId}");
+                    _parentChildCache[assemblyId] = new List<BOMRelationship>();
+                }
+            }
+
+            var children = _parentChildCache[assemblyId];
+            _logger.Debug("BOMBrowserViewModel", $"Found {children.Count} child relationships for assembly: {assemblyId}");
+
             var result = new List<ComponentData>();
 
             foreach (var relationship in children)
@@ -166,11 +240,12 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
 
                 if (!_partsCache.TryGetValue(relationship.ChildId, out var childPart))
                 {
+                    _logger.Warning("BOMBrowserViewModel", $"Child part not found in cache: {relationship.ChildId}");
                     continue;
                 }
 
                 // Determine type description
-                string typeDescription = childPart.Type;
+                string typeDescription = childPart.Type ?? "Unknown";
                 bool isAssembly = false;
                 bool isDrafting = false;
 
@@ -187,6 +262,20 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
                     {
                         typeDescription = "Drafting";
                     }
+                }
+                else if (childPart.IsAssembly == true)
+                {
+                    isAssembly = true;
+                    typeDescription = "Assembly";
+                }
+                else if (childPart.IsDrafting == true)
+                {
+                    isDrafting = true;
+                    typeDescription = "Drafting";
+                }
+                else if (childPart.IsPart == true)
+                {
+                    typeDescription = "Part";
                 }
 
                 // Create component data
@@ -211,10 +300,21 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
         {
             try
             {
+                if (string.IsNullOrEmpty(parentId))
+                {
+                    _logger.Warning("BOMBrowserViewModel", "GetChildRelationships called with null or empty parentId");
+                    return new List<BOMRelationship>();
+                }
+
                 if (!_parentChildCache.TryGetValue(parentId, out var relationships))
                 {
+                    // Try to get relationships from the repository
                     relationships = _bomRepository.GetByParent(parentId)?.ToList() ?? new List<BOMRelationship>();
+
+                    // Cache the result
                     _parentChildCache[parentId] = relationships;
+
+                    _logger.Debug("BOMBrowserViewModel", $"Fetched {relationships.Count} relationships for parent {parentId} from repository");
                 }
 
                 return relationships;

@@ -79,7 +79,7 @@
             mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             mainPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            mainPanel.Size = new Size(936, 585);
+            mainPanel.Size = new Size(956, 556);
             mainPanel.TabIndex = 0;
             // 
             // topPanel
@@ -93,7 +93,7 @@
             topPanel.Dock = DockStyle.Fill;
             topPanel.Location = new Point(3, 3);
             topPanel.Name = "topPanel";
-            topPanel.Size = new Size(930, 34);
+            topPanel.Size = new Size(950, 34);
             topPanel.TabIndex = 0;
             // 
             // logFileLabel
@@ -160,7 +160,7 @@
             _logTextBox.Name = "_logTextBox";
             _logTextBox.ReadOnly = true;
             _logTextBox.ScrollBars = ScrollBars.Both;
-            _logTextBox.Size = new Size(930, 499);
+            _logTextBox.Size = new Size(950, 470);
             _logTextBox.TabIndex = 1;
             _logTextBox.WordWrap = false;
             // 
@@ -169,9 +169,9 @@
             bottomPanel.Controls.Add(_clearButton);
             bottomPanel.Controls.Add(_closeButton);
             bottomPanel.Dock = DockStyle.Fill;
-            bottomPanel.Location = new Point(3, 548);
+            bottomPanel.Location = new Point(3, 519);
             bottomPanel.Name = "bottomPanel";
-            bottomPanel.Size = new Size(930, 34);
+            bottomPanel.Size = new Size(950, 34);
             bottomPanel.TabIndex = 2;
             // 
             // _clearButton
@@ -194,7 +194,7 @@
             // LogViewerForm
             // 
             CancelButton = _closeButton;
-            ClientSize = new Size(936, 585);
+            ClientSize = new Size(956, 556);
             Controls.Add(mainPanel);
             Name = "LogViewerForm";
             StartPosition = FormStartPosition.CenterParent;

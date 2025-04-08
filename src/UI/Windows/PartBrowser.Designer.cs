@@ -66,14 +66,14 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             _tabControl.Location = new Point(0, 0);
             _tabControl.Name = "_tabControl";
             _tabControl.SelectedIndex = 0;
-            _tabControl.Size = new Size(865, 511);
+            _tabControl.Size = new Size(906, 517);
             _tabControl.TabIndex = 0;
             // 
             // _directoryTab
             // 
             _directoryTab.Location = new Point(4, 24);
             _directoryTab.Name = "_directoryTab";
-            _directoryTab.Size = new Size(857, 483);
+            _directoryTab.Size = new Size(898, 489);
             _directoryTab.TabIndex = 0;
             _directoryTab.Text = "Directory Management";
             // 
@@ -96,18 +96,18 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // _statusLabel
             // 
             _statusLabel.Dock = DockStyle.Bottom;
-            _statusLabel.Location = new Point(0, 511);
+            _statusLabel.Location = new Point(0, 517);
             _statusLabel.Name = "_statusLabel";
-            _statusLabel.Size = new Size(865, 20);
+            _statusLabel.Size = new Size(906, 20);
             _statusLabel.TabIndex = 1;
             _statusLabel.Text = "Ready";
             // 
             // _progressBar
             // 
             _progressBar.Dock = DockStyle.Bottom;
-            _progressBar.Location = new Point(0, 531);
+            _progressBar.Location = new Point(0, 537);
             _progressBar.Name = "_progressBar";
-            _progressBar.Size = new Size(865, 23);
+            _progressBar.Size = new Size(906, 23);
             _progressBar.TabIndex = 2;
             _progressBar.Visible = false;
             // 
@@ -123,7 +123,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // PartBrowser
             // 
             CancelButton = _closeButton;
-            ClientSize = new Size(865, 554);
+            ClientSize = new Size(906, 560);
             Controls.Add(_tabControl);
             Controls.Add(_statusLabel);
             Controls.Add(_progressBar);

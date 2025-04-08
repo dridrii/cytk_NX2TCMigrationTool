@@ -120,8 +120,26 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 throw new FileNotFoundException($"Part file not found: {part.FilePath}");
             }
 
+            // Get the NX installation directory from settings
+            string nxInstallPath = _settingsManager.GetSetting("/Settings/NX/InstallPath");
+
+            if (string.IsNullOrEmpty(nxInstallPath))
+            {
+                throw new Exception("NX installation path not configured in settings");
+            }
+
             // Analyze the part type using NXTypeAnalyzer
             var partTypes = _typeAnalyzer.AnalyzePartType(part.FilePath);
+
+            // Check if it's an assembly using ugpc utility for more accurate detection
+            bool isAssemblyByStructure = await _typeAnalyzer.IsAssemblyByStructureAsync(part.FilePath, nxInstallPath);
+
+            // If ugpc utility detects assembly structure, override the initial IsAssembly value
+            if (isAssemblyByStructure)
+            {
+                partTypes["IsAssembly"] = true;
+                partTypes["IsPart"] = false;
+            }
 
             // Update the part with the new type information
             part.IsPart = partTypes["IsPart"];
@@ -132,14 +150,6 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
 
             // Save the updated part
             _partRepository.Update(part);
-
-            // Get the NX installation directory from settings
-            string nxInstallPath = _settingsManager.GetSetting("/Settings/NX/InstallPath");
-
-            if (string.IsNullOrEmpty(nxInstallPath))
-            {
-                throw new Exception("NX installation path not configured in settings");
-            }
 
             // Construct the path to ugpc.exe
             string ugpcPath = Path.Combine(nxInstallPath, "NXBIN", "ugpc.exe");
@@ -154,6 +164,26 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
 
             // Process the results to extract BOM relationships and stats
             await ProcessUgpcResultsAsync(part, results);
+
+            // Final check - if we found child relationships, ensure this part is marked as an assembly
+            var childRelationships = _bomRepository.GetByParent(part.Id);
+            if (childRelationships.Any())
+            {
+                if (!part.IsAssembly.GetValueOrDefault())
+                {
+                    part.IsAssembly = true;
+                    part.IsPart = false;
+                    _partRepository.Update(part);
+
+                    // Also update assembly stats
+                    var stats = _statsRepository.GetByPartId(part.Id);
+                    if (stats != null)
+                    {
+                        stats.IsAssembly = true;
+                        _statsRepository.Update(stats);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -239,11 +269,15 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 }
             }
 
+            // KEY FIX: If the part has relationships (components), it's an assembly regardless of what NXTypeAnalyzer determined
             if (relationships.Count > 0)
             {
                 _logger.Debug("BOMAnalyzer", $"Setting IsAssembly flag for part {part.Id} ({part.Name}) with {relationships.Count} components");
                 part.IsAssembly = true;
                 part.IsPart = false;  // A part cannot be both an assembly and a simple part
+
+                // Also update stats
+                stats.IsAssembly = true;
             }
             else
             {
@@ -252,6 +286,9 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 part.IsPart = true;
                 part.IsAssembly = false;
             }
+
+            // Update the part in the database after type determination
+            _partRepository.Update(part);
 
             // Save assembly stats to database
             var existingStats = _statsRepository.GetByPartId(part.Id);

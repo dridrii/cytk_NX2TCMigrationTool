@@ -78,7 +78,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             mainLayout.RowCount = 2;
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 87.00787F));
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 12.9921255F));
-            mainLayout.Size = new Size(765, 504);
+            mainLayout.Size = new Size(773, 510);
             mainLayout.TabIndex = 0;
             // 
             // tabControl
@@ -90,7 +90,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             tabControl.Location = new Point(3, 3);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(759, 432);
+            tabControl.Size = new Size(767, 437);
             tabControl.TabIndex = 0;
             // 
             // databaseTab
@@ -101,7 +101,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             databaseTab.Location = new Point(4, 24);
             databaseTab.Name = "databaseTab";
             databaseTab.Padding = new Padding(3);
-            databaseTab.Size = new Size(751, 404);
+            databaseTab.Size = new Size(759, 409);
             databaseTab.TabIndex = 0;
             databaseTab.Text = "Database";
             databaseTab.UseVisualStyleBackColor = true;
@@ -301,17 +301,17 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             buttonPanel.Controls.Add(okButton);
             buttonPanel.Dock = DockStyle.Fill;
             buttonPanel.FlowDirection = FlowDirection.RightToLeft;
-            buttonPanel.Location = new Point(3, 441);
+            buttonPanel.Location = new Point(3, 446);
             buttonPanel.Name = "buttonPanel";
             buttonPanel.Padding = new Padding(10);
-            buttonPanel.Size = new Size(759, 60);
+            buttonPanel.Size = new Size(767, 61);
             buttonPanel.TabIndex = 1;
             // 
             // cancelButton
             // 
             cancelButton.AutoSize = true;
             cancelButton.DialogResult = DialogResult.Cancel;
-            cancelButton.Location = new Point(661, 13);
+            cancelButton.Location = new Point(669, 13);
             cancelButton.Name = "cancelButton";
             cancelButton.Padding = new Padding(5);
             cancelButton.Size = new Size(75, 35);
@@ -322,7 +322,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // 
             okButton.AutoSize = true;
             okButton.DialogResult = DialogResult.OK;
-            okButton.Location = new Point(580, 13);
+            okButton.Location = new Point(588, 13);
             okButton.Name = "okButton";
             okButton.Padding = new Padding(5);
             okButton.Size = new Size(75, 35);
@@ -334,7 +334,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // 
             AcceptButton = okButton;
             CancelButton = cancelButton;
-            ClientSize = new Size(765, 504);
+            ClientSize = new Size(773, 510);
             Controls.Add(mainLayout);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
