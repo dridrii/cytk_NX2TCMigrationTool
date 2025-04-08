@@ -90,14 +90,19 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                 if (!part.IsDuplicate)
                 {
                     _partsGrid.Rows.Add(
-                        rowNumber,  // Add the row number
+                        rowNumber,
                         part.Id,
                         part.Name,
                         part.Type,
                         part.FileName,
                         part.FilePath,
                         part.Checksum,
-                        part.IsDuplicate
+                        part.IsDuplicate ? "Yes" : "No",
+                        part.IsPart.HasValue ? (part.IsPart.Value ? "Yes" : "No") : "Unknown",
+                        part.IsAssembly.HasValue ? (part.IsAssembly.Value ? "Yes" : "No") : "Unknown",
+                        part.IsDrafting.HasValue ? (part.IsDrafting.Value ? "Yes" : "No") : "Unknown",
+                        part.IsPartFamilyMaster.HasValue ? (part.IsPartFamilyMaster.Value ? "Yes" : "No") : "Unknown",
+                        part.IsPartFamilyMember.HasValue ? (part.IsPartFamilyMember.Value ? "Yes" : "No") : "Unknown"
                     );
                     rowNumber++;
                 }

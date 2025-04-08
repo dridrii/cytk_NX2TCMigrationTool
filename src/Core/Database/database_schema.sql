@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS "Parts" (
     "FileName" TEXT,            -- Name of the file with extension
     "Checksum" TEXT,            -- SHA-256 checksum of the file
     "IsDuplicate" INTEGER DEFAULT 0, -- Flag for duplicate files (0=no, 1=yes)
+    "IsPartFamilyMaster" INTEGER DEFAULT 0, -- Flag for part family master (0=no, 1=yes)
+    "IsPartFamilyMember" INTEGER DEFAULT 0, -- Flag for part family member (0=no, 1=yes)
     "DuplicateOf" TEXT,         -- ID of the original part this is a duplicate of
     "Metadata" TEXT             -- JSON serialized metadata/attributes
 );

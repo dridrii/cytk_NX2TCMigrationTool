@@ -228,6 +228,11 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             _partsGrid.Columns.Add("FilePath", "File Path");
             _partsGrid.Columns.Add("Checksum", "Checksum");
             _partsGrid.Columns.Add("IsDuplicate", "Is Duplicate");
+            _partsGrid.Columns.Add("IsPart", "Is Part");
+            _partsGrid.Columns.Add("IsAssembly", "Is Assembly");
+            _partsGrid.Columns.Add("IsDrafting", "Is Drafting");
+            _partsGrid.Columns.Add("IsPartFamilyMaster", "Is Part Family Master");
+            _partsGrid.Columns.Add("IsPartFamilyMember", "Is Part Family Member");
         }
 
         private void InitializeDuplicatesTab()

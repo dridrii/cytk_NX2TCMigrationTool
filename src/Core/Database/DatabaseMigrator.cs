@@ -36,6 +36,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
                     ApplyBOMMigration();
                 }
 
+                // In MigrateDatabase method, add:
+                if (!DoesColumnExist("Parts", "IsPart"))
+                {
+                    ApplyPartTypeMigration();
+                }
+
                 _logger.Info("DatabaseMigrator", "Database migration completed successfully");
                 return true;
             }
@@ -189,6 +195,22 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database
                     command.ExecuteNonQuery();
                 }
             }
+        }
+
+        private void ApplyPartTypeMigration()
+        {
+            _logger.Info("DatabaseMigrator", "Adding part type columns to Parts table");
+
+            // Add the new columns for part types
+            ExecuteSql(@"
+        ALTER TABLE ""Parts"" ADD COLUMN ""IsPart"" INTEGER DEFAULT 0;
+        ALTER TABLE ""Parts"" ADD COLUMN ""IsAssembly"" INTEGER DEFAULT 0;
+        ALTER TABLE ""Parts"" ADD COLUMN ""IsDrafting"" INTEGER DEFAULT 0;
+        ALTER TABLE ""Parts"" ADD COLUMN ""IsPartFamilyMaster"" INTEGER DEFAULT 0;
+        ALTER TABLE ""Parts"" ADD COLUMN ""IsPartFamilyMember"" INTEGER DEFAULT 0;
+    ");
+
+            _logger.Info("DatabaseMigrator", "Part type migration completed successfully");
         }
     }
 }

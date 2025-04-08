@@ -21,7 +21,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"", ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
                                FROM ""Parts"" WHERE ""ID"" = @Id";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -43,7 +43,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
                                 IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
                                 DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                IsPart = reader.IsDBNull(10) ? null : (bool?)(reader.GetInt32(10) == 1),
+                                IsAssembly = reader.IsDBNull(11) ? null : (bool?)(reader.GetInt32(11) == 1),
+                                IsDrafting = reader.IsDBNull(12) ? null : (bool?)(reader.GetInt32(12) == 1),
+                                IsPartFamilyMaster = reader.IsDBNull(13) ? null : (bool?)(reader.GetInt32(13) == 1),
+                                IsPartFamilyMember = reader.IsDBNull(14) ? null : (bool?)(reader.GetInt32(14) == 1),
                             };
                         }
                     }
@@ -62,7 +67,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" , ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
                                FROM ""Parts""";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -82,7 +87,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
                                 IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
                                 DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                IsPart = reader.IsDBNull(10) ? null : (bool?)(reader.GetInt32(10) == 1),
+                                IsAssembly = reader.IsDBNull(11) ? null : (bool?)(reader.GetInt32(11) == 1),
+                                IsDrafting = reader.IsDBNull(12) ? null : (bool?)(reader.GetInt32(12) == 1),
+                                IsPartFamilyMaster = reader.IsDBNull(13) ? null : (bool?)(reader.GetInt32(13) == 1),
+                                IsPartFamilyMember = reader.IsDBNull(14) ? null : (bool?)(reader.GetInt32(14) == 1),
                             });
                         }
                     }
@@ -99,10 +109,12 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"
-                    INSERT INTO ""Parts"" (""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                    ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"")
-                    VALUES (@Id, @Name, @Type, @Source, @FilePath, @FileName, 
-                    @Checksum, @IsDuplicate, @DuplicateOf, @Metadata)";
+    INSERT INTO ""Parts"" (""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
+                          ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"",
+                          ""IsPart"", ""IsAssembly"", ""IsDrafting"", ""IsPartFamilyMaster"", ""IsPartFamilyMember"")
+    VALUES (@Id, @Name, @Type, @Source, @FilePath, @FileName, 
+            @Checksum, @IsDuplicate, @DuplicateOf, @Metadata,
+            @IsPart, @IsAssembly, @IsDrafting, @IsPartFamilyMaster, @IsPartFamilyMember)";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -116,6 +128,11 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                     command.Parameters.AddWithValue("@IsDuplicate", entity.IsDuplicate ? 1 : 0);
                     command.Parameters.AddWithValue("@DuplicateOf", entity.DuplicateOf ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Metadata", entity.Metadata ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@IsPart", entity.IsPart.HasValue ? (entity.IsPart.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsAssembly", entity.IsAssembly.HasValue ? (entity.IsAssembly.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsDrafting", entity.IsDrafting.HasValue ? (entity.IsDrafting.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsPartFamilyMaster", entity.IsPartFamilyMaster.HasValue ? (entity.IsPartFamilyMaster.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsPartFamilyMember", entity.IsPartFamilyMember.HasValue ? (entity.IsPartFamilyMember.Value ? 1 : 0) : DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }
@@ -129,11 +146,13 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"
-                    UPDATE ""Parts""
-                    SET ""Name"" = @Name, ""Type"" = @Type, ""Source"" = @Source, 
-                    ""FilePath"" = @FilePath, ""FileName"" = @FileName, ""Checksum"" = @Checksum,
-                    ""IsDuplicate"" = @IsDuplicate, ""DuplicateOf"" = @DuplicateOf, ""Metadata"" = @Metadata
-                    WHERE ""ID"" = @Id";
+    UPDATE ""Parts""
+    SET ""Name"" = @Name, ""Type"" = @Type, ""Source"" = @Source, 
+        ""FilePath"" = @FilePath, ""FileName"" = @FileName, ""Checksum"" = @Checksum,
+        ""IsDuplicate"" = @IsDuplicate, ""DuplicateOf"" = @DuplicateOf, ""Metadata"" = @Metadata,
+        ""IsPart"" = @IsPart, ""IsAssembly"" = @IsAssembly, ""IsDrafting"" = @IsDrafting,
+        ""IsPartFamilyMaster"" = @IsPartFamilyMaster, ""IsPartFamilyMember"" = @IsPartFamilyMember
+    WHERE ""ID"" = @Id";
 
                 using (var command = new SQLiteCommand(sql, connection))
                 {
@@ -147,6 +166,11 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                     command.Parameters.AddWithValue("@IsDuplicate", entity.IsDuplicate ? 1 : 0);
                     command.Parameters.AddWithValue("@DuplicateOf", entity.DuplicateOf ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Metadata", entity.Metadata ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@IsPart", entity.IsPart.HasValue ? (entity.IsPart.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsAssembly", entity.IsAssembly.HasValue ? (entity.IsAssembly.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsDrafting", entity.IsDrafting.HasValue ? (entity.IsDrafting.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsPartFamilyMaster", entity.IsPartFamilyMaster.HasValue ? (entity.IsPartFamilyMaster.Value ? 1 : 0) : DBNull.Value);
+                    command.Parameters.AddWithValue("@IsPartFamilyMember", entity.IsPartFamilyMember.HasValue ? (entity.IsPartFamilyMember.Value ? 1 : 0) : DBNull.Value);
 
                     command.ExecuteNonQuery();
                 }
@@ -180,7 +204,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"", ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
                                FROM ""Parts"" WHERE ""Source"" = @Source";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -202,7 +226,10 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
                                 IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
                                 DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                IsPartFamilyMaster = reader.IsDBNull(10) ? false : reader.GetInt32(10) == 1,
+                                IsPartFamilyMember = reader.IsDBNull(11) ? false : reader.GetInt32(11) == 1
+
                             });
                         }
                     }
@@ -222,7 +249,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                       ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                       ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"", ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
                        FROM ""Parts"" WHERE ""Checksum"" = @Checksum";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -244,7 +271,10 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
                                 IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
                                 DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                IsPartFamilyMaster = reader.IsDBNull(10) ? false : reader.GetInt32(10) == 1,
+                                IsPartFamilyMember = reader.IsDBNull(11) ? false : reader.GetInt32(11) == 1
+
                             });
                         }
                     }
@@ -263,7 +293,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" 
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"", ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
                                FROM ""Parts"" WHERE ""IsDuplicate"" = 1";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -283,7 +313,9 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                                 Checksum = reader.IsDBNull(6) ? null : reader.GetString(6),
                                 IsDuplicate = reader.IsDBNull(7) ? false : reader.GetInt32(7) == 1,
                                 DuplicateOf = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9)
+                                Metadata = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                IsPartFamilyMaster = reader.IsDBNull(10) ? false : reader.GetInt32(10) == 1,
+                                IsPartFamilyMember = reader.IsDBNull(11) ? false : reader.GetInt32(11) == 1
                             });
                         }
                     }

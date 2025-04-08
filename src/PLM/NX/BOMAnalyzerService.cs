@@ -21,6 +21,7 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         private readonly BOMRelationshipRepository _bomRepository;
         private readonly AssemblyStatsRepository _statsRepository;
         private readonly SettingsManager _settingsManager;
+        private readonly NXTypeAnalyzer _typeAnalyzer;
         private readonly Logger _logger;
         private readonly string _salt;
 
@@ -36,6 +37,7 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             _statsRepository = statsRepository ?? throw new ArgumentNullException(nameof(statsRepository));
             _settingsManager = settingsManager ?? throw new ArgumentNullException(nameof(settingsManager));
             _logger = Logger.Instance;
+            _typeAnalyzer = new NXTypeAnalyzer();
 
             // Get salt from settings
             _salt = _settingsManager.GetSetting("/Settings/Application/Salt") ?? "CYTKdefault123";
@@ -117,6 +119,19 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             {
                 throw new FileNotFoundException($"Part file not found: {part.FilePath}");
             }
+
+            // Analyze the part type using NXTypeAnalyzer
+            var partTypes = _typeAnalyzer.AnalyzePartType(part.FilePath);
+
+            // Update the part with the new type information
+            part.IsPart = partTypes["IsPart"];
+            part.IsAssembly = partTypes["IsAssembly"];
+            part.IsDrafting = partTypes["IsDrafting"];
+            part.IsPartFamilyMaster = partTypes["IsPartFamilyMaster"];
+            part.IsPartFamilyMember = partTypes["IsPartFamilyMember"];
+
+            // Save the updated part
+            _partRepository.Update(part);
 
             // Get the NX installation directory from settings
             string nxInstallPath = _settingsManager.GetSetting("/Settings/NX/InstallPath");
@@ -201,17 +216,18 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             var relationships = ParseUgpcOutput(ugpcOutput, part);
 
             // Calculate assembly stats
-            var stats = CalculateAssemblyStats(part, relationships);
-
-            // Check if this part is a drafting
-            bool isDrafting = IsDrafting(part.FilePath);
-            stats.IsDrafting = isDrafting;
+            var stats = new AssemblyStats
+            {
+                PartId = part.Id,
+                ComponentCount = relationships.Count,
+                LastAnalyzed = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
 
             // Save all relationships to database
             foreach (var relationship in relationships)
             {
                 // Check if this is a master model relationship (drafting-to-model)
-                if (isDrafting && relationship.RelationType == BOMRelationType.ASSEMBLY.ToString())
+                if (part.IsDrafting == true && relationship.RelationType == BOMRelationType.ASSEMBLY.ToString())
                 {
                     // For drafting files, change the relationship type to MASTER_MODEL
                     relationship.RelationType = BOMRelationType.MASTER_MODEL.ToString();
@@ -223,11 +239,27 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 }
             }
 
+            if (relationships.Count > 0)
+            {
+                _logger.Debug("BOMAnalyzer", $"Setting IsAssembly flag for part {part.Id} ({part.Name}) with {relationships.Count} components");
+                part.IsAssembly = true;
+                part.IsPart = false;  // A part cannot be both an assembly and a simple part
+            }
+            else
+            {
+                // If this part has no components, it's a simple part (not an assembly)
+                _logger.Debug("BOMAnalyzer", $"Setting IsPart flag for part {part.Id} ({part.Name}) with no components");
+                part.IsPart = true;
+                part.IsAssembly = false;
+            }
+
             // Save assembly stats to database
             var existingStats = _statsRepository.GetByPartId(part.Id);
             if (existingStats != null)
             {
                 stats.ParentCount = existingStats.ParentCount; // Preserve parent count when updating
+                stats.TotalComponentCount = existingStats.TotalComponentCount; // Preserve total count until recalculation
+                stats.AssemblyDepth = existingStats.AssemblyDepth; // Preserve assembly depth until recalculation
                 _statsRepository.Update(stats);
             }
             else
@@ -416,6 +448,24 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         }
 
         /// <summary>
+        /// Counts the indentation level in a string (number of leading spaces/tabs)
+        /// </summary>
+        private int CountIndentation(string line)
+        {
+            if (string.IsNullOrEmpty(line))
+                return 0;
+
+            int i = 0;
+            while (i < line.Length && (line[i] == ' ' || line[i] == '\t'))
+            {
+                i++;
+            }
+
+            // Normalize by assuming 2 spaces per level
+            return i / 2;
+        }
+
+        /// <summary>
         /// Calculates total component count and maximum depth for an assembly
         /// </summary>
         private (int TotalCount, int MaxDepth) CalculateHierarchyInfo(string assemblyId,
@@ -471,34 +521,34 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             return (totalCount, maxDepth);
         }
 
-        /// <summary>
-        /// Determines if a file is a drafting based on its characteristics
-        /// </summary>
-        private bool IsDrafting(string filePath)
-        {
-            // In a real implementation, we might check the file header or other characteristics
-            // For this example, we'll use a simplistic approach: look for "drawing" or "draft" in the filename
-            string fileName = Path.GetFileNameWithoutExtension(filePath).ToLower();
-            return fileName.Contains("drawing") || fileName.Contains("draft") || fileName.Contains("dwg");
-        }
+        ///// <summary>
+        ///// Determines if a file is a drafting based on its characteristics
+        ///// </summary>
+        //private bool IsDrafting(string filePath)
+        //{
+        //    // In a real implementation, we might check the file header or other characteristics
+        //    // For this example, we'll use a simplistic approach: look for "drawing" or "draft" in the filename
+        //    string fileName = Path.GetFileNameWithoutExtension(filePath).ToLower();
+        //    return fileName.Contains("drawing") || fileName.Contains("draft") || fileName.Contains("dwg");
+        //}
 
-        /// <summary>
-        /// Counts the indentation level in a string (number of leading spaces/tabs)
-        /// </summary>
-        private int CountIndentation(string line)
-        {
-            if (string.IsNullOrEmpty(line))
-                return 0;
+        ///// <summary>
+        ///// Counts the indentation level in a string (number of leading spaces/tabs)
+        ///// </summary>
+        //private int CountIndentation(string line)
+        //{
+        //    if (string.IsNullOrEmpty(line))
+        //        return 0;
 
-            int i = 0;
-            while (i < line.Length && (line[i] == ' ' || line[i] == '\t'))
-            {
-                i++;
-            }
+        //    int i = 0;
+        //    while (i < line.Length && (line[i] == ' ' || line[i] == '\t'))
+        //    {
+        //        i++;
+        //    }
 
-            // Normalize by assuming 2 spaces per level
-            return i / 2;
-        }
+        //    // Normalize by assuming 2 spaces per level
+        //    return i / 2;
+        //}
 
         /// <summary>
         /// Reports progress to subscribers

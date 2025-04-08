@@ -500,30 +500,57 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
                 }
             }
 
-            // Add assembly info if available
-            if (component.Stats != null)
+            // Add part type info
+            if (component.Part.IsPartFamilyMaster == true)
             {
-                if (component.IsAssembly)
+                nodeText += " [Part Family Master]";
+            }
+            else if (component.Part.IsPartFamilyMember == true)
+            {
+                nodeText += " [Part Family Member]";
+            }
+            else if (component.Part.IsDrafting == true)
+            {
+                nodeText += " [Drafting]";
+            }
+            else if (component.Part.IsAssembly == true)
+            {
+                nodeText += " [Assembly]";
+
+                // Add stats if available
+                if (component.Stats != null)
                 {
-                    nodeText += $" - Assembly ({component.Stats.ComponentCount} direct, {component.Stats.TotalComponentCount} total)";
+                    nodeText += $" ({component.Stats.ComponentCount} direct, {component.Stats.TotalComponentCount} total)";
                 }
-                else if (component.IsDrafting)
-                {
-                    nodeText += " - Drafting";
-                }
+            }
+            else if (component.Part.IsPart == true)
+            {
+                nodeText += " [Part]";
             }
 
             var node = new TreeNode(nodeText);
             node.Tag = new NodeData { PartId = component.Part.Id, Relationship = component.Relationship };
 
             // Set icon based on part type
-            if (component.IsDrafting)
+            if (component.Part.IsPartFamilyMaster == true)
+            {
+                node.ForeColor = Color.Purple;
+            }
+            else if (component.Part.IsPartFamilyMember == true)
+            {
+                node.ForeColor = Color.DarkOrange;
+            }
+            else if (component.Part.IsDrafting == true)
             {
                 node.ForeColor = Color.Blue;
             }
-            else if (component.IsAssembly)
+            else if (component.Part.IsAssembly == true)
             {
                 node.ForeColor = Color.Green;
+            }
+            else if (component.Part.IsPart == true)
+            {
+                node.ForeColor = Color.Black;
             }
 
             return node;
