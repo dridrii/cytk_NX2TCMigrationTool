@@ -161,7 +161,8 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 _partRepository.Update(part);
 
                 // Run the ugpc tool to analyze the part structure
-                var results = await RunUgpcToolAsync(part.FilePath);
+                string ugpcPath = Path.Combine(_nxInstallPath, "NXBIN", "ugpc.exe");
+                var results = await RunUgpcToolAsync(ugpcPath, part.FilePath);
 
                 // Process the results to extract BOM relationships and stats
                 await ProcessUgpcResultsAsync(part, results);

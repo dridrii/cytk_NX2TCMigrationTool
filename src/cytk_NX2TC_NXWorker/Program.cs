@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.IO;
 using System.IO.Pipes;
 using System.Collections.Generic;
@@ -64,8 +65,9 @@ namespace cytk_NX2TC_NXWorker
                     pipeServer.WaitForConnection();
                     Console.WriteLine("Client connected");
 
-                    using (var reader = new StreamReader(pipeServer, leaveOpen: true))
-                    using (var writer = new StreamWriter(pipeServer, leaveOpen: true))
+                    using (var reader = new StreamReader(pipeServer, System.Text.Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true))
+
+                    using (var writer = new StreamWriter(pipeServer, System.Text.Encoding.UTF8, bufferSize: 1024, leaveOpen: true))
                     {
                         // Read the request
                         string requestJson = reader.ReadLine();
@@ -191,11 +193,11 @@ namespace cytk_NX2TC_NXWorker
                     try
                     {
                         Tag partTag = basePart.Tag;
-                        Tag parentTemplateTag = Tag.Null;
-                        theUfSession.Part.AskPartFamilyTemplateTag(partTag, out parentTemplateTag);
-                        bool isPartFamilyMember = parentTemplateTag != Tag.Null;
-                        result["IsPartFamilyMember"] = isPartFamilyMember;
-                        Console.WriteLine($"Is family member: {isPartFamilyMember}");
+                        bool parentTemplateTag = false;
+                        theUfSession.Part.IsFamilyTemplate(partTag, out parentTemplateTag);
+                        //bool isPartFamilyMember = parentTemplateTag != Tag.Null;
+                        //result["IsPartFamilyMember"] = isPartFamilyMember;
+                        //Console.WriteLine($"Is family member: {isPartFamilyMember}");
                     }
                     catch (Exception ex)
                     {
@@ -209,10 +211,10 @@ namespace cytk_NX2TC_NXWorker
                         bool isDrafting = false;
                         try
                         {
-                            isDrafting = part.Prototype == BasePart.PrototypeType.Drafting ||
-                                       (part.DrawingSheets != null && part.DrawingSheets.Count > 0);
-                            result["IsDrafting"] = isDrafting;
-                            Console.WriteLine($"Is drafting: {isDrafting}");
+                            //isDrafting = part.Prototype == BasePart.PrototypeType.Drafting ||
+                            //           (part.DrawingSheets != null && part.DrawingSheets.Count > 0);
+                            //result["IsDrafting"] = isDrafting;
+                            //Console.WriteLine($"Is drafting: {isDrafting}");
                         }
                         catch (Exception ex)
                         {
@@ -223,7 +225,7 @@ namespace cytk_NX2TC_NXWorker
                         // Check if it's an assembly
                         try
                         {
-                            bool isAssembly = part.Prototype == BasePart.PrototypeType.Assembly;
+                            //bool isAssembly = part.Prototype == BasePart.PrototypeType.Assembly;
 
                             // Also check for components
                             try
@@ -233,7 +235,7 @@ namespace cytk_NX2TC_NXWorker
                                     part.ComponentAssembly.RootComponent.GetChildren() != null &&
                                     part.ComponentAssembly.RootComponent.GetChildren().Length > 0)
                                 {
-                                    isAssembly = true;
+                                    //isAssembly = true;
                                 }
                             }
                             catch (Exception ex)
@@ -241,15 +243,15 @@ namespace cytk_NX2TC_NXWorker
                                 Console.Error.WriteLine($"Error checking components: {ex.Message}");
                             }
 
-                            result["IsAssembly"] = isAssembly;
-                            Console.WriteLine($"Is assembly: {isAssembly}");
+                            //result["IsAssembly"] = isAssembly;
+                           // Console.WriteLine($"Is assembly: {isAssembly}");
 
                             // If none of the special types, it's a simple part
-                            if (!isAssembly && !isDrafting &&
-                                !result["IsPartFamilyMaster"] && !result["IsPartFamilyMember"])
-                            {
-                                result["IsPart"] = true;
-                            }
+                            //if (!isAssembly && !isDrafting &&
+                            //    !result["IsPartFamilyMaster"] && !result["IsPartFamilyMember"])
+                            //{
+                            //    result["IsPart"] = true;
+                            //}
                         }
                         catch (Exception ex)
                         {
@@ -260,14 +262,14 @@ namespace cytk_NX2TC_NXWorker
                     }
 
                     // Close the part
-                    try
-                    {
-                        theSession.Parts.CloseBase(basePart, Part.CloseBaseOptions.DestroyWindow, null);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Error.WriteLine($"Error closing part: {ex.Message}");
-                    }
+                    //try
+                    //{
+                    //    theSession.Parts.CloseBase(basePart, Part.CloseBaseOptions.DestroyWindow, null);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    Console.Error.WriteLine($"Error closing part: {ex.Message}");
+                    //}
                 }
                 else
                 {
@@ -302,37 +304,37 @@ namespace cytk_NX2TC_NXWorker
 
                     if (basePart is Part part)
                     {
-                        // Check if it's defined as an assembly type
-                        if (part.Prototype == BasePart.PrototypeType.Assembly)
-                        {
-                            Console.WriteLine("Part is an assembly (by prototype)");
-                            return true;
-                        }
+                        //// Check if it's defined as an assembly type
+                        //if (part.Prototype == BasePart.PrototypeType.Assembly)
+                        //{
+                        //    Console.WriteLine("Part is an assembly (by prototype)");
+                        //    return true;
+                        //}
 
-                        // Check if it has components
-                        try
-                        {
-                            if (part.ComponentAssembly != null &&
-                                part.ComponentAssembly.RootComponent != null)
-                            {
-                                Component[] components = part.ComponentAssembly.RootComponent.GetChildren();
-                                if (components != null && components.Length > 0)
-                                {
-                                    Console.WriteLine($"Part is an assembly (has {components.Length} components)");
-                                    return true;
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.Error.WriteLine($"Error checking components: {ex.Message}");
-                        }
+                        //// Check if it has components
+                        //try
+                        //{
+                        //    if (part.ComponentAssembly != null &&
+                        //        part.ComponentAssembly.RootComponent != null)
+                        //    {
+                        //        Component[] components = part.ComponentAssembly.RootComponent.GetChildren();
+                        //        if (components != null && components.Length > 0)
+                        //        {
+                        //            Console.WriteLine($"Part is an assembly (has {components.Length} components)");
+                        //            return true;
+                        //        }
+                        //    }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    Console.Error.WriteLine($"Error checking components: {ex.Message}");
+                        //}
                     }
 
                     // Close the part
                     try
                     {
-                        theSession.Parts.CloseBase(basePart, Part.CloseBaseOptions.DestroyWindow, null);
+                        //theSession.Parts.CloseBase(basePart, Part.CloseBaseOptions.DestroyWindow, null);
                     }
                     catch (Exception ex)
                     {

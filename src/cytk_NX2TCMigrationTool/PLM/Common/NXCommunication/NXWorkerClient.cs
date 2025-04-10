@@ -73,14 +73,14 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
                         await pipeClient.ConnectAsync(10000);
 
                         // Create StreamWriter for writing to the pipe
-                        using (var writer = new StreamWriter(pipeClient, leaveOpen: true))
+                        using (var writer = new StreamWriter(pipeClient, System.Text.Encoding.UTF8, 1024, leaveOpen: true))
                         {
                             // Write the request to the pipe
                             await writer.WriteLineAsync(requestJson);
                             await writer.FlushAsync();
 
                             // Create StreamReader for reading the response
-                            using (var reader = new StreamReader(pipeClient, leaveOpen: true))
+                            using (var reader = new StreamReader(pipeClient, System.Text.Encoding.UTF8, true, 1024, leaveOpen: true))
                             {
                                 // Read the response
                                 string responseJson = await reader.ReadLineAsync();
