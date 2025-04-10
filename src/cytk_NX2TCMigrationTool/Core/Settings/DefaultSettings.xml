@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Settings>
+	<Database>
+		<Path>Data/PLMIntegration.db</Path>
+	</Database>
+	<NX>
+		<InstallPath></InstallPath>
+		<Version></Version>
+		<RootDirectories>
+			<!-- This will store multiple root directories for scanning NX files -->
+		</RootDirectories>
+	</NX>
+	<Teamcenter>
+		<Server></Server>
+		<Port>7001</Port>
+		<User></User>
+		<EncryptedPassword></EncryptedPassword>
+	</Teamcenter>
+	<Application>
+		<Salt>CYTKdefault123</Salt>
+		<Version>0.1.0</Version>
+	</Application>
+</Settings>

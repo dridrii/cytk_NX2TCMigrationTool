@@ -1,25 +1,39 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35327.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.35931.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cytk_NX2TCMigrationTool", "src\cytk_NX2TCMigrationTool.csproj", "{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cytk_NX2TCMigrationTool", "src\cytk_NX2TCMigrationTool\cytk_NX2TCMigrationTool.csproj", "{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cytk_NX2TC_NXWorker", "..\cytk_NX2TC_NXWorker\cytk_NX2TC_NXWorker.csproj", "{EA04EBA5-D610-4424-B8BC-2490DF40168D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3C5C4D0-4CCF-4F03-A113-7F74C7E867DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Debug|x64.Build.0 = Debug|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Release|x64.ActiveCfg = Release|Any CPU
+		{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}.Release|x64.Build.0 = Release|Any CPU
+		{EA04EBA5-D610-4424-B8BC-2490DF40168D}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{EA04EBA5-D610-4424-B8BC-2490DF40168D}.Debug|x64.ActiveCfg = Debug|x64
+		{EA04EBA5-D610-4424-B8BC-2490DF40168D}.Debug|x64.Build.0 = Debug|x64
+		{EA04EBA5-D610-4424-B8BC-2490DF40168D}.Release|Any CPU.ActiveCfg = Release|x64
+		{EA04EBA5-D610-4424-B8BC-2490DF40168D}.Release|x64.ActiveCfg = Release|x64
+		{EA04EBA5-D610-4424-B8BC-2490DF40168D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A36A9A7C-11B5-4E48-A750-ED9E0ED0D14B}
+		SolutionGuid = {F2E5CA40-2EB8-43CD-AE9C-2BB2C3459A1D}
 	EndGlobalSection
 EndGlobal
