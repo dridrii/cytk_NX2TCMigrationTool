@@ -6,6 +6,8 @@
 	<NX>
 		<InstallPath></InstallPath>
 		<Version></Version>
+		<NXWorkerPath></NXWorkerPath>
+		<!-- Added this element -->
 		<RootDirectories>
 			<!-- This will store multiple root directories for scanning NX files -->
 		</RootDirectories>

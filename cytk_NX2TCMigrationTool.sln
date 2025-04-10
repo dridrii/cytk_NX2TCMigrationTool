@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.35931.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cytk_NX2TCMigrationTool", "src\cytk_NX2TCMigrationTool\cytk_NX2TCMigrationTool.csproj", "{73D0FFC9-1C5B-4FE4-80EA-E502887B2E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cytk_NX2TC_NXWorker", "..\cytk_NX2TC_NXWorker\cytk_NX2TC_NXWorker.csproj", "{EA04EBA5-D610-4424-B8BC-2490DF40168D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cytk_NX2TC_NXWorker", "src\cytk_NX2TC_NXWorker\cytk_NX2TC_NXWorker.csproj", "{EA04EBA5-D610-4424-B8BC-2490DF40168D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

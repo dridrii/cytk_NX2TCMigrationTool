@@ -132,6 +132,21 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
 
             tcUserTextBox.Text = _settingsManager.GetSetting("/Settings/Teamcenter/User");
             // Note: Password will need special handling if it's encrypted
+
+            nxWorkerPathTextBox.Text = _settingsManager.GetSetting("/Settings/NX/NXWorkerPath");
+        }
+
+        private void OnNXWorkerBrowseClick(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "DLL Files (*.dll)|*.dll|Executable Files (*.exe)|*.exe|All Files (*.*)|*.*";
+            dialog.Title = "Select NX Worker File";
+            dialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                nxWorkerPathTextBox.Text = dialog.FileName;
+            }
         }
     }
 }

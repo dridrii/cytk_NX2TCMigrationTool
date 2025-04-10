@@ -15,6 +15,8 @@
 						<xs:sequence>
 							<xs:element name="InstallPath" type="xs:string"/>
 							<xs:element name="Version" type="xs:string"/>
+							<xs:element name="NXWorkerPath" type="xs:string"/>
+							<!-- Added this element -->
 							<xs:element name="RootDirectories">
 								<xs:complexType>
 									<xs:sequence>

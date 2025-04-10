@@ -10,6 +10,9 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private Label nxWorkerPathLabel;
+        private TextBox nxWorkerPathTextBox;
+        private Button nxWorkerPathBrowseButton;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -329,6 +332,35 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             okButton.TabIndex = 1;
             okButton.Text = "OK";
             okButton.Click += OnOKClick;
+
+            // Add the following initialization code to InitializeComponent method after nxVersion controls
+            nxWorkerPathLabel = new Label();
+            nxWorkerPathLabel.AutoSize = true;
+            nxWorkerPathLabel.Location = new Point(9, 99);
+            nxWorkerPathLabel.Name = "nxWorkerPathLabel";
+            nxWorkerPathLabel.Size = new Size(86, 15);
+            nxWorkerPathLabel.TabIndex = 5;
+            nxWorkerPathLabel.Text = "NXWorker Path:";
+            nxTab.Controls.Add(nxWorkerPathLabel);
+
+            nxWorkerPathTextBox = new TextBox();
+            nxWorkerPathTextBox.Location = new Point(97, 93);
+            nxWorkerPathTextBox.Name = "nxWorkerPathTextBox";
+            nxWorkerPathTextBox.Size = new Size(526, 23);
+            nxWorkerPathTextBox.TabIndex = 6;
+            nxWorkerPathTextBox.Tag = "/Settings/NX/NXWorkerPath";
+            nxTab.Controls.Add(nxWorkerPathTextBox);
+
+            nxWorkerPathBrowseButton = new Button();
+            nxWorkerPathBrowseButton.Location = new Point(629, 93);
+            nxWorkerPathBrowseButton.Name = "nxWorkerPathBrowseButton";
+            nxWorkerPathBrowseButton.Size = new Size(103, 23);
+            nxWorkerPathBrowseButton.TabIndex = 7;
+            nxWorkerPathBrowseButton.Text = "Browse...";
+            nxWorkerPathBrowseButton.UseVisualStyleBackColor = true;
+            nxWorkerPathBrowseButton.Click += OnNXWorkerBrowseClick;
+            nxTab.Controls.Add(nxWorkerPathBrowseButton);
+
             // 
             // SettingsDialog
             // 

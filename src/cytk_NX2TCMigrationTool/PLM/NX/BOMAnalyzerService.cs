@@ -22,6 +22,8 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         private readonly AssemblyStatsRepository _statsRepository;
         private readonly SettingsManager _settingsManager;
         private readonly NXTypeAnalyzer _typeAnalyzer;
+        private readonly string _nxInstallPath;
+        private readonly string _nxWorkerPath;
         private readonly Logger _logger;
         private readonly string _salt;
 
@@ -37,7 +39,20 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             _statsRepository = statsRepository ?? throw new ArgumentNullException(nameof(statsRepository));
             _settingsManager = settingsManager ?? throw new ArgumentNullException(nameof(settingsManager));
             _logger = Logger.Instance;
-            _typeAnalyzer = new NXTypeAnalyzer();
+
+            // Get NX installation path from settings
+            _nxInstallPath = _settingsManager.GetSetting("/Settings/NX/InstallPath");
+
+            // Get NX Worker path from settings or use default
+            _nxWorkerPath = _settingsManager.GetSetting("/Settings/NX/NXWorkerPath");
+            if (string.IsNullOrEmpty(_nxWorkerPath))
+            {
+                // Default to a location relative to the application
+                _nxWorkerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytk_NX2TC_NXWorker.dll");
+            }
+
+            // Initialize the type analyzer with NX paths
+            _typeAnalyzer = new NXTypeAnalyzer(_nxInstallPath, _nxWorkerPath);
 
             // Get salt from settings
             _salt = _settingsManager.GetSetting("/Settings/Application/Salt") ?? "CYTKdefault123";
@@ -120,69 +135,61 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 throw new FileNotFoundException($"Part file not found: {part.FilePath}");
             }
 
-            // Get the NX installation directory from settings
-            string nxInstallPath = _settingsManager.GetSetting("/Settings/NX/InstallPath");
-
-            if (string.IsNullOrEmpty(nxInstallPath))
+            try
             {
-                throw new Exception("NX installation path not configured in settings");
-            }
+                // Analyze the part type using NXTypeAnalyzer
+                var partTypes = await _typeAnalyzer.AnalyzePartTypeAsync(part.FilePath);
 
-            // Analyze the part type using NXTypeAnalyzer
-            var partTypes = _typeAnalyzer.AnalyzePartType(part.FilePath);
+                // Check if it's an assembly using NXTypeAnalyzer
+                bool isAssemblyByStructure = await _typeAnalyzer.IsAssemblyByStructureAsync(part.FilePath, _nxInstallPath);
 
-            // Check if it's an assembly using ugpc utility for more accurate detection
-            bool isAssemblyByStructure = await _typeAnalyzer.IsAssemblyByStructureAsync(part.FilePath, nxInstallPath);
-
-            // If ugpc utility detects assembly structure, override the initial IsAssembly value
-            if (isAssemblyByStructure)
-            {
-                partTypes["IsAssembly"] = true;
-                partTypes["IsPart"] = false;
-            }
-
-            // Update the part with the new type information
-            part.IsPart = partTypes["IsPart"];
-            part.IsAssembly = partTypes["IsAssembly"];
-            part.IsDrafting = partTypes["IsDrafting"];
-            part.IsPartFamilyMaster = partTypes["IsPartFamilyMaster"];
-            part.IsPartFamilyMember = partTypes["IsPartFamilyMember"];
-
-            // Save the updated part
-            _partRepository.Update(part);
-
-            // Construct the path to ugpc.exe
-            string ugpcPath = Path.Combine(nxInstallPath, "NXBIN", "ugpc.exe");
-
-            if (!File.Exists(ugpcPath))
-            {
-                throw new FileNotFoundException($"ugpc.exe not found at: {ugpcPath}");
-            }
-
-            // Run the ugpc tool to analyze the part structure
-            var results = await RunUgpcToolAsync(ugpcPath, part.FilePath);
-
-            // Process the results to extract BOM relationships and stats
-            await ProcessUgpcResultsAsync(part, results);
-
-            // Final check - if we found child relationships, ensure this part is marked as an assembly
-            var childRelationships = _bomRepository.GetByParent(part.Id);
-            if (childRelationships.Any())
-            {
-                if (!part.IsAssembly.GetValueOrDefault())
+                // If structure analysis detects assembly, override the initial IsAssembly value
+                if (isAssemblyByStructure)
                 {
-                    part.IsAssembly = true;
-                    part.IsPart = false;
-                    _partRepository.Update(part);
+                    partTypes["IsAssembly"] = true;
+                    partTypes["IsPart"] = false;
+                }
 
-                    // Also update assembly stats
-                    var stats = _statsRepository.GetByPartId(part.Id);
-                    if (stats != null)
+                // Update the part with the new type information
+                part.IsPart = partTypes["IsPart"];
+                part.IsAssembly = partTypes["IsAssembly"];
+                part.IsDrafting = partTypes["IsDrafting"];
+                part.IsPartFamilyMaster = partTypes["IsPartFamilyMaster"];
+                part.IsPartFamilyMember = partTypes["IsPartFamilyMember"];
+
+                // Save the updated part
+                _partRepository.Update(part);
+
+                // Run the ugpc tool to analyze the part structure
+                var results = await RunUgpcToolAsync(part.FilePath);
+
+                // Process the results to extract BOM relationships and stats
+                await ProcessUgpcResultsAsync(part, results);
+
+                // Final check - if we found child relationships, ensure this part is marked as an assembly
+                var childRelationships = _bomRepository.GetByParent(part.Id);
+                if (childRelationships.Any())
+                {
+                    if (!part.IsAssembly.GetValueOrDefault())
                     {
-                        stats.IsAssembly = true;
-                        _statsRepository.Update(stats);
+                        part.IsAssembly = true;
+                        part.IsPart = false;
+                        _partRepository.Update(part);
+
+                        // Also update assembly stats
+                        var stats = _statsRepository.GetByPartId(part.Id);
+                        if (stats != null)
+                        {
+                            stats.IsAssembly = true;
+                            _statsRepository.Update(stats);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("BOMAnalyzer", $"Error during part analysis: {ex.Message}");
+                throw;
             }
         }
 

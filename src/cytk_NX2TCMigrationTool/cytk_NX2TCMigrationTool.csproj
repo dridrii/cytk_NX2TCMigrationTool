@@ -83,6 +83,7 @@
     <Compile Include="PLM\Common\DTOs\PartDTO.cs" />
     <Compile Include="PLM\Common\Interfaces\IPLMConnection.cs" />
     <Compile Include="PLM\Common\Interfaces\IPLMPartManager.cs" />
+    <Compile Include="PLM\Common\NXCommunication\NXWorkerClient.cs" />
     <Compile Include="PLM\NX\BOMAnalyzerService.cs" />
     <Compile Include="PLM\NX\NXConnection.cs" />
     <Compile Include="PLM\NX\NXFileScanner.cs" />
