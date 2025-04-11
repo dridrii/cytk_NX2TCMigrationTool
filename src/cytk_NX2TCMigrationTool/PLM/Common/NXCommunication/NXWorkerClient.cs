@@ -52,7 +52,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
             var processInfo = new ProcessStartInfo
             {
                 FileName = runDotnetNxOpen,
-                Arguments = $"\"{_nxWorkerPath}\" {PipeName}",
+                Arguments = $"\"{_nxWorkerPath}\" {_pipeName}",
                 UseShellExecute = false,
                 CreateNoWindow = false, // Setting to false to allow the console to be visible during testing
                 RedirectStandardOutput = true,
@@ -155,7 +155,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
             try
             {
                 // Create a named pipe to communicate with the worker
-                using (var pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.Asynchronous))
+                using (var pipeClient = new NamedPipeClientStream(".", _pipeName, PipeDirection.InOut, PipeOptions.Asynchronous))
                 {
                     // Connect to the pipe (timeout after 10 seconds)
                     await pipeClient.ConnectAsync(10000);
