@@ -17,14 +17,23 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         private readonly NXWorkerClient _nxWorkerClient;
         private readonly bool _useNxWorker;
 
-        public NXTypeAnalyzer(string nxPath = null, string nxWorkerPath = null)
+        public NXTypeAnalyzer(NXWorkerClient nxWorkerClient = null, string nxPath = null, string nxWorkerPath = null)
         {
             _logger = Logger.Instance;
-            _useNxWorker = !string.IsNullOrEmpty(nxPath) && !string.IsNullOrEmpty(nxWorkerPath);
 
-            if (_useNxWorker)
+            if (nxWorkerClient != null)
             {
+                _nxWorkerClient = nxWorkerClient;
+                _useNxWorker = true;
+            }
+            else if (!string.IsNullOrEmpty(nxPath) && !string.IsNullOrEmpty(nxWorkerPath))
+            {
+                _useNxWorker = true;
                 _nxWorkerClient = new NXWorkerClient(nxPath, nxWorkerPath);
+            }
+            else
+            {
+                _useNxWorker = false;
             }
         }
 

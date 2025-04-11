@@ -39,7 +39,8 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
             PartRepository partRepository,
             BOMRelationshipRepository bomRepository,
             AssemblyStatsRepository statsRepository,
-            SettingsManager settingsManager)
+            SettingsManager settingsManager,
+            Core.Common.NXCommunication.NXWorkerClient nxWorkerClient)
         {
             _partRepository = partRepository ?? throw new ArgumentNullException(nameof(partRepository));
             _bomRepository = bomRepository ?? throw new ArgumentNullException(nameof(bomRepository));

@@ -12,6 +12,7 @@ using cytk_NX2TCMigrationTool.src.PLM.NX;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 using cytk_NX2TCMigrationTool.src.UI.ViewModels;
 using static cytk_NX2TCMigrationTool.src.UI.ViewModels.BOMBrowserViewModel;
+using cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication;
 
 namespace cytk_NX2TCMigrationTool.src.UI.Windows
 {
@@ -27,7 +28,8 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
 
         // Constructor
         public BOMBrowser(PartRepository partRepository, BOMRelationshipRepository bomRepository,
-                  AssemblyStatsRepository statsRepository, SettingsManager settingsManager)
+                          AssemblyStatsRepository statsRepository, SettingsManager settingsManager,
+                          NXWorkerClient nxWorkerClient = null)
         {
             _logger = Logger.Instance;
 
@@ -38,8 +40,8 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
             // Initialize UI components (this will use the designer-generated method)
             InitializeComponent();
 
-            // Create the view model
-            _viewModel = new BOMBrowserViewModel(partRepository, bomRepository, statsRepository, settingsManager);
+            // Create the view model, passing the NX worker client
+            _viewModel = new BOMBrowserViewModel(partRepository, bomRepository, statsRepository, settingsManager, nxWorkerClient);
             _viewModel.ProgressChanged += ViewModel_ProgressChanged;
 
             // Register form events

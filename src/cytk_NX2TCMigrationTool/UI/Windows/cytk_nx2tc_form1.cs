@@ -151,7 +151,7 @@ namespace cytk_NX2TCMigrationTool
                 this.Text = $"NX 2 TC Migration tool V{version}";
 
 
-                StartNXWorker();
+                //StartNXWorker();
 
                 // Ensure application settings exist
                 EnsureApplicationSettings();
@@ -264,7 +264,7 @@ namespace cytk_NX2TCMigrationTool
             }
         }
 
-        private void OnBrowseBOMClick(object sender, EventArgs e)
+        private async void OnBrowseBOMClick(object sender, EventArgs e)
         {
             try
             {
@@ -273,7 +273,8 @@ namespace cytk_NX2TCMigrationTool
                     _partRepository,
                     _bomRepository,
                     _statsRepository,
-                    _settingsManager))
+                    _settingsManager,
+                    _nxWorkerClient)) // Pass the worker client here
                 {
                     browser.ShowDialog();
                 }
@@ -294,7 +295,8 @@ namespace cytk_NX2TCMigrationTool
                     _partRepository,
                     _bomRepository,
                     _statsRepository,
-                    _settingsManager))
+                    _settingsManager,
+                    _nxWorkerClient)) // Pass the worker client here
                 {
                     // We can safely use AnalyzeButton now since it's a public property
                     browser.AnalyzeButton.PerformClick();

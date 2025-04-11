@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 using cytk_NX2TCMigrationTool.src.Core.Database.Models;
 using cytk_NX2TCMigrationTool.src.Core.Database.Repositories;
@@ -31,8 +32,10 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
         public event EventHandler<BOMAnalysisProgressEventArgs> AnalysisProgress;
 
         // Constructor
+        // In src/cytk_NX2TCMigrationTool/PLM/NX/BOMAnalyzerService.cs
         public BOMAnalyzerService(PartRepository partRepository, BOMRelationshipRepository bomRepository,
-                                  AssemblyStatsRepository statsRepository, SettingsManager settingsManager)
+                                  AssemblyStatsRepository statsRepository, SettingsManager settingsManager,
+                                  NXWorkerClient nxWorkerClient = null)
         {
             _partRepository = partRepository ?? throw new ArgumentNullException(nameof(partRepository));
             _bomRepository = bomRepository ?? throw new ArgumentNullException(nameof(bomRepository));
@@ -51,8 +54,8 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 _nxWorkerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytk_NX2TC_NXWorker.dll");
             }
 
-            // Initialize the type analyzer with NX paths
-            _typeAnalyzer = new NXTypeAnalyzer(_nxInstallPath, _nxWorkerPath);
+            // Initialize the type analyzer with NX worker client if available
+            _typeAnalyzer = new NXTypeAnalyzer(nxWorkerClient, _nxInstallPath, _nxWorkerPath);
 
             // Get salt from settings
             _salt = _settingsManager.GetSetting("/Settings/Application/Salt") ?? "CYTKdefault123";
