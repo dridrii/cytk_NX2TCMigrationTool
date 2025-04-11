@@ -28,8 +28,8 @@ namespace cytk_NX2TCMigrationTool.src.UI.Windows
 
         // Constructor
         public BOMBrowser(PartRepository partRepository, BOMRelationshipRepository bomRepository,
-                          AssemblyStatsRepository statsRepository, SettingsManager settingsManager,
-                          NXWorkerClient nxWorkerClient = null)
+                  AssemblyStatsRepository statsRepository, SettingsManager settingsManager,
+                  NXWorkerClient nxWorkerClient = null)
         {
             _logger = Logger.Instance;
 

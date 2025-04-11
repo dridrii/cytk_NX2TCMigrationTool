@@ -54,6 +54,15 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 _nxWorkerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytk_NX2TC_NXWorker.dll");
             }
 
+            if (nxWorkerClient != null)
+            {
+                _logger.Debug("BOMAnalyzerService", "Using provided NX Worker client");
+            }
+            else
+            {
+                _logger.Debug("BOMAnalyzerService", "No NX Worker client provided");
+            }
+
             // Initialize the type analyzer with NX worker client if available
             _typeAnalyzer = new NXTypeAnalyzer(nxWorkerClient, _nxInstallPath, _nxWorkerPath);
 

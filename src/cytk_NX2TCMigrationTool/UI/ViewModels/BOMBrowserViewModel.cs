@@ -49,7 +49,7 @@ namespace cytk_NX2TCMigrationTool.src.UI.ViewModels
             _logger = Logger.Instance;
 
             // Initialize BOM analyzer
-            _bomAnalyzer = new BOMAnalyzerService(_partRepository, _bomRepository, _statsRepository, _settingsManager);
+            _bomAnalyzer = new BOMAnalyzerService(_partRepository, _bomRepository, _statsRepository, _settingsManager, nxWorkerClient);
             _bomAnalyzer.AnalysisProgress += OnAnalysisProgress;
         }
 

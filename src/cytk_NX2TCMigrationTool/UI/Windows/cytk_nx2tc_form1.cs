@@ -22,10 +22,14 @@ namespace cytk_NX2TCMigrationTool
         private AssemblyStatsRepository _statsRepository;
         private DatabaseMigrator _databaseMigrator;
         private NXWorkerClient _nxWorkerClient;
+        private readonly Logger _logger;
 
         public cytk_nx2tcmigtool_form1(SettingsManager settingsManager)
         {
             _settingsManager = settingsManager ?? throw new ArgumentNullException(nameof(settingsManager));
+            // Initialize the logger
+            _logger = Logger.Instance;
+
             InitializeComponent();
 
             // Initialize repositories
@@ -151,7 +155,7 @@ namespace cytk_NX2TCMigrationTool
                 this.Text = $"NX 2 TC Migration tool V{version}";
 
 
-                //StartNXWorker();
+                StartNXWorker();
 
                 // Ensure application settings exist
                 EnsureApplicationSettings();
@@ -173,16 +177,21 @@ namespace cytk_NX2TCMigrationTool
 
                 if (!string.IsNullOrEmpty(nxInstallPath) && !string.IsNullOrEmpty(nxWorkerPath))
                 {
-                    var nxWorkerClient = new NXWorkerClient(nxInstallPath, nxWorkerPath);
-                    await nxWorkerClient.StartWorkerAsync();
-                    // Store the client for later use
-                    _nxWorkerClient = nxWorkerClient;
+                    _logger.Info("Application", "Starting NX Worker...");
+                    _nxWorkerClient = new NXWorkerClient(nxInstallPath, nxWorkerPath);
+                    await _nxWorkerClient.StartWorkerAsync();
+                    _logger.Info("Application", "NX Worker started successfully");
+                }
+                else
+                {
+                    _logger.Warning("Application", "Could not start NX Worker - missing NX installation path or worker path");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error starting NX Worker: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _logger.Error("Application", $"Error starting NX Worker: {ex.Message}");
+                MessageBox.Show($"Error starting NX Worker: {ex.Message}\n\nSome functionality may be limited.",
+                               "NX Worker Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -255,15 +264,18 @@ namespace cytk_NX2TCMigrationTool
             {
                 if (_nxWorkerClient != null)
                 {
+                    _logger.Info("Application", "Stopping NX Worker...");
                     await _nxWorkerClient.StopWorkerAsync();
+                    _logger.Info("Application", "NX Worker stopped successfully");
                 }
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Application", $"Error stopping NX Worker: {ex.Message}");
+                _logger.Error("Application", $"Error stopping NX Worker: {ex.Message}");
             }
         }
 
+        // Update the BOM Browser methods to use the existing worker
         private async void OnBrowseBOMClick(object sender, EventArgs e)
         {
             try
@@ -274,7 +286,7 @@ namespace cytk_NX2TCMigrationTool
                     _bomRepository,
                     _statsRepository,
                     _settingsManager,
-                    _nxWorkerClient)) // Pass the worker client here
+                    _nxWorkerClient)) // Pass the existing worker client
                 {
                     browser.ShowDialog();
                 }
@@ -296,9 +308,8 @@ namespace cytk_NX2TCMigrationTool
                     _bomRepository,
                     _statsRepository,
                     _settingsManager,
-                    _nxWorkerClient)) // Pass the worker client here
+                    _nxWorkerClient)) // Pass the existing worker client
                 {
-                    // We can safely use AnalyzeButton now since it's a public property
                     browser.AnalyzeButton.PerformClick();
                     browser.ShowDialog();
                 }

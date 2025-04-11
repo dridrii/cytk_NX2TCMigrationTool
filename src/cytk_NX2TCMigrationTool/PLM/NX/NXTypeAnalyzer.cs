@@ -25,15 +25,19 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             {
                 _nxWorkerClient = nxWorkerClient;
                 _useNxWorker = true;
+                _logger.Debug("NXTypeAnalyzer", "Using provided NX Worker client");
             }
             else if (!string.IsNullOrEmpty(nxPath) && !string.IsNullOrEmpty(nxWorkerPath))
             {
+                // Add debug logging here
+                _logger.Debug("NXTypeAnalyzer", "Creating new NX Worker client because none was provided");
                 _useNxWorker = true;
                 _nxWorkerClient = new NXWorkerClient(nxPath, nxWorkerPath);
             }
             else
             {
                 _useNxWorker = false;
+                _logger.Debug("NXTypeAnalyzer", "Not using NX Worker (insufficient parameters)");
             }
         }
 
