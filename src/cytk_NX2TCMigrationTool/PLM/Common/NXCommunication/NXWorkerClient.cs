@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 using System.Diagnostics;
@@ -13,7 +14,10 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
         private readonly string _nxPath;
         private readonly string _nxWorkerPath;
         private readonly Logger _logger;
-        private const string PipeName = "cytk_NX2TC_Pipeline";
+        private readonly string _pipeName = "cytk_NX2TC_Pipeline"; // Use a consistent pipe name
+
+        private Process _nxWorkerProcess;
+        private bool _workerStarted = false;
 
         public NXWorkerClient(string nxPath, string nxWorkerPath)
         {
@@ -22,19 +26,15 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
             _logger = Logger.Instance;
         }
 
-        public async Task<T> SendCommandAsync<T>(string command, object parameters)
+        public async Task StartWorkerAsync()
         {
-            _logger.Debug("NXWorkerClient", $"Sending command: {command}");
-
-            // Create a request object
-            var request = new NXWorkerRequest
+            if (_workerStarted)
             {
-                Command = command,
-                Parameters = parameters
-            };
+                _logger.Debug("NXWorkerClient", "Worker process already started");
+                return;
+            }
 
-            // Serialize the request
-            string requestJson = JsonConvert.SerializeObject(request);
+            _logger.Debug("NXWorkerClient", "Starting worker process");
 
             // Run the NX Worker process
             string runDotnetNxOpen = Path.Combine(_nxPath, "NXBIN", "run_dotnet_nxopen.exe");
@@ -52,63 +52,146 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
             var processInfo = new ProcessStartInfo
             {
                 FileName = runDotnetNxOpen,
-                Arguments = $"\"{_nxWorkerPath}\" {PipeName} \"{command}\"",
+                Arguments = $"\"{_nxWorkerPath}\" {PipeName}",
                 UseShellExecute = false,
-                CreateNoWindow = true,
+                CreateNoWindow = false, // Setting to false to allow the console to be visible during testing
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
 
-            using (var process = new Process { StartInfo = processInfo })
-            {
-                // Start the worker process
-                process.Start();
+            _nxWorkerProcess = new Process { StartInfo = processInfo };
 
+            // Set up event handlers to log worker output
+            _nxWorkerProcess.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                    _logger.Debug("NXWorker", e.Data);
+            };
+            _nxWorkerProcess.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                    _logger.Error("NXWorker", e.Data);
+            };
+
+            // Start the worker process
+            _nxWorkerProcess.Start();
+            _nxWorkerProcess.BeginOutputReadLine();
+            _nxWorkerProcess.BeginErrorReadLine();
+
+            _workerStarted = true;
+            _logger.Info("NXWorkerClient", "Worker process started");
+
+            // Wait a moment to let the worker initialize
+            await Task.Delay(2000);
+        }
+
+        public async Task StopWorkerAsync()
+        {
+            if (!_workerStarted || _nxWorkerProcess == null)
+            {
+                _logger.Debug("NXWorkerClient", "No worker process to stop");
+                return;
+            }
+
+            try
+            {
+                // Send exit command to worker
+                await SendCommandAsync<object>("Exit", null);
+                _logger.Debug("NXWorkerClient", "Exit command sent to worker process");
+
+                // Wait for process to exit gracefully
+                if (!_nxWorkerProcess.WaitForExit(5000))
+                {
+                    _logger.Warning("NXWorkerClient", "Worker process did not exit gracefully, forcing termination");
+                    _nxWorkerProcess.Kill();
+                }
+
+                _nxWorkerProcess.Dispose();
+                _nxWorkerProcess = null;
+                _workerStarted = false;
+                _logger.Info("NXWorkerClient", "Worker process stopped");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("NXWorkerClient", $"Error stopping worker process: {ex.Message}");
+
+                // Ensure the process is killed in case of errors
+                try
+                {
+                    if (!_nxWorkerProcess.HasExited)
+                        _nxWorkerProcess.Kill();
+                    _nxWorkerProcess.Dispose();
+                }
+                catch
+                {
+                    // Ignore any errors during forced cleanup
+                }
+
+                _nxWorkerProcess = null;
+                _workerStarted = false;
+            }
+        }
+
+        public async Task<T> SendCommandAsync<T>(string command, object parameters)
+        {
+            _logger.Debug("NXWorkerClient", $"Sending command: {command}");
+
+            // Start the worker if it's not already running
+            if (!_workerStarted)
+            {
+                await StartWorkerAsync();
+            }
+
+            // Create a request object
+            var request = new NXWorkerRequest
+            {
+                Command = command,
+                Parameters = parameters
+            };
+
+            // Serialize the request
+            string requestJson = JsonConvert.SerializeObject(request);
+
+            try
+            {
                 // Create a named pipe to communicate with the worker
                 using (var pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut, PipeOptions.Asynchronous))
                 {
-                    try
+                    // Connect to the pipe (timeout after 10 seconds)
+                    await pipeClient.ConnectAsync(10000);
+
+                    // Create StreamWriter for writing to the pipe
+                    using (var writer = new StreamWriter(pipeClient, Encoding.UTF8, bufferSize: 1024, leaveOpen: true))
+
                     {
-                        // Connect to the pipe (timeout after 10 seconds)
-                        await pipeClient.ConnectAsync(10000);
+                        // Write the request to the pipe
+                        await writer.WriteLineAsync(requestJson);
+                        await writer.FlushAsync();
 
-                        // Create StreamWriter for writing to the pipe
-                        using (var writer = new StreamWriter(pipeClient, System.Text.Encoding.UTF8, 1024, leaveOpen: true))
+                        // Create StreamReader for reading the response
+                        using (var reader = new StreamReader(pipeClient, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true))
                         {
-                            // Write the request to the pipe
-                            await writer.WriteLineAsync(requestJson);
-                            await writer.FlushAsync();
+                            // Read the response
+                            string responseJson = await reader.ReadLineAsync();
 
-                            // Create StreamReader for reading the response
-                            using (var reader = new StreamReader(pipeClient, System.Text.Encoding.UTF8, true, 1024, leaveOpen: true))
+                            // Parse the response
+                            var response = JsonConvert.DeserializeObject<NXWorkerResponse<T>>(responseJson);
+
+                            // Check if the command was successful
+                            if (!response.Success)
                             {
-                                // Read the response
-                                string responseJson = await reader.ReadLineAsync();
-
-                                // Parse the response
-                                var response = JsonConvert.DeserializeObject<NXWorkerResponse<T>>(responseJson);
-
-                                // Check if the command was successful
-                                if (!response.Success)
-                                {
-                                    throw new Exception($"NX Worker command failed: {response.ErrorMessage}");
-                                }
-
-                                return response.Data;
+                                throw new Exception($"NX Worker command failed: {response.ErrorMessage}");
                             }
+
+                            return response.Data;
                         }
                     }
-                    catch (TimeoutException)
-                    {
-                        _logger.Error("NXWorkerClient", "Connection to NX Worker timed out");
-                        throw new TimeoutException("Connection to NX Worker timed out");
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.Error("NXWorkerClient", $"Error communicating with NX Worker: {ex.Message}");
-                        throw;
-                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("NXWorkerClient", $"Error communicating with NX Worker: {ex.Message}");
+                throw;
             }
         }
     }

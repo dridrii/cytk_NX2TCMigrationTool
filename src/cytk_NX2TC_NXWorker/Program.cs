@@ -47,84 +47,95 @@ namespace cytk_NX2TC_NXWorker
             {
                 theProgram = new Program();
 
-                if (args.Length < 2)
+                if (args.Length < 1)
                 {
-                    Console.WriteLine("Usage: run_dotnet_nxopen cytk_NX2TC_NXWorker.exe <pipeName> <command>");
+                    Console.WriteLine("Usage: run_dotnet_nxopen cytk_NX2TC_NXWorker.exe <pipeName>");
                     return 1;
                 }
 
                 string pipeName = args[0];
-                string command = args[1];
+                Console.WriteLine($"Starting NX Worker with pipe: {pipeName}");
+                Console.WriteLine("Worker is waiting for commands. Press Ctrl+C to exit.");
 
-                Console.WriteLine($"Starting NX Worker with pipe: {pipeName}, command: {command}");
-
-                // Connect to the named pipe
-                using (var pipeServer = new NamedPipeServerStream(pipeName, PipeDirection.InOut))
+                // Run in a continuous loop
+                while (true)
                 {
-                    Console.WriteLine($"Waiting for connection on pipe: {pipeName}");
-                    pipeServer.WaitForConnection();
-                    Console.WriteLine("Client connected");
-
-                    using (var reader = new StreamReader(pipeServer, System.Text.Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true))
-
-                    using (var writer = new StreamWriter(pipeServer, System.Text.Encoding.UTF8, bufferSize: 1024, leaveOpen: true))
+                    // Connect to the named pipe
+                    using (var pipeServer = new NamedPipeServerStream(pipeName, PipeDirection.InOut))
                     {
-                        // Read the request
-                        string requestJson = reader.ReadLine();
-                        dynamic request = JsonConvert.DeserializeObject(requestJson);
+                        Console.WriteLine($"Waiting for connection on pipe: {pipeName}");
+                        pipeServer.WaitForConnection();
+                        Console.WriteLine("Client connected");
 
-                        // Process the command
-                        object result = null;
-                        bool success = true;
-                        string errorMessage = null;
-
-                        try
+                        using (var reader = new StreamReader(pipeServer, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true))
+                        using (var writer = new StreamWriter(pipeServer, Encoding.UTF8, bufferSize: 1024, leaveOpen: true))
                         {
-                            switch (command)
+                            // Read the request
+                            string requestJson = reader.ReadLine();
+                            dynamic request = JsonConvert.DeserializeObject(requestJson);
+                            string command = request.Command;
+
+                            Console.WriteLine($"Received command: {command}");
+
+                            // Process the command
+                            object result = null;
+                            bool success = true;
+                            string errorMessage = null;
+
+                            try
                             {
-                                case "AnalyzePartType":
-                                    string filePath = request.Parameters.ToString();
-                                    result = AnalyzePartType(filePath);
-                                    break;
-                                case "IsAssemblyByStructure":
-                                    filePath = request.Parameters.ToString();
-                                    result = IsAssemblyByStructure(filePath);
-                                    break;
-                                default:
-                                    success = false;
-                                    errorMessage = $"Unknown command: {command}";
-                                    break;
+                                switch (command)
+                                {
+                                    case "AnalyzePartType":
+                                        string filePath = request.Parameters.ToString();
+                                        result = AnalyzePartType(filePath);
+                                        break;
+                                    case "IsAssemblyByStructure":
+                                        filePath = request.Parameters.ToString();
+                                        result = IsAssemblyByStructure(filePath);
+                                        break;
+                                    case "Exit":
+                                        Console.WriteLine("Exit command received. Shutting down worker.");
+                                        theProgram.Dispose();
+                                        return 0;
+                                    default:
+                                        success = false;
+                                        errorMessage = $"Unknown command: {command}";
+                                        break;
+                                }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            success = false;
-                            errorMessage = ex.Message;
-                            Console.Error.WriteLine($"Error executing command: {ex.Message}");
-                            Console.Error.WriteLine(ex.StackTrace);
-                        }
+                            catch (Exception ex)
+                            {
+                                success = false;
+                                errorMessage = ex.Message;
+                                Console.Error.WriteLine($"Error executing command: {ex.Message}");
+                                Console.Error.WriteLine(ex.StackTrace);
+                            }
 
-                        // Create and send the response
-                        var response = new
-                        {
-                            Success = success,
-                            ErrorMessage = errorMessage,
-                            Data = result
-                        };
+                            // Create and send the response
+                            var response = new
+                            {
+                                Success = success,
+                                ErrorMessage = errorMessage,
+                                Data = result
+                            };
 
-                        string responseJson = JsonConvert.SerializeObject(response);
-                        writer.WriteLine(responseJson);
-                        writer.Flush();
+                            string responseJson = JsonConvert.SerializeObject(response);
+                            writer.WriteLine(responseJson);
+                            writer.Flush();
+                        }
                     }
                 }
-
-                theProgram.Dispose();
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine($"Error: {ex.Message}");
                 Console.Error.WriteLine(ex.StackTrace);
                 retValue = 1;
+            }
+            finally
+            {
+                theProgram?.Dispose();
             }
             return retValue;
         }

@@ -8,6 +8,7 @@ using cytk_NX2TCMigrationTool.src.UI.Windows;
 using cytk_NX2TCMigrationTool.src.Core.Database.Repositories;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 using cytk_NX2TCMigrationTool.src.Core.Database;
+using cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication;
 
 namespace cytk_NX2TCMigrationTool
 {
@@ -20,6 +21,7 @@ namespace cytk_NX2TCMigrationTool
         private BOMRelationshipRepository _bomRepository;
         private AssemblyStatsRepository _statsRepository;
         private DatabaseMigrator _databaseMigrator;
+        private NXWorkerClient _nxWorkerClient;
 
         public cytk_nx2tcmigtool_form1(SettingsManager settingsManager)
         {
@@ -148,12 +150,38 @@ namespace cytk_NX2TCMigrationTool
                 string version = _settingsManager.GetSetting("/Settings/Application/Version") ?? "0.0.1";
                 this.Text = $"NX 2 TC Migration tool V{version}";
 
+
+                StartNXWorker();
+
                 // Ensure application settings exist
                 EnsureApplicationSettings();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error initializing connections: {ex.Message}", "Initialization Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // In your MainForm_Load or similar startup method
+        private async void StartNXWorker()
+        {
+            try
+            {
+                string nxInstallPath = _settingsManager.GetSetting("/Settings/NX/InstallPath");
+                string nxWorkerPath = _settingsManager.GetSetting("/Settings/NX/NXWorkerPath");
+
+                if (!string.IsNullOrEmpty(nxInstallPath) && !string.IsNullOrEmpty(nxWorkerPath))
+                {
+                    var nxWorkerClient = new NXWorkerClient(nxInstallPath, nxWorkerPath);
+                    await nxWorkerClient.StartWorkerAsync();
+                    // Store the client for later use
+                    _nxWorkerClient = nxWorkerClient;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error starting NX Worker: {ex.Message}", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -218,6 +246,21 @@ namespace cytk_NX2TCMigrationTool
             {
                 MessageBox.Show($"Error initializing BOM menu: {ex.Message}", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void MainForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (_nxWorkerClient != null)
+                {
+                    await _nxWorkerClient.StopWorkerAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Application", $"Error stopping NX Worker: {ex.Message}");
             }
         }
 
@@ -474,5 +517,6 @@ namespace cytk_NX2TCMigrationTool
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }

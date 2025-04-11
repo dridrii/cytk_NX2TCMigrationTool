@@ -31,211 +31,222 @@ namespace cytk_NX2TCMigrationTool
         /// </summary>
         private void InitializeComponent()
         {
-            tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            tabPage2 = new TabPage();
-            tabPage3 = new TabPage();
-            tabPage4 = new TabPage();
-            tabPage5 = new TabPage();
-            tabPage6 = new TabPage();
-            tabPage7 = new TabPage();
-            menuStrip1 = new MenuStrip();
-            fileToolStripMenuItem = new ToolStripMenuItem();
-            connectToNXToolStripMenuItem = new ToolStripMenuItem();
-            connectToTeamcenterToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
-            browsePartsToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator2 = new ToolStripSeparator();
-            exitToolStripMenuItem = new ToolStripMenuItem();
-            configToolStripMenuItem = new ToolStripMenuItem();
-            sessionSettingsToolStripMenuItem = new ToolStripMenuItem();
-            helpToolStripMenuItem = new ToolStripMenuItem();
-            progressBar1 = new ProgressBar();
-            tabControl1.SuspendLayout();
-            menuStrip1.SuspendLayout();
-            SuspendLayout();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToNXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToTeamcenterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.browsePartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sessionSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.tabControl1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
+            this.SuspendLayout();
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage3);
-            tabControl1.Controls.Add(tabPage4);
-            tabControl1.Controls.Add(tabPage5);
-            tabControl1.Controls.Add(tabPage6);
-            tabControl1.Controls.Add(tabPage7);
-            tabControl1.Location = new Point(70, 56);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(933, 470);
-            tabControl1.TabIndex = 0;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
+            this.tabControl1.Location = new System.Drawing.Point(60, 49);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(800, 407);
+            this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(925, 442);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "MAIN";
-            tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(792, 381);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "MAIN";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(925, 442);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "BOM";
-            tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(792, 381);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "BOM";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(925, 442);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "ORGANISATION";
-            tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(792, 381);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "ORGANISATION";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
-            tabPage4.Location = new Point(4, 24);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(925, 442);
-            tabPage4.TabIndex = 3;
-            tabPage4.Text = "ATTRIBUTES";
-            tabPage4.UseVisualStyleBackColor = true;
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(792, 381);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "ATTRIBUTES";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // tabPage5
             // 
-            tabPage5.Location = new Point(4, 24);
-            tabPage5.Name = "tabPage5";
-            tabPage5.Padding = new Padding(3);
-            tabPage5.Size = new Size(925, 442);
-            tabPage5.TabIndex = 4;
-            tabPage5.Text = "VERIFICATION";
-            tabPage5.UseVisualStyleBackColor = true;
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(792, 381);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "VERIFICATION";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // tabPage6
             // 
-            tabPage6.Location = new Point(4, 24);
-            tabPage6.Name = "tabPage6";
-            tabPage6.Padding = new Padding(3);
-            tabPage6.Size = new Size(925, 442);
-            tabPage6.TabIndex = 5;
-            tabPage6.Text = "LOG FILE";
-            tabPage6.UseVisualStyleBackColor = true;
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(792, 381);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "LOG FILE";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // tabPage7
             // 
-            tabPage7.Location = new Point(4, 24);
-            tabPage7.Name = "tabPage7";
-            tabPage7.Padding = new Padding(3);
-            tabPage7.Size = new Size(925, 442);
-            tabPage7.TabIndex = 6;
-            tabPage7.Text = "TERMINAL";
-            tabPage7.UseVisualStyleBackColor = true;
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(792, 381);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "TERMINAL";
+            this.tabPage7.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, configToolStripMenuItem, helpToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1064, 24);
-            menuStrip1.TabIndex = 1;
-            menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.configToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(912, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { connectToNXToolStripMenuItem, connectToTeamcenterToolStripMenuItem, toolStripSeparator1, browsePartsToolStripMenuItem, toolStripSeparator2, exitToolStripMenuItem });
-            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 20);
-            fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToNXToolStripMenuItem,
+            this.connectToTeamcenterToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.browsePartsToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
             // connectToNXToolStripMenuItem
             // 
-            connectToNXToolStripMenuItem.Name = "connectToNXToolStripMenuItem";
-            connectToNXToolStripMenuItem.Size = new Size(197, 22);
-            connectToNXToolStripMenuItem.Text = "Connect to NX";
+            this.connectToNXToolStripMenuItem.Name = "connectToNXToolStripMenuItem";
+            this.connectToNXToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.connectToNXToolStripMenuItem.Text = "Connect to NX";
             // 
             // connectToTeamcenterToolStripMenuItem
             // 
-            connectToTeamcenterToolStripMenuItem.Name = "connectToTeamcenterToolStripMenuItem";
-            connectToTeamcenterToolStripMenuItem.Size = new Size(197, 22);
-            connectToTeamcenterToolStripMenuItem.Text = "Connect to Teamcenter";
-            connectToTeamcenterToolStripMenuItem.Click += OnConnectTCClick;
+            this.connectToTeamcenterToolStripMenuItem.Name = "connectToTeamcenterToolStripMenuItem";
+            this.connectToTeamcenterToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.connectToTeamcenterToolStripMenuItem.Text = "Connect to Teamcenter";
             // 
             // toolStripSeparator1
             // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(194, 6);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(194, 6);
             // 
             // browsePartsToolStripMenuItem
             // 
-            browsePartsToolStripMenuItem.Name = "browsePartsToolStripMenuItem";
-            browsePartsToolStripMenuItem.Size = new Size(197, 22);
-            browsePartsToolStripMenuItem.Text = "Browse Parts";
-            browsePartsToolStripMenuItem.Click += OnBrowsePartsClick;
+            this.browsePartsToolStripMenuItem.Name = "browsePartsToolStripMenuItem";
+            this.browsePartsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.browsePartsToolStripMenuItem.Text = "Browse Parts";
             // 
             // toolStripSeparator2
             // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(194, 6);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(194, 6);
             // 
             // exitToolStripMenuItem
             // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(197, 22);
-            exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // configToolStripMenuItem
             // 
-            configToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sessionSettingsToolStripMenuItem });
-            configToolStripMenuItem.Name = "configToolStripMenuItem";
-            configToolStripMenuItem.Size = new Size(55, 20);
-            configToolStripMenuItem.Text = "Config";
+            this.configToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sessionSettingsToolStripMenuItem});
+            this.configToolStripMenuItem.Name = "configToolStripMenuItem";
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.configToolStripMenuItem.Text = "Config";
             // 
             // sessionSettingsToolStripMenuItem
             // 
-            sessionSettingsToolStripMenuItem.Name = "sessionSettingsToolStripMenuItem";
-            sessionSettingsToolStripMenuItem.Size = new Size(180, 22);
-            sessionSettingsToolStripMenuItem.Text = "Session Settings";
+            this.sessionSettingsToolStripMenuItem.Name = "sessionSettingsToolStripMenuItem";
+            this.sessionSettingsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.sessionSettingsToolStripMenuItem.Text = "Session Settings";
             // 
             // helpToolStripMenuItem
             // 
-            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(44, 20);
-            helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(12, 27);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(1040, 23);
-            progressBar1.Step = 100;
-            progressBar1.TabIndex = 2;
-            progressBar1.UseWaitCursor = true;
+            this.progressBar1.Location = new System.Drawing.Point(10, 23);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(891, 20);
+            this.progressBar1.Step = 100;
+            this.progressBar1.TabIndex = 2;
+            this.progressBar1.UseWaitCursor = true;
             // 
             // cytk_nx2tcmigtool_form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1064, 628);
-            Controls.Add(progressBar1);
-            Controls.Add(tabControl1);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
-            Name = "cytk_nx2tcmigtool_form1";
-            Text = "NX 2 TC Migration tool V0.0.1";
-            tabControl1.ResumeLayout(false);
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(912, 544);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Name = "cytk_nx2tcmigtool_form1";
+            this.Text = "NX 2 TC Migration tool V0.0.1";
+
+            this.tabControl1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
