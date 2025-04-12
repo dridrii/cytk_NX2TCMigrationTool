@@ -9,6 +9,7 @@ using cytk_NX2TCMigrationTool.src.Core.Database.Repositories;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 using cytk_NX2TCMigrationTool.src.Core.Database;
 using cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication;
+using System.Threading.Tasks;
 
 namespace cytk_NX2TCMigrationTool
 {
@@ -23,6 +24,7 @@ namespace cytk_NX2TCMigrationTool
         private DatabaseMigrator _databaseMigrator;
         private NXWorkerClient _nxWorkerClient;
         private readonly Logger _logger;
+        private bool _isShuttingDown = false;
 
         public cytk_nx2tcmigtool_form1(SettingsManager settingsManager)
         {
@@ -153,7 +155,7 @@ namespace cytk_NX2TCMigrationTool
                 // Set window title to include version from settings or use default
                 string version = _settingsManager.GetSetting("/Settings/Application/Version") ?? "0.0.1";
                 this.Text = $"NX 2 TC Migration tool V{version}";
-
+                this.FormClosing += MainForm_Closing;
 
                 StartNXWorker();
 
@@ -167,7 +169,7 @@ namespace cytk_NX2TCMigrationTool
             }
         }
 
-        // In your MainForm_Load or similar startup method
+
         private async void StartNXWorker()
         {
             try
@@ -262,11 +264,23 @@ namespace cytk_NX2TCMigrationTool
         {
             try
             {
-                if (_nxWorkerClient != null)
+                // Only execute this code once by setting a flag
+                if (!_isShuttingDown)
                 {
-                    _logger.Info("Application", "Stopping NX Worker...");
-                    await _nxWorkerClient.StopWorkerAsync();
-                    _logger.Info("Application", "NX Worker stopped successfully");
+                    _isShuttingDown = true;
+
+                    if (_nxWorkerClient != null)
+                    {
+                        _logger.Info("Application", "Stopping NX Worker...");
+
+                        // Stop the worker client
+                        await _nxWorkerClient.StopWorkerAsync();
+
+                        // Nullify the reference after shutdown to prevent further access
+                        _nxWorkerClient = null;
+
+                        _logger.Info("Application", "NX Worker stopped successfully");
+                    }
                 }
             }
             catch (Exception ex)

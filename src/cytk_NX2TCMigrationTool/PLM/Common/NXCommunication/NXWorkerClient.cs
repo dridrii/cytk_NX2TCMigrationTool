@@ -99,8 +99,8 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
                 await SendCommandAsync<object>("Exit", null);
                 _logger.Debug("NXWorkerClient", "Exit command sent to worker process");
 
-                // Wait for process to exit gracefully
-                if (!_nxWorkerProcess.WaitForExit(5000))
+                // Wait for process to exit gracefully with a longer timeout
+                if (!_nxWorkerProcess.WaitForExit(10000))  // 10 seconds timeout
                 {
                     _logger.Warning("NXWorkerClient", "Worker process did not exit gracefully, forcing termination");
                     _nxWorkerProcess.Kill();
@@ -118,17 +118,21 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
                 // Ensure the process is killed in case of errors
                 try
                 {
-                    if (!_nxWorkerProcess.HasExited)
+                    if (_nxWorkerProcess != null && !_nxWorkerProcess.HasExited)
                         _nxWorkerProcess.Kill();
-                    _nxWorkerProcess.Dispose();
+
+                    if (_nxWorkerProcess != null)
+                        _nxWorkerProcess.Dispose();
                 }
-                catch
+                catch (Exception killEx)
                 {
-                    // Ignore any errors during forced cleanup
+                    _logger.Error("NXWorkerClient", $"Error forcing worker termination: {killEx.Message}");
                 }
 
                 _nxWorkerProcess = null;
                 _workerStarted = false;
+
+                throw; // Rethrow to be handled by caller
             }
         }
 

@@ -86,18 +86,27 @@ namespace cytk_NX2TC_NXWorker
                             {
                                 switch (command)
                                 {
-                                    case "AnalyzePartType":
+                                    case "AnalyzePartFamilyType":
                                         string filePath = request.Parameters.ToString();
-                                        result = AnalyzePartType(filePath);
-                                        break;
-                                    case "IsAssemblyByStructure":
-                                        filePath = request.Parameters.ToString();
-                                        result = IsAssemblyByStructure(filePath);
+                                        result = AnalyzePartFamilyType(filePath);
                                         break;
                                     case "Exit":
                                         Console.WriteLine("Exit command received. Shutting down worker.");
+                                        // Make sure to clean up and close any open parts
+                                        try
+                                        {
+                                            Part workPart = theSession.Parts.Work;
+                                            if (workPart != null)
+                                            {
+                                                //theSession.Parts.CloseAll(BasePart.CloseModified, PartCloseResponses true);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.Error.WriteLine($"Error closing parts: {ex.Message}");
+                                        }
                                         theProgram.Dispose();
-                                        return 0;
+                                        return 0; // Exit the application
                                     default:
                                         success = false;
                                         errorMessage = $"Unknown command: {command}";
@@ -162,18 +171,15 @@ namespace cytk_NX2TC_NXWorker
         //------------------------------------------------------------------------------
         // Analyze the part type using NX Open API
         //------------------------------------------------------------------------------
-        private static Dictionary<string, bool> AnalyzePartType(string filePath)
+        private static Dictionary<string, bool> AnalyzePartFamilyType(string filePath)
         {
-            Console.WriteLine($"Analyzing part type: {filePath}");
+            Console.WriteLine($"Analyzing part family type: {filePath}");
 
             Dictionary<string, bool> result = new Dictionary<string, bool>
-            {
-                { "IsPart", false },
-                { "IsAssembly", false },
-                { "IsDrafting", false },
-                { "IsPartFamilyMaster", false },
-                { "IsPartFamilyMember", false }
-            };
+    {
+        { "IsPartFamilyMaster", false },
+        { "IsPartFamilyMember", false }
+    };
 
             try
             {
@@ -197,99 +203,28 @@ namespace cytk_NX2TC_NXWorker
                     catch (Exception ex)
                     {
                         Console.Error.WriteLine($"Error checking family template: {ex.Message}");
-                        result["IsPartFamilyMaster"] = false;
                     }
 
                     // Check if it's a part family member
                     try
                     {
-                        Tag partTag = basePart.Tag;
-                        bool parentTemplateTag = false;
-                        theUfSession.Part.IsFamilyTemplate(partTag, out parentTemplateTag);
-                        //bool isPartFamilyMember = parentTemplateTag != Tag.Null;
-                        //result["IsPartFamilyMember"] = isPartFamilyMember;
-                        //Console.WriteLine($"Is family member: {isPartFamilyMember}");
+                        // Implementation for checking if this is a part family member
+                        // This will depend on the specific NX API available
+                        bool isFamilyMember = false;
+                        // Example (placeholder - replace with actual API call):
+                        // theUfSession.Part.IsFamilyMember(partTag, out isFamilyMember);
+                        result["IsPartFamilyMember"] = isFamilyMember;
+                        Console.WriteLine($"Is family member: {isFamilyMember}");
                     }
                     catch (Exception ex)
                     {
                         Console.Error.WriteLine($"Error checking family member: {ex.Message}");
-                        result["IsPartFamilyMember"] = false;
                     }
-
-                    // Check if it's a drafting
-                    if (basePart is Part part)
-                    {
-                        bool isDrafting = false;
-                        try
-                        {
-                            //isDrafting = part.Prototype == BasePart.PrototypeType.Drafting ||
-                            //           (part.DrawingSheets != null && part.DrawingSheets.Count > 0);
-                            //result["IsDrafting"] = isDrafting;
-                            //Console.WriteLine($"Is drafting: {isDrafting}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.Error.WriteLine($"Error checking drafting: {ex.Message}");
-                            result["IsDrafting"] = false;
-                        }
-
-                        // Check if it's an assembly
-                        try
-                        {
-                            //bool isAssembly = part.Prototype == BasePart.PrototypeType.Assembly;
-
-                            // Also check for components
-                            try
-                            {
-                                if (part.ComponentAssembly != null &&
-                                    part.ComponentAssembly.RootComponent != null &&
-                                    part.ComponentAssembly.RootComponent.GetChildren() != null &&
-                                    part.ComponentAssembly.RootComponent.GetChildren().Length > 0)
-                                {
-                                    //isAssembly = true;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.Error.WriteLine($"Error checking components: {ex.Message}");
-                            }
-
-                            //result["IsAssembly"] = isAssembly;
-                           // Console.WriteLine($"Is assembly: {isAssembly}");
-
-                            // If none of the special types, it's a simple part
-                            //if (!isAssembly && !isDrafting &&
-                            //    !result["IsPartFamilyMaster"] && !result["IsPartFamilyMember"])
-                            //{
-                            //    result["IsPart"] = true;
-                            //}
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.Error.WriteLine($"Error checking assembly: {ex.Message}");
-                            // Default to part if we can't determine
-                            result["IsPart"] = true;
-                        }
-                    }
-
-                    // Close the part
-                    //try
-                    //{
-                    //    theSession.Parts.CloseBase(basePart, Part.CloseBaseOptions.DestroyWindow, null);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Console.Error.WriteLine($"Error closing part: {ex.Message}");
-                    //}
-                }
-                else
-                {
-                    Console.Error.WriteLine($"Failed to load part: {filePath}");
                 }
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Error analyzing part: {ex.Message}");
+                Console.Error.WriteLine($"Error analyzing part family: {ex.Message}");
                 Console.Error.WriteLine(ex.StackTrace);
             }
 

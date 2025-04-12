@@ -149,55 +149,33 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
 
             try
             {
-                // Analyze the part type using NXTypeAnalyzer
-                var partTypes = await _typeAnalyzer.AnalyzePartTypeAsync(part.FilePath);
+                // Step 1: Analyze the part family type using NXTypeAnalyzer (which now only handles part family analysis)
+                var partFamilyInfo = await _typeAnalyzer.AnalyzePartFamilyTypeAsync(part.FilePath);
 
-                // Check if it's an assembly using NXTypeAnalyzer
-                bool isAssemblyByStructure = await _typeAnalyzer.IsAssemblyByStructureAsync(part.FilePath, _nxInstallPath);
+                // Step 2: Use ugpc to determine assembly structure and drafting status
+                string ugpcPath = Path.Combine(_nxInstallPath, "NXBIN", "ugpc.exe");
+                var ugpcResults = await RunUgpcToolAsync(ugpcPath, part.FilePath);
 
-                // If structure analysis detects assembly, override the initial IsAssembly value
-                if (isAssemblyByStructure)
-                {
-                    partTypes["IsAssembly"] = true;
-                    partTypes["IsPart"] = false;
-                }
+                // Check if the part has assembly structure based on ugpc output
+                bool isAssembly = !ugpcResults.Contains("has no assembly structure") && ugpcResults.Contains(" x ");
 
-                // Update the part with the new type information
-                part.IsPart = partTypes["IsPart"];
-                part.IsAssembly = partTypes["IsAssembly"];
-                part.IsDrafting = partTypes["IsDrafting"];
-                part.IsPartFamilyMaster = partTypes["IsPartFamilyMaster"];
-                part.IsPartFamilyMember = partTypes["IsPartFamilyMember"];
+                // Determine if it's a drafting (can be done based on filename or other criteria)
+                bool isDrafting = part.FilePath.ToLower().Contains("draft") ||
+                                  part.FilePath.ToLower().Contains("drawing") ||
+                                  part.FilePath.ToLower().Contains("dwg");
+
+                // Update the part with the type information
+                part.IsPart = !isAssembly && !isDrafting;  // Simple parts are not assemblies or draftings
+                part.IsAssembly = isAssembly;
+                part.IsDrafting = isDrafting;
+                part.IsPartFamilyMaster = partFamilyInfo["IsPartFamilyMaster"];
+                part.IsPartFamilyMember = partFamilyInfo["IsPartFamilyMember"];
 
                 // Save the updated part
                 _partRepository.Update(part);
 
-                // Run the ugpc tool to analyze the part structure
-                string ugpcPath = Path.Combine(_nxInstallPath, "NXBIN", "ugpc.exe");
-                var results = await RunUgpcToolAsync(ugpcPath, part.FilePath);
-
-                // Process the results to extract BOM relationships and stats
-                await ProcessUgpcResultsAsync(part, results);
-
-                // Final check - if we found child relationships, ensure this part is marked as an assembly
-                var childRelationships = _bomRepository.GetByParent(part.Id);
-                if (childRelationships.Any())
-                {
-                    if (!part.IsAssembly.GetValueOrDefault())
-                    {
-                        part.IsAssembly = true;
-                        part.IsPart = false;
-                        _partRepository.Update(part);
-
-                        // Also update assembly stats
-                        var stats = _statsRepository.GetByPartId(part.Id);
-                        if (stats != null)
-                        {
-                            stats.IsAssembly = true;
-                            _statsRepository.Update(stats);
-                        }
-                    }
-                }
+                // Process the ugpc results to extract BOM relationships and stats
+                await ProcessUgpcResultsAsync(part, ugpcResults);
             }
             catch (Exception ex)
             {
