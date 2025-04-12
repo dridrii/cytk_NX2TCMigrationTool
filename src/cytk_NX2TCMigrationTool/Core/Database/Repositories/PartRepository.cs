@@ -21,7 +21,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"", ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"", ""IsPart"", ""IsAssembly"", ""IsDrafting"", ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
                                FROM ""Parts"" WHERE ""ID"" = @Id";
 
                 using (var command = new SQLiteCommand(sql, connection))
@@ -67,7 +67,7 @@ namespace cytk_NX2TCMigrationTool.src.Core.Database.Repositories
                 connection.Open();
 
                 string sql = @"SELECT ""ID"", ""Name"", ""Type"", ""Source"", ""FilePath"", ""FileName"", 
-                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" , ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
+                               ""Checksum"", ""IsDuplicate"", ""DuplicateOf"", ""Metadata"" , ""IsPart"", ""IsAssembly"", ""IsDrafting"", ""IsPartFamilyMaster"" , ""IsPartFamilyMember""
                                FROM ""Parts""";
 
                 using (var command = new SQLiteCommand(sql, connection))
