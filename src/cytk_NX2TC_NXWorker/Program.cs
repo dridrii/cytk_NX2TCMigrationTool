@@ -176,16 +176,17 @@ namespace cytk_NX2TC_NXWorker
             Console.WriteLine($"Analyzing part family type: {filePath}");
 
             Dictionary<string, bool> result = new Dictionary<string, bool>
-    {
-        { "IsPartFamilyMaster", false },
-        { "IsPartFamilyMember", false }
-    };
+            {
+                { "IsPartFamilyMaster", false },
+                { "IsPartFamilyMember", false }
+            };
 
             try
             {
                 // Load the part
                 PartLoadStatus partLoadStatus;
                 BasePart basePart = theSession.Parts.OpenBase(filePath, out partLoadStatus);
+                Tag partTag = basePart.Tag;
 
                 if (basePart != null)
                 {
@@ -194,7 +195,7 @@ namespace cytk_NX2TC_NXWorker
                     // Check if it's a part family master
                     try
                     {
-                        Tag partTag = basePart.Tag;
+                        
                         bool isFamilyTemplate = false;
                         theUfSession.Part.IsFamilyTemplate(partTag, out isFamilyTemplate);
                         result["IsPartFamilyMaster"] = isFamilyTemplate;
@@ -210,9 +211,8 @@ namespace cytk_NX2TC_NXWorker
                     {
                         // Implementation for checking if this is a part family member
                         // This will depend on the specific NX API available
-                        bool isFamilyMember = false;
-                        // Example (placeholder - replace with actual API call):
-                        // theUfSession.Part.IsFamilyMember(partTag, out isFamilyMember);
+                        bool isFamilyMember = false;                         
+                        theUfSession.Part.IsFamilyInstance(partTag, out isFamilyMember);
                         result["IsPartFamilyMember"] = isFamilyMember;
                         Console.WriteLine($"Is family member: {isFamilyMember}");
                     }

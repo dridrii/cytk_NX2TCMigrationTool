@@ -51,7 +51,7 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             if (string.IsNullOrEmpty(_nxWorkerPath))
             {
                 // Default to a location relative to the application
-                _nxWorkerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytk_NX2TC_NXWorker.dll");
+                _nxWorkerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cytk_NX2TC_NXWorker.exe");
             }
 
             if (nxWorkerClient != null)
