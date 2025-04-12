@@ -149,33 +149,127 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
 
             try
             {
-                // Step 1: Analyze the part family type using NXTypeAnalyzer (which now only handles part family analysis)
+                // Step 1: Analyze the part family type using NXTypeAnalyzer
                 var partFamilyInfo = await _typeAnalyzer.AnalyzePartFamilyTypeAsync(part.FilePath);
+                _logger.Debug("BOMAnalyzer", $"Part family analysis results: Master={partFamilyInfo["IsPartFamilyMaster"]}, Member={partFamilyInfo["IsPartFamilyMember"]}");
 
                 // Step 2: Use ugpc to determine assembly structure and drafting status
                 string ugpcPath = Path.Combine(_nxInstallPath, "NXBIN", "ugpc.exe");
                 var ugpcResults = await RunUgpcToolAsync(ugpcPath, part.FilePath);
 
                 // Check if the part has assembly structure based on ugpc output
-                bool isAssembly = !ugpcResults.Contains("has no assembly structure") && ugpcResults.Contains(" x ");
+                bool isAssemblyByUgpc = !ugpcResults.Contains("has no assembly structure") && ugpcResults.Contains(" x ");
+                _logger.Debug("BOMAnalyzer", $"Initial ugpc assembly determination: isAssemblyByUgpc={isAssemblyByUgpc}");
 
-                // Determine if it's a drafting (can be done based on filename or other criteria)
+                // Determine if it's a drafting (based on filename or other criteria)
                 bool isDrafting = part.FilePath.ToLower().Contains("draft") ||
                                   part.FilePath.ToLower().Contains("drawing") ||
                                   part.FilePath.ToLower().Contains("dwg");
+                _logger.Debug("BOMAnalyzer", $"Initial drafting determination: isDrafting={isDrafting}");
 
-                // Update the part with the type information
-                part.IsPart = !isAssembly && !isDrafting;  // Simple parts are not assemblies or draftings
-                part.IsAssembly = isAssembly;
-                part.IsDrafting = isDrafting;
-                part.IsPartFamilyMaster = partFamilyInfo["IsPartFamilyMaster"];
-                part.IsPartFamilyMember = partFamilyInfo["IsPartFamilyMember"];
+                // Extract relationships information
+                var relationships = ParseUgpcOutput(ugpcResults, part);
+                _logger.Debug("BOMAnalyzer", $"Found {relationships.Count} component relationships");
 
-                // Save the updated part
+                // Create assembly stats
+                var stats = new AssemblyStats
+                {
+                    PartId = part.Id,
+                    ComponentCount = relationships.Count,
+                    LastAnalyzed = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                };
+
+                // PRESERVE EXISTING INFORMATION FIRST
+                // Save the existing part family information
+                bool isPartFamilyMaster = part.IsPartFamilyMaster ?? partFamilyInfo["IsPartFamilyMaster"];
+                bool isPartFamilyMember = part.IsPartFamilyMember ?? partFamilyInfo["IsPartFamilyMember"];
+
+                // Update part family info from analysis if the existing values are false or null
+                if (!isPartFamilyMaster && partFamilyInfo["IsPartFamilyMaster"])
+                {
+                    isPartFamilyMaster = true;
+                    _logger.Debug("BOMAnalyzer", $"Updated part family master status to true for part {part.Id}");
+                }
+
+                if (!isPartFamilyMember && partFamilyInfo["IsPartFamilyMember"])
+                {
+                    isPartFamilyMember = true;
+                    _logger.Debug("BOMAnalyzer", $"Updated part family member status to true for part {part.Id}");
+                }
+
+                // FINAL DETERMINATION OF PART TYPE
+                bool isAssembly = relationships.Count > 0 || isAssemblyByUgpc;
+
+                // Update part with all information
+                part.IsPartFamilyMaster = isPartFamilyMaster;
+                part.IsPartFamilyMember = isPartFamilyMember;
+
+                // Set part type flags
+                if (isAssembly)
+                {
+                    _logger.Debug("BOMAnalyzer", $"FINAL: Part {part.Id} ({part.Name}) is an assembly");
+                    part.IsAssembly = true;
+                    part.IsPart = false;
+                    part.IsDrafting = false;
+                    stats.IsAssembly = true;
+                    stats.IsDrafting = false;
+                }
+                else if (isDrafting)
+                {
+                    _logger.Debug("BOMAnalyzer", $"FINAL: Part {part.Id} ({part.Name}) is a drafting");
+                    part.IsDrafting = true;
+                    part.IsAssembly = false;
+                    part.IsPart = false;
+                    stats.IsDrafting = true;
+                    stats.IsAssembly = false;
+                }
+                else
+                {
+                    _logger.Debug("BOMAnalyzer", $"FINAL: Part {part.Id} ({part.Name}) is a regular part");
+                    part.IsPart = true;
+                    part.IsAssembly = false;
+                    part.IsDrafting = false;
+                }
+
+                // Now perform the update
+                _logger.Debug("BOMAnalyzer", $"Updating part {part.Id} with final values: " +
+                                            $"IsPart={part.IsPart}, " +
+                                            $"IsAssembly={part.IsAssembly}, " +
+                                            $"IsDrafting={part.IsDrafting}, " +
+                                            $"IsPartFamilyMaster={part.IsPartFamilyMaster}, " +
+                                            $"IsPartFamilyMember={part.IsPartFamilyMember}");
                 _partRepository.Update(part);
 
-                // Process the ugpc results to extract BOM relationships and stats
-                await ProcessUgpcResultsAsync(part, ugpcResults);
+                // Process relationships and stats as before
+                // Save all relationships to database
+                foreach (var relationship in relationships)
+                {
+                    // Check if this is a master model relationship (drafting-to-model)
+                    if (part.IsDrafting == true && relationship.RelationType == BOMRelationType.ASSEMBLY.ToString())
+                    {
+                        // For drafting files, change the relationship type to MASTER_MODEL
+                        relationship.RelationType = BOMRelationType.MASTER_MODEL.ToString();
+                    }
+
+                    if (!_bomRepository.RelationshipExists(relationship.ParentId, relationship.ChildId, relationship.RelationType))
+                    {
+                        _bomRepository.Add(relationship);
+                    }
+                }
+
+                // Save assembly stats to database
+                var existingStats = _statsRepository.GetByPartId(part.Id);
+                if (existingStats != null)
+                {
+                    stats.ParentCount = existingStats.ParentCount; // Preserve parent count when updating
+                    stats.TotalComponentCount = existingStats.TotalComponentCount; // Preserve total count until recalculation
+                    stats.AssemblyDepth = existingStats.AssemblyDepth; // Preserve assembly depth until recalculation
+                    _statsRepository.Update(stats);
+                }
+                else
+                {
+                    _statsRepository.Add(stats);
+                }
             }
             catch (Exception ex)
             {
@@ -318,10 +412,13 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 return relationships;
             }
 
+            // Log full output for debugging
+            _logger.Debug("BOMAnalyzer", $"Parsing ugpc output for {parentPart.Name}:\n{ugpcOutput}");
+
             // Split output into lines
             string[] lines = ugpcOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-            // Skip if lines count is less than 2 (we need at least command result and a response line)
+            // Skip if lines count is less than 2 (we need at least command and result)
             if (lines.Length < 2)
             {
                 _logger.Debug("BOMAnalyzer", $"Unexpected output format from ugpc.exe for part {parentPart.Name}");
@@ -329,53 +426,58 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             }
 
             // Check if the part has no assembly structure
-            // Based on the screenshot, the "no assembly structure" message appears on the second line
             if (lines.Length >= 2 && lines[1].Contains("has no assembly structure"))
             {
                 _logger.Debug("BOMAnalyzer", $"Part {parentPart.Name} has no assembly structure");
-                return relationships; // Return empty list since this isn't an assembly
+                return relationships;
             }
 
-            // First line after the command is the part path, so we start from the second line (index 1)
-            int position = 0;
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
+            // Extract parent part name from the output
+            string parentFileName = Path.GetFileName(parentPart.FilePath);
+            _logger.Debug("BOMAnalyzer", $"Parent file name: {parentFileName}");
 
-                // Skip lines that are empty, contain notes, or are the part itself
-                if (string.IsNullOrWhiteSpace(line) ||
-                    line.StartsWith("Note:") ||
-                    !line.Contains(" x ")) // Components are displayed with quantity as "x N"
+            // Skip the command line (first line)
+            // Also skip the second line which often repeats the part itself with "x 1"
+            int startLine = 1;
+            if (lines.Length > 1 && lines[1].Contains(parentFileName) && lines[1].Contains(" x "))
+            {
+                startLine = 2;
+                _logger.Debug("BOMAnalyzer", $"Skipping line that contains the part itself: {lines[1]}");
+            }
+
+            // Process the component lines
+            int position = 0;
+            for (int i = startLine; i < lines.Length; i++)
+            {
+                string line = lines[i].Trim();
+
+                // Skip empty or irrelevant lines
+                if (string.IsNullOrWhiteSpace(line) || !line.Contains(" x "))
                 {
                     continue;
                 }
 
-                // Parse the component line
-                // Format: <path/filename> x <quantity>
-                string[] parts = line.Trim().Split(new[] { " x " }, StringSplitOptions.None);
+                _logger.Debug("BOMAnalyzer", $"Processing component line: {line}");
+
+                // Split at " x " to separate path and quantity
+                string[] parts = line.Split(new[] { " x " }, StringSplitOptions.None);
                 if (parts.Length != 2)
                 {
-                    _logger.Warning("BOMAnalyzer", $"Unexpected line format in ugpc output: {line}");
+                    _logger.Warning("BOMAnalyzer", $"Invalid component line format: {line}");
                     continue;
                 }
 
                 string componentPath = parts[0].Trim();
                 string componentFileName = Path.GetFileName(componentPath);
+
+                // Parse quantity
                 int quantity;
                 if (!int.TryParse(parts[1].Trim(), out quantity))
                 {
                     quantity = 1; // Default to 1 if parsing fails
                 }
 
-                // Count indentation to determine level in assembly hierarchy
-                int indentationLevel = CountIndentation(line);
-
-                // Only process direct children of the parent
-                // Note: First-level components have indentation (usually 4 spaces)
-                if (indentationLevel != 4) // Adjust this based on your actual output
-                {
-                    continue;
-                }
+                _logger.Debug("BOMAnalyzer", $"Found component: {componentFileName}, Quantity: {quantity}");
 
                 // Look up the child part in the database
                 var childParts = _partRepository.GetAll()
@@ -388,7 +490,7 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                     continue;
                 }
 
-                // Take the first match (should be unique, but handle duplicates)
+                // Take the first match
                 var childPart = childParts.First();
 
                 // Create a new relationship
@@ -406,11 +508,14 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                 };
 
                 relationships.Add(relationship);
-                _logger.Trace("BOMAnalyzer", $"Found relationship: {parentPart.Name} -> {childPart.Name} (Qty: {quantity})");
+                _logger.Debug("BOMAnalyzer", $"Added relationship: {parentPart.Name} -> {childPart.Name} (Qty: {quantity})");
             }
 
+            _logger.Info("BOMAnalyzer", $"Found {relationships.Count} components for part {parentPart.Name}");
             return relationships;
         }
+
+
         /// <summary>
         /// Calculates assembly statistics based on BOM relationships
         /// </summary>
