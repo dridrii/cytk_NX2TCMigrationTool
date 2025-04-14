@@ -294,13 +294,16 @@ namespace cytk_NX2TCMigrationTool
         {
             try
             {
+                // Ensure the NX Worker is running before using it
+                bool workerRunning = await EnsureNXWorkerIsRunningAsync();
+
                 // Open the BOM Browser
                 using (BOMBrowser browser = new BOMBrowser(
                     _partRepository,
                     _bomRepository,
                     _statsRepository,
                     _settingsManager,
-                    _nxWorkerClient)) // Pass the existing worker client
+                    workerRunning ? _nxWorkerClient : null)) // Only pass worker client if it's running
                 {
                     browser.ShowDialog();
                 }
@@ -312,17 +315,29 @@ namespace cytk_NX2TCMigrationTool
             }
         }
 
-        private void OnRunBOMAnalysisClick(object sender, EventArgs e)
+        private async void OnRunBOMAnalysisClick(object sender, EventArgs e)
         {
             try
             {
+                // Ensure the NX Worker is running before using it
+                bool workerRunning = await EnsureNXWorkerIsRunningAsync();
+
+                if (!workerRunning)
+                {
+                    if (MessageBox.Show("NX Worker is not available. Some analysis features may not work correctly. Continue anyway?",
+                                       "Worker Not Available", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
                 // Open the BOM Browser directly to run analysis
                 using (BOMBrowser browser = new BOMBrowser(
                     _partRepository,
                     _bomRepository,
                     _statsRepository,
                     _settingsManager,
-                    _nxWorkerClient)) // Pass the existing worker client
+                    workerRunning ? _nxWorkerClient : null)) // Only pass worker client if it's running
                 {
                     browser.AnalyzeButton.PerformClick();
                     browser.ShowDialog();
@@ -542,6 +557,54 @@ namespace cytk_NX2TCMigrationTool
             {
                 MessageBox.Show($"Error changing log level: {ex.Message}", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Ensures the NX Worker process is running and available.
+        /// Only call this method before operations that require the NX Worker.
+        /// </summary>
+        private async Task<bool> EnsureNXWorkerIsRunningAsync()
+        {
+            try
+            {
+                string nxInstallPath = _settingsManager.GetSetting("/Settings/NX/InstallPath");
+                string nxWorkerPath = _settingsManager.GetSetting("/Settings/NX/NXWorkerPath");
+
+                if (string.IsNullOrEmpty(nxInstallPath) || string.IsNullOrEmpty(nxWorkerPath))
+                {
+                    _logger.Warning("Application", "Cannot verify NX Worker - missing NX installation path or worker path");
+                    return false;
+                }
+
+                // Check if the worker client is initialized and responsive
+                if (_nxWorkerClient != null)
+                {
+                    try
+                    {
+                        // Try to send a simple command to test connection
+                        await _nxWorkerClient.SendCommandAsync<object>("Ping", null);
+                        _logger.Debug("Application", "NX Worker connection verified");
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Warning("Application", $"Existing NX Worker client failed to respond: {ex.Message}");
+                        _nxWorkerClient = null; // Reset the reference since it's not valid
+                    }
+                }
+
+                // At this point we need to start or restart the worker
+                _logger.Info("Application", "Starting NX Worker process...");
+                _nxWorkerClient = new NXWorkerClient(nxInstallPath, nxWorkerPath);
+                await _nxWorkerClient.StartWorkerAsync();
+                _logger.Info("Application", "NX Worker started successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Application", $"Error ensuring NX Worker is running: {ex.Message}");
+                return false;
             }
         }
 

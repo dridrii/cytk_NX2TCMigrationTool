@@ -198,6 +198,8 @@ namespace cytk_NX2TCMigrationTool.src.Core.Common.NXCommunication
                 throw;
             }
         }
+
+
     }
 
     public class NXWorkerRequest

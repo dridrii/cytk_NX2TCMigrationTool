@@ -86,6 +86,10 @@ namespace cytk_NX2TC_NXWorker
                             {
                                 switch (command)
                                 {
+                                    case "Ping":
+                                        // Just a ping to test connectivity, no processing needed
+                                        result = (object)true;
+                                        break;
                                     case "AnalyzePartFamilyType":
                                         string filePath = request.Parameters.ToString();
                                         result = AnalyzePartFamilyType(filePath);
