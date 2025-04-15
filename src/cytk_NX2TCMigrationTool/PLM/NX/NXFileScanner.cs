@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using cytk_NX2TCMigrationTool.src.Core.Common.Utilities;
 using cytk_NX2TCMigrationTool.src.Core.Database.Models;
@@ -191,11 +192,11 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
             _logger.Trace("NXFileScanner", $"Checksum: {checksum} for file: {filePath}");
 
             // Check if this exact file has already been processed (same path and checksum)
-            var parts = _partRepository.GetByChecksum(checksum);
+            var parts = _partRepository.GetByChecksum(checksum).ToList(); // Convert to List to enable indexing
             bool isDuplicate = false;
             string duplicateOfId = null;
 
-            // If there are existing parts with this checksum, check if any have the same path
+            // First check if this exact file path is already in the database
             foreach (var existingPart in parts)
             {
                 if (existingPart.FilePath.Equals(filePath, StringComparison.OrdinalIgnoreCase))
@@ -204,12 +205,39 @@ namespace cytk_NX2TCMigrationTool.src.PLM.NX
                     _logger.Debug("NXFileScanner", $"File already exists in database with same path: {filePath}");
                     return false;
                 }
+            }
 
-                // If we found another file with the same checksum but different path, it's a duplicate
-                isDuplicate = true;
-                duplicateOfId = existingPart.Id;
-                _logger.Debug("NXFileScanner", $"Found existing part with same checksum: {existingPart.Id} - {existingPart.FilePath}");
-                break;
+            // Check if this is a duplicate of another file (same checksum, different path)
+            if (parts.Count > 0)
+            {
+                // Find the original part (non-duplicate) to reference
+                var originalPart = parts.FirstOrDefault(p => !p.IsDuplicate);
+                if (originalPart != null)
+                {
+                    isDuplicate = true;
+                    duplicateOfId = originalPart.Id;
+                    _logger.Debug("NXFileScanner", $"Found existing part with same checksum: {originalPart.Id} - {originalPart.FilePath}");
+                }
+                else
+                {
+                    // If all existing parts are duplicates, use the first one
+                    isDuplicate = true;
+                    duplicateOfId = parts[0].Id;
+                    _logger.Debug("NXFileScanner", $"All existing parts are duplicates, using: {duplicateOfId} as reference");
+                }
+
+                // Check if this specific file path is already recorded as a duplicate
+                var existingDuplicate = parts.FirstOrDefault(p =>
+                    p.IsDuplicate &&
+                    p.FilePath != null &&
+                    p.FilePath.Equals(filePath, StringComparison.OrdinalIgnoreCase));
+
+                if (existingDuplicate != null)
+                {
+                    // This duplicate is already in the database, skip it
+                    _logger.Debug("NXFileScanner", $"Duplicate already exists in database: {existingDuplicate.Id} - {filePath}");
+                    return false;
+                }
             }
 
             // Create a new part
